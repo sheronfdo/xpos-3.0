@@ -662,7 +662,7 @@ public class Sale extends javax.swing.JPanel {
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel32Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE))
+                .addComponent(jScrollPane14))
         );
 
         selectCustomer.setBackground(new java.awt.Color(0, 60, 128));

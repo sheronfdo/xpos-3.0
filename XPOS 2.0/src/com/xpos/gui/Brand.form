@@ -88,7 +88,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="prodSearch" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="823" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="686" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>

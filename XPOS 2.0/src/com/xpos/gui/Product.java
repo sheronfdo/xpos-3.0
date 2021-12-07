@@ -61,7 +61,8 @@ public class Product extends javax.swing.JPanel {
         prodButEdit = new javax.swing.JButton();
         prodButDelete = new javax.swing.JButton();
         prodButCancel = new javax.swing.JButton();
-        prodBarcode = new app.bolivia.swing.JCTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1440, 937));
@@ -80,7 +81,7 @@ public class Product extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Barcode", "Description", "Purchase Price", "Retail Price", "Quantity"
+                "ID", "Description", "Brand", "Category", "Re-Order Level", "Ordered Quantity", "Quantity"
             }
         ));
         productTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
@@ -127,7 +128,7 @@ public class Product extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(prodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 823, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -139,16 +140,16 @@ public class Product extends javax.swing.JPanel {
         prodDescription.setPlaceholder("Description");
         prodDescription.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodPurchPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Purchase Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        prodPurchPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Re-Order Level", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         prodPurchPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         prodPurchPrice.setPhColor(new java.awt.Color(0, 51, 255));
-        prodPurchPrice.setPlaceholder("Purchase Price");
+        prodPurchPrice.setPlaceholder("Re-Order Level");
         prodPurchPrice.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodRetailPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Retail Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        prodRetailPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Ordered Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         prodRetailPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         prodRetailPrice.setPhColor(new java.awt.Color(0, 51, 255));
-        prodRetailPrice.setPlaceholder("Retail Price");
+        prodRetailPrice.setPlaceholder("Ordered Quantity");
         prodRetailPrice.setPreferredSize(new java.awt.Dimension(200, 30));
 
         prodQuantity.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
@@ -205,11 +206,9 @@ public class Product extends javax.swing.JPanel {
             }
         });
 
-        prodBarcode.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Barcode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodBarcode.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodBarcode.setPhColor(new java.awt.Color(0, 51, 255));
-        prodBarcode.setPlaceholder("Barcode");
-        prodBarcode.setPreferredSize(new java.awt.Dimension(200, 30));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Brand" }));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category" }));
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -218,29 +217,34 @@ public class Product extends javax.swing.JPanel {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(prodBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel10Layout.createSequentialGroup()
-                            .addComponent(prodButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(prodButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(prodButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(prodButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(prodDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(prodPurchPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(prodRetailPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(prodQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel10Layout.createSequentialGroup()
+                                .addComponent(prodButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(prodButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(prodButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(prodButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(prodDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodPurchPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodRetailPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(prodBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(prodDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(prodPurchPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -309,7 +313,7 @@ public class Product extends javax.swing.JPanel {
     }
 
     public void clearProductPanel() {
-        prodBarcode.setText("");
+        //prodBarcode.setText("");
         prodDescription.setText("");
         prodPurchPrice.setText("");
         prodRetailPrice.setText("");
@@ -321,7 +325,7 @@ public class Product extends javax.swing.JPanel {
     private void productTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTableMouseClicked
         int selectedRow = productTable.getSelectedRow();
         productId = Integer.parseInt(productTable.getValueAt(selectedRow, 0).toString());
-        prodBarcode.setText(productTable.getValueAt(selectedRow, 1).toString());
+        //prodBarcode.setText(productTable.getValueAt(selectedRow, 1).toString());
         prodDescription.setText(productTable.getValueAt(selectedRow, 2).toString());
         prodPurchPrice.setText(productTable.getValueAt(selectedRow, 3).toString());
         prodRetailPrice.setText(productTable.getValueAt(selectedRow, 4).toString());
@@ -338,48 +342,48 @@ public class Product extends javax.swing.JPanel {
     }//GEN-LAST:event_prodSearchKeyReleased
 
     private void prodButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButInsertActionPerformed
-        String barcode = prodBarcode.getText();
+        //String barcode = prodBarcode.getText();
         String description = prodDescription.getText();
         double purchasePrice = Double.parseDouble(prodPurchPrice.getText());
         double retailPrice = Double.parseDouble(prodRetailPrice.getText());
         int quantity = Integer.parseInt(prodQuantity.getText());
-        String query = "INSERT INTO `product`( `Barcode`, `Description`,"
-                + " `PurchasePrice`, `RetailPrice`, `TotalQuantity`) "
-                + "VALUES ('" + barcode + "','" + description + "'," + purchasePrice
-                + "," + retailPrice + "," + quantity + ")";
-        try {
-            DbConnect.pushToDB(query);
-            clearProductPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String query = "INSERT INTO `product`( `Barcode`, `Description`,"
+//                + " `PurchasePrice`, `RetailPrice`, `TotalQuantity`) "
+//                + "VALUES ('" + barcode + "','" + description + "'," + purchasePrice
+//                + "," + retailPrice + "," + quantity + ")";
+//        try {
+//            DbConnect.pushToDB(query);
+//            clearProductPanel();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_prodButInsertActionPerformed
 
     private void prodButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButEditActionPerformed
-        String barcode = prodBarcode.getText();
+        //String barcode = prodBarcode.getText();
         String description = prodDescription.getText();
         double purchasePrice = Double.parseDouble(prodPurchPrice.getText());
         double retailPrice = Double.parseDouble(prodRetailPrice.getText());
         int quantity = Integer.parseInt(prodQuantity.getText());
 
-        String query = "UPDATE `product` SET `Barcode`='" + barcode + "',`Description`='" + description
-                + "',`PurchasePrice`='" + purchasePrice + "',`RetailPrice`='" + retailPrice
-                + "',`TotalQuantity`='" + quantity + "' WHERE Id=" + productId;
-
-        try {
-            DbConnect.pushToDB(query);
-            clearProductPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String query = "UPDATE `product` SET `Barcode`='" + barcode + "',`Description`='" + description
+//                + "',`PurchasePrice`='" + purchasePrice + "',`RetailPrice`='" + retailPrice
+//                + "',`TotalQuantity`='" + quantity + "' WHERE Id=" + productId;
+//
+//        try {
+//            DbConnect.pushToDB(query);
+//            clearProductPanel();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_prodButEditActionPerformed
 
     private void prodButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButDeleteActionPerformed
@@ -402,11 +406,12 @@ public class Product extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private app.bolivia.swing.JCTextField prodBarcode;
     private javax.swing.JButton prodButCancel;
     private javax.swing.JButton prodButDelete;
     private javax.swing.JButton prodButEdit;

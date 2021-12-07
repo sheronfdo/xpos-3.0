@@ -35,6 +35,7 @@ public class Product extends javax.swing.JPanel {
      */
     public Product() {
         initComponents();
+        fillProductTable(null);
     }
 
     /**
@@ -278,7 +279,8 @@ public class Product extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
-public void fillProductTable(String query) {
+
+    public void fillProductTable(String query) {
         tablemodel = (DefaultTableModel) productTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
@@ -315,7 +317,7 @@ public void fillProductTable(String query) {
         prodSearch.setText("");
         fillProductTable(null);
     }
-    
+
     private void productTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTableMouseClicked
         int selectedRow = productTable.getSelectedRow();
         productId = Integer.parseInt(productTable.getValueAt(selectedRow, 0).toString());

@@ -91,7 +91,7 @@ int supplierId;
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("SUPPLIER DETAILS");
+        jLabel5.setText("SUPPLIER");
         jLabel5.setOpaque(true);
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));

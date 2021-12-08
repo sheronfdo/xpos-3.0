@@ -46,7 +46,7 @@ public class Category extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("CATEGORY DETAILS");
+        jLabel6.setText("CATEGORY");
         jLabel6.setOpaque(true);
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));

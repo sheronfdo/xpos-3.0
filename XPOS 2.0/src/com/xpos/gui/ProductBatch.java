@@ -53,7 +53,7 @@ public class ProductBatch extends javax.swing.JPanel {
         jLabel43.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(255, 255, 255));
         jLabel43.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel43.setText("BATCH DETAILS");
+        jLabel43.setText("PRODUCT BATCHES");
         jLabel43.setOpaque(true);
 
         jPanel33.setBackground(new java.awt.Color(255, 255, 255));

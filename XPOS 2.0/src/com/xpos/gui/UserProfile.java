@@ -5,17 +5,86 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import com.xpos.encrypt.MD5;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class UserProfile extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    int userProId;
+
     /**
      * Creates new form UserProfile
      */
     public UserProfile() {
         initComponents();
+        loadUserProCombo();
+    }
+
+    public void clearUserProPanel() {
+        loadUserProCombo();
+        userProUsername.setText("");
+        userProPassword.setText("");
+        userProActive.setSelected(true);
+        userProSearch.setText("");
+        fillUserProTable(null);
+    }
+
+    public void loadUserProCombo() {
+        try {
+            ResultSet rs = DbConnect.getFromDB("select Id,Name from employee where status=1");
+            Vector v = new Vector();
+            v.add("Select Position");
+            while (rs.next()) {
+                String position = rs.getString("Id") + " - " + rs.getString("Name");
+                v.add(position);
+            }
+            userProEmployeeCombo.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void fillUserProTable(String query) {
+        tablemodel = (DefaultTableModel) userProTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "SELECT userprofile.Id,userprofile.Employee_Id,employee.Name, userprofile.Username,userprofile.Status FROM userprofile JOIN employee on userprofile.Employee_Id=employee.Id";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("userprofile.Id"));
+                v.add(rs.getInt("userprofile.Employee_Id"));
+                v.add(rs.getString("employee.Name"));
+                v.add(rs.getString("userprofile.Username"));
+                v.add(rs.getBoolean("userprofile.Status") ? "Active" : "Not Active");
+
+                tablemodel.addRow(v);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -268,87 +337,87 @@ public class UserProfile extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userProButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButInsertActionPerformed
-//        int employeeId = Integer.parseInt(userProEmployeeCombo.getSelectedItem().toString().split(" - ")[0]);
-//        String username = userProUsername.getText();
-//        String password = MD5.getMd5(new String(userProPassword.getPassword()));
-//        boolean active = userProActive.isSelected() ? true : false;
-//
-//        String query = "INSERT INTO `userprofile`(`Employee_Id`, `Username`, `Password`, `Status`) VALUES (" + employeeId
-//        + ",'" + username + "','" + password + "'," + active + ")";
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearUserProPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        int employeeId = Integer.parseInt(userProEmployeeCombo.getSelectedItem().toString().split(" - ")[0]);
+        String username = userProUsername.getText();
+        String password = MD5.getMd5(new String(userProPassword.getPassword()));
+        boolean active = userProActive.isSelected() ? true : false;
+
+        String query = "INSERT INTO `userprofile`(`Employee_Id`, `Username`, `Password`, `Status`) VALUES (" + employeeId
+                + ",'" + username + "','" + password + "'," + active + ")";
+        try {
+            DbConnect.pushToDB(query);
+            clearUserProPanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_userProButInsertActionPerformed
 
     private void userProButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButEditActionPerformed
-//        int employeeId = Integer.parseInt(userProEmployeeCombo.getSelectedItem().toString().split(" - ")[0]);
-//        String username = userProUsername.getText();
-//        String password = MD5.getMd5(new String(userProPassword.getPassword()));
-//        boolean active = userProActive.isSelected() ? true : false;
-//
-//        String query = null;
-//
-//        if (password.equals("d41d8cd98f00b204e9800998ecf8427e")) {
-//            query = "UPDATE `userprofile` SET `Employee_Id`=" + employeeId + ",`Username`='" + username
-//            + "',`Status`=" + active + " WHERE Id=" + userProId;
-//        } else {
-//            query = "UPDATE `userprofile` SET `Employee_Id`=" + employeeId + ",`Username`='" + username
-//            + "',`Password`='" + password + "',`Status`=" + active + " WHERE Id=" + userProId;
-//        }
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearUserProPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        int employeeId = Integer.parseInt(userProEmployeeCombo.getSelectedItem().toString().split(" - ")[0]);
+        String username = userProUsername.getText();
+        String password = MD5.getMd5(new String(userProPassword.getPassword()));
+        boolean active = userProActive.isSelected() ? true : false;
+
+        String query = null;
+
+        if (password.equals("d41d8cd98f00b204e9800998ecf8427e")) {
+            query = "UPDATE `userprofile` SET `Employee_Id`=" + employeeId + ",`Username`='" + username
+                    + "',`Status`=" + active + " WHERE Id=" + userProId;
+        } else {
+            query = "UPDATE `userprofile` SET `Employee_Id`=" + employeeId + ",`Username`='" + username
+                    + "',`Password`='" + password + "',`Status`=" + active + " WHERE Id=" + userProId;
+        }
+        try {
+            DbConnect.pushToDB(query);
+            clearUserProPanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_userProButEditActionPerformed
 
     private void userProButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButDeleteActionPerformed
-//        String query = "UPDATE `userprofile` SET `Status`=0 WHERE Id=" + userProId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearUserProPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String query = "UPDATE `userprofile` SET `Status`=0 WHERE Id=" + userProId;
+        try {
+            DbConnect.pushToDB(query);
+            clearUserProPanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_userProButDeleteActionPerformed
 
     private void userProButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButCancelActionPerformed
-        //clearUserProPanel();
+        clearUserProPanel();
     }//GEN-LAST:event_userProButCancelActionPerformed
 
     private void userProTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userProTableMouseClicked
-//        int selectedRow = userProTable.getSelectedRow();
-//        userProId = Integer.parseInt(userProTable.getValueAt(selectedRow, 0).toString());
-//        int employeeId = Integer.parseInt(userProTable.getValueAt(selectedRow, 1).toString());
-//        String name = userProTable.getValueAt(selectedRow, 2).toString();
-//        userProEmployeeCombo.setSelectedItem(employeeId + " - " + name);
-//        userProUsername.setText(userProTable.getValueAt(selectedRow, 3).toString());
-//        userProActive.setSelected(userProTable.getValueAt(selectedRow, 4).toString().equals("Active"));
-//        userProNotActive.setSelected(userProTable.getValueAt(selectedRow, 4).toString().equals("Not Active"));
+        int selectedRow = userProTable.getSelectedRow();
+        userProId = Integer.parseInt(userProTable.getValueAt(selectedRow, 0).toString());
+        int employeeId = Integer.parseInt(userProTable.getValueAt(selectedRow, 1).toString());
+        String name = userProTable.getValueAt(selectedRow, 2).toString();
+        userProEmployeeCombo.setSelectedItem(employeeId + " - " + name);
+        userProUsername.setText(userProTable.getValueAt(selectedRow, 3).toString());
+        userProActive.setSelected(userProTable.getValueAt(selectedRow, 4).toString().equals("Active"));
+        userProNotActive.setSelected(userProTable.getValueAt(selectedRow, 4).toString().equals("Not Active"));
     }//GEN-LAST:event_userProTableMouseClicked
 
     private void userProSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userProSearchKeyReleased
-//        String query = "SELECT userprofile.Id,userprofile.Employee_Id,employee.Name,"
-//        + " userprofile.Username,userprofile.Status FROM userprofile "
-//        + "JOIN employee on userprofile.Employee_Id=employee.Id "
-//        + "WHERE  employee.Name LIKE '%" + userProSearch.getText() + "%'";
-//        fillUserProTable(query);
+        String query = "SELECT userprofile.Id,userprofile.Employee_Id,employee.Name,"
+                + " userprofile.Username,userprofile.Status FROM userprofile "
+                + "JOIN employee on userprofile.Employee_Id=employee.Id "
+                + "WHERE  employee.Name LIKE '%" + userProSearch.getText() + "%'";
+        fillUserProTable(query);
     }//GEN-LAST:event_userProSearchKeyReleased
 
 

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,6 +32,7 @@ public class Employee extends javax.swing.JPanel {
     public Employee() {
         initComponents();
         fillEmpTable(null);
+        loadEmpPosCombo();
     }
 
     public void clearEmployePanel() {
@@ -45,7 +47,24 @@ public class Employee extends javax.swing.JPanel {
         empPositionCombo.setSelectedIndex(0);
         fillEmpTable(null);
     }
-
+public void loadEmpPosCombo() {
+        try {
+            ResultSet rs = DbConnect.getFromDB("select Id,PositionName from employeeposition where status=1");
+            Vector v = new Vector();
+            v.add("Select Position");
+            while (rs.next()) {
+                String position = rs.getString("Id") + " - " + rs.getString("PositionName");
+                v.add(position);
+            }
+            empPositionCombo.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void fillEmpTable(String query) {
         tablemodel = (DefaultTableModel) empTable.getModel();
         tablemodel.setRowCount(0);
@@ -88,6 +107,7 @@ public class Employee extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        gender = new javax.swing.ButtonGroup();
         jLabel9 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         empButInsert = new javax.swing.JButton();
@@ -214,12 +234,14 @@ public class Employee extends javax.swing.JPanel {
         jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Gender", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
         empGenMale.setBackground(new java.awt.Color(255, 255, 255));
+        gender.add(empGenMale);
         empGenMale.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         empGenMale.setForeground(new java.awt.Color(26, 140, 255));
         empGenMale.setSelected(true);
         empGenMale.setText("Male");
 
         empGenFemale.setBackground(new java.awt.Color(255, 255, 255));
+        gender.add(empGenFemale);
         empGenFemale.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         empGenFemale.setForeground(new java.awt.Color(26, 140, 255));
         empGenFemale.setText("Female");
@@ -499,6 +521,7 @@ public class Employee extends javax.swing.JPanel {
     private app.bolivia.swing.JCTextField empSearch;
     private rojeru_san.complementos.RSTableMetro empTable;
     private app.bolivia.swing.JCTextField empTeleNumber;
+    private javax.swing.ButtonGroup gender;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;

@@ -30,6 +30,7 @@ public class ExCost extends javax.swing.JPanel {
      */
     public ExCost() {
         initComponents();
+        fillExCostTable(null);
     }
 
     public void clearExCostPanel() {

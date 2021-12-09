@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Jamit
  */
 public class ExIncome extends javax.swing.JPanel {
-
+    
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

@@ -31,6 +31,7 @@ public class ExIncome extends javax.swing.JPanel {
      */
     public ExIncome() {
         initComponents();
+        fillExIncomeTable(null);
     }
 
     public void clearExIncomePanel() {

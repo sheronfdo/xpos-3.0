@@ -112,7 +112,7 @@ public class Customer extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("CUSTOMER DETAILS");
+        jLabel7.setText("CUSTOMER");
         jLabel7.setOpaque(true);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));

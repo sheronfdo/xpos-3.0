@@ -5,17 +5,66 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class ExIncome extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    int xIncomeId;
+
     /**
      * Creates new form ExIncome
      */
     public ExIncome() {
         initComponents();
+    }
+
+    public void clearExIncomePanel() {
+        xIncomeDate.setDate(null);
+        xIncomeDescription.setText("");
+        xIncomeAmount.setText("");
+        xIncomeSearch.setText("");
+        fillExIncomeTable(null);
+    }
+
+    public void fillExIncomeTable(String query) {
+        tablemodel = (DefaultTableModel) xIncomeTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "select * from exincome where Status=1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getDate("Date"));
+                v.add(rs.getString("Description"));
+                v.add(rs.getDouble("IncomeAmount"));
+                tablemodel.addRow(v);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -233,73 +282,73 @@ public class ExIncome extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void xIncomeButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButInsertActionPerformed
-//        LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        String desc = xIncomeDescription.getText().toString();
-//        double amount = Double.valueOf(xIncomeAmount.getText().toString());
-//        String query = "INSERT INTO `exincome`(`Date`, `Description`, `IncomeAmount`) VALUES ('" + date.format(defaultDateFormat)
-//        + "','" + desc + "'," + amount + ")";
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearExIncomePanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String desc = xIncomeDescription.getText().toString();
+        double amount = Double.valueOf(xIncomeAmount.getText().toString());
+        String query = "INSERT INTO `exincome`(`Date`, `Description`, `IncomeAmount`) VALUES ('" + date.format(defaultDateFormat)
+                + "','" + desc + "'," + amount + ")";
+        try {
+            DbConnect.pushToDB(query);
+            clearExIncomePanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_xIncomeButInsertActionPerformed
 
     private void xIncomeButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButEditActionPerformed
-//        LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        String desc = xIncomeDescription.getText().toString();
-//        double amount = Double.valueOf(xIncomeAmount.getText().toString());
-//        String query = "update exincome set Date='" + date + "',Description='" + desc + "',IncomeAmount=" + amount + " where Id=" + xIncomeId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearExIncomePanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String desc = xIncomeDescription.getText().toString();
+        double amount = Double.valueOf(xIncomeAmount.getText().toString());
+        String query = "update exincome set Date='" + date + "',Description='" + desc + "',IncomeAmount=" + amount + " where Id=" + xIncomeId;
+        try {
+            DbConnect.pushToDB(query);
+            clearExIncomePanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_xIncomeButEditActionPerformed
 
     private void xIncomeButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButDeleteActionPerformed
-//        String query = "update exincome set Status=0 where Id=" + xIncomeId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearExIncomePanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String query = "update exincome set Status=0 where Id=" + xIncomeId;
+        try {
+            DbConnect.pushToDB(query);
+            clearExIncomePanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_xIncomeButDeleteActionPerformed
 
     private void xIncomeButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButCancelActionPerformed
-//        clearExIncomePanel();
+        clearExIncomePanel();
     }//GEN-LAST:event_xIncomeButCancelActionPerformed
 
     private void xIncomeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xIncomeTableMouseClicked
-//        int selectedRow = xIncomeTable.getSelectedRow();
-//        try {
-//            xIncomeId = Integer.parseInt(xIncomeTable.getValueAt(selectedRow, 0).toString());
-//            xIncomeDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(xIncomeTable.getValueAt(selectedRow, 1).toString()));
-//            xIncomeDescription.setText(xIncomeTable.getValueAt(selectedRow, 2).toString());
-//            xIncomeAmount.setText(xIncomeTable.getValueAt(selectedRow, 3).toString());
-//        } catch (Exception e) {
-//
-//        }
+        int selectedRow = xIncomeTable.getSelectedRow();
+        try {
+            xIncomeId = Integer.parseInt(xIncomeTable.getValueAt(selectedRow, 0).toString());
+            xIncomeDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(xIncomeTable.getValueAt(selectedRow, 1).toString()));
+            xIncomeDescription.setText(xIncomeTable.getValueAt(selectedRow, 2).toString());
+            xIncomeAmount.setText(xIncomeTable.getValueAt(selectedRow, 3).toString());
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_xIncomeTableMouseClicked
 
     private void xIncomeSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeSearchKeyReleased
-//        String query = "select * from exincome where Description like '%" + xIncomeSearch.getText().toString() + "%' and status=1";
-//        fillExIncomeTable(query);
+        String query = "select * from exincome where Description like '%" + xIncomeSearch.getText().toString() + "%' and status=1";
+        fillExIncomeTable(query);
     }//GEN-LAST:event_xIncomeSearchKeyReleased
 
 

@@ -5,17 +5,62 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class Category extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    int catId;
+
     /**
      * Creates new form Category
      */
     public Category() {
         initComponents();
+        fillCategoryTable(null);
+    }
+
+    public void clearCategoryPanel() {
+        catDescription.setText("");
+        catSpecNote.setText("");
+        catSearch.setText("");
+        fillCategoryTable(null);
+    }
+
+    public void fillCategoryTable(String query) {
+        tablemodel = (DefaultTableModel) categoryTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "SELECT `Id`, `Description`, `Note` FROM `category` where status=1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getString("Description"));
+                v.add(rs.getString("Note"));
+
+                tablemodel.addRow(v);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -30,15 +75,15 @@ public class Category extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        productTable = new rojeru_san.complementos.RSTableMetro();
-        prodSearch = new app.bolivia.swing.JCTextField();
+        categoryTable = new rojeru_san.complementos.RSTableMetro();
+        catSearch = new app.bolivia.swing.JCTextField();
         jPanel10 = new javax.swing.JPanel();
-        prodDescription = new app.bolivia.swing.JCTextField();
-        prodPurchPrice = new app.bolivia.swing.JCTextField();
-        prodButInsert = new javax.swing.JButton();
-        prodButEdit = new javax.swing.JButton();
-        prodButDelete = new javax.swing.JButton();
-        prodButCancel = new javax.swing.JButton();
+        catDescription = new app.bolivia.swing.JCTextField();
+        catSpecNote = new app.bolivia.swing.JCTextField();
+        catButInsert = new javax.swing.JButton();
+        catButEdit = new javax.swing.JButton();
+        catButDelete = new javax.swing.JButton();
+        catButCancel = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -51,7 +96,7 @@ public class Category extends javax.swing.JPanel {
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
-        productTable.setModel(new javax.swing.table.DefaultTableModel(
+        categoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -59,31 +104,31 @@ public class Category extends javax.swing.JPanel {
                 "ID", "Description", "Special Note"
             }
         ));
-        productTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        productTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        productTable.setRowHeight(25);
-        productTable.setRowMargin(0);
-        productTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        productTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        categoryTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        categoryTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        categoryTable.setRowHeight(25);
+        categoryTable.setRowMargin(0);
+        categoryTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        categoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                productTableMouseClicked(evt);
+                categoryTableMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(productTable);
+        jScrollPane2.setViewportView(categoryTable);
 
-        prodSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodSearch.setPhColor(new java.awt.Color(0, 51, 255));
-        prodSearch.setPlaceholder("Search");
-        prodSearch.setPreferredSize(new java.awt.Dimension(200, 30));
-        prodSearch.addActionListener(new java.awt.event.ActionListener() {
+        catSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        catSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        catSearch.setPhColor(new java.awt.Color(0, 51, 255));
+        catSearch.setPlaceholder("Search");
+        catSearch.setPreferredSize(new java.awt.Dimension(200, 30));
+        catSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodSearchActionPerformed(evt);
+                catSearchActionPerformed(evt);
             }
         });
-        prodSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+        catSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                prodSearchKeyReleased(evt);
+                catSearchKeyReleased(evt);
             }
         });
 
@@ -94,14 +139,14 @@ public class Category extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 990, Short.MAX_VALUE)
-                    .addComponent(prodSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(catSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(prodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(catSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                 .addContainerGap())
@@ -109,63 +154,63 @@ public class Category extends javax.swing.JPanel {
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
-        prodDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodDescription.setPhColor(new java.awt.Color(0, 51, 255));
-        prodDescription.setPlaceholder("Description");
-        prodDescription.setPreferredSize(new java.awt.Dimension(200, 30));
+        catDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        catDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        catDescription.setPhColor(new java.awt.Color(0, 51, 255));
+        catDescription.setPlaceholder("Description");
+        catDescription.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodPurchPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Special Note", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodPurchPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodPurchPrice.setPhColor(new java.awt.Color(0, 51, 255));
-        prodPurchPrice.setPlaceholder("Special Note");
-        prodPurchPrice.setPreferredSize(new java.awt.Dimension(200, 30));
+        catSpecNote.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Special Note", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        catSpecNote.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        catSpecNote.setPhColor(new java.awt.Color(0, 51, 255));
+        catSpecNote.setPlaceholder("Special Note (Can be Null)");
+        catSpecNote.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodButInsert.setBackground(new java.awt.Color(0, 60, 128));
-        prodButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        prodButInsert.setForeground(new java.awt.Color(255, 255, 255));
-        prodButInsert.setText("INSERT");
-        prodButInsert.setBorder(null);
-        prodButInsert.setFocusPainted(false);
-        prodButInsert.addActionListener(new java.awt.event.ActionListener() {
+        catButInsert.setBackground(new java.awt.Color(0, 60, 128));
+        catButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        catButInsert.setForeground(new java.awt.Color(255, 255, 255));
+        catButInsert.setText("INSERT");
+        catButInsert.setBorder(null);
+        catButInsert.setFocusPainted(false);
+        catButInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodButInsertActionPerformed(evt);
+                catButInsertActionPerformed(evt);
             }
         });
 
-        prodButEdit.setBackground(new java.awt.Color(0, 60, 128));
-        prodButEdit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        prodButEdit.setForeground(new java.awt.Color(255, 255, 255));
-        prodButEdit.setText("EDIT");
-        prodButEdit.setBorder(null);
-        prodButEdit.setFocusPainted(false);
-        prodButEdit.addActionListener(new java.awt.event.ActionListener() {
+        catButEdit.setBackground(new java.awt.Color(0, 60, 128));
+        catButEdit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        catButEdit.setForeground(new java.awt.Color(255, 255, 255));
+        catButEdit.setText("EDIT");
+        catButEdit.setBorder(null);
+        catButEdit.setFocusPainted(false);
+        catButEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodButEditActionPerformed(evt);
+                catButEditActionPerformed(evt);
             }
         });
 
-        prodButDelete.setBackground(new java.awt.Color(0, 60, 128));
-        prodButDelete.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        prodButDelete.setForeground(new java.awt.Color(255, 255, 255));
-        prodButDelete.setText("DELETE");
-        prodButDelete.setBorder(null);
-        prodButDelete.setFocusPainted(false);
-        prodButDelete.addActionListener(new java.awt.event.ActionListener() {
+        catButDelete.setBackground(new java.awt.Color(0, 60, 128));
+        catButDelete.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        catButDelete.setForeground(new java.awt.Color(255, 255, 255));
+        catButDelete.setText("DELETE");
+        catButDelete.setBorder(null);
+        catButDelete.setFocusPainted(false);
+        catButDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodButDeleteActionPerformed(evt);
+                catButDeleteActionPerformed(evt);
             }
         });
 
-        prodButCancel.setBackground(new java.awt.Color(0, 60, 128));
-        prodButCancel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        prodButCancel.setForeground(new java.awt.Color(255, 255, 255));
-        prodButCancel.setText("CANCEL");
-        prodButCancel.setBorder(null);
-        prodButCancel.setFocusPainted(false);
-        prodButCancel.addActionListener(new java.awt.event.ActionListener() {
+        catButCancel.setBackground(new java.awt.Color(0, 60, 128));
+        catButCancel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        catButCancel.setForeground(new java.awt.Color(255, 255, 255));
+        catButCancel.setText("CANCEL");
+        catButCancel.setBorder(null);
+        catButCancel.setFocusPainted(false);
+        catButCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodButCancelActionPerformed(evt);
+                catButCancelActionPerformed(evt);
             }
         });
 
@@ -176,33 +221,33 @@ public class Category extends javax.swing.JPanel {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(prodDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-                    .addComponent(prodPurchPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(catDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                    .addComponent(catSpecNote, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(prodButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(catButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(prodButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(catButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(prodButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(catButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(prodButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(catButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(prodDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(catDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodPurchPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(catSpecNote, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(prodButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prodButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prodButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prodButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(catButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(catButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(catButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(catButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -230,101 +275,85 @@ public class Category extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void productTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTableMouseClicked
-//        int selectedRow = productTable.getSelectedRow();
-//        productId = Integer.parseInt(productTable.getValueAt(selectedRow, 0).toString());
-//        //prodBarcode.setText(productTable.getValueAt(selectedRow, 1).toString());
-//        prodDescription.setText(productTable.getValueAt(selectedRow, 2).toString());
-//        prodPurchPrice.setText(productTable.getValueAt(selectedRow, 3).toString());
-//        prodRetailPrice.setText(productTable.getValueAt(selectedRow, 4).toString());
-//        prodQuantity.setText(productTable.getValueAt(selectedRow, 5).toString());
-    }//GEN-LAST:event_productTableMouseClicked
+    private void categoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryTableMouseClicked
+        int selectedRow = categoryTable.getSelectedRow();
+        catId = Integer.parseInt(categoryTable.getValueAt(selectedRow, 0).toString());
+        catDescription.setText(categoryTable.getValueAt(selectedRow, 1).toString());
+        catSpecNote.setText(categoryTable.getValueAt(selectedRow, 2).toString());
+    }//GEN-LAST:event_categoryTableMouseClicked
 
-    private void prodSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodSearchActionPerformed
+    private void catSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_prodSearchActionPerformed
+    }//GEN-LAST:event_catSearchActionPerformed
 
-    private void prodSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodSearchKeyReleased
-        String query = "select * from product where description like '%" + prodSearch.getText() + "%' and status=1";
-        //fillProductTable(query);
-    }//GEN-LAST:event_prodSearchKeyReleased
+    private void catSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_catSearchKeyReleased
+        String query = "select * from category where description like '%" + catSearch.getText() + "%' and status=1";
+        fillCategoryTable(query);
+    }//GEN-LAST:event_catSearchKeyReleased
 
-    private void prodButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButInsertActionPerformed
-        //String barcode = prodBarcode.getText();
-//        String description = prodDescription.getText();
-//        double purchasePrice = Double.parseDouble(prodPurchPrice.getText());
-//        double retailPrice = Double.parseDouble(prodRetailPrice.getText());
-//        int quantity = Integer.parseInt(prodQuantity.getText());
-        //        String query = "INSERT INTO `product`( `Barcode`, `Description`,"
-        //                + " `PurchasePrice`, `RetailPrice`, `TotalQuantity`) "
-        //                + "VALUES ('" + barcode + "','" + description + "'," + purchasePrice
-        //                + "," + retailPrice + "," + quantity + ")";
-        //        try {
-            //            DbConnect.pushToDB(query);
-            //            clearProductPanel();
-            //        } catch (ClassNotFoundException e) {
-            //            e.printStackTrace();
-            //        } catch (SQLException e) {
-            //            e.printStackTrace();
-            //        } catch (Exception e) {
-            //            e.printStackTrace();
-            //        }
-    }//GEN-LAST:event_prodButInsertActionPerformed
+    private void catButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButInsertActionPerformed
+        String description = catDescription.getText();
+        String note = catSpecNote.getText();
+        String query = "INSERT INTO `category`(`Description`, `Note`) VALUES ('" + description + "','" + note + "')";
+        try {
+            DbConnect.pushToDB(query);
+            clearCategoryPanel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_catButInsertActionPerformed
 
-    private void prodButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButEditActionPerformed
-        //String barcode = prodBarcode.getText();
-//        String description = prodDescription.getText();
-//        double purchasePrice = Double.parseDouble(prodPurchPrice.getText());
-//        double retailPrice = Double.parseDouble(prodRetailPrice.getText());
-//        int quantity = Integer.parseInt(prodQuantity.getText());
+    private void catButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButEditActionPerformed
+        String description = catDescription.getText();
+        String note = catSpecNote.getText();
+        String query = "UPDATE `category` SET `Description`='" + description + "',`Note`='" + note + "' WHERE Id=" + catId;
+        try {
+            DbConnect.pushToDB(query);
+            clearCategoryPanel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_catButEditActionPerformed
 
-        //        String query = "UPDATE `product` SET `Barcode`='" + barcode + "',`Description`='" + description
-        //                + "',`PurchasePrice`='" + purchasePrice + "',`RetailPrice`='" + retailPrice
-        //                + "',`TotalQuantity`='" + quantity + "' WHERE Id=" + productId;
-        //
-        //        try {
-            //            DbConnect.pushToDB(query);
-            //            clearProductPanel();
-            //        } catch (ClassNotFoundException e) {
-            //            e.printStackTrace();
-            //        } catch (SQLException e) {
-            //            e.printStackTrace();
-            //        } catch (Exception e) {
-            //            e.printStackTrace();
-            //        }
-    }//GEN-LAST:event_prodButEditActionPerformed
+    private void catButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButDeleteActionPerformed
+        String query = "UPDATE `category` SET `Status`=0 WHERE Id=" + catId;
+        try {
+            DbConnect.pushToDB(query);
+            clearCategoryPanel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_catButDeleteActionPerformed
 
-    private void prodButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButDeleteActionPerformed
-//        String query = "UPDATE `product` SET `Status`=0 WHERE Id=" + productId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearProductPanel();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }//GEN-LAST:event_prodButDeleteActionPerformed
-
-    private void prodButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButCancelActionPerformed
-        //clearProductPanel();
-    }//GEN-LAST:event_prodButCancelActionPerformed
+    private void catButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButCancelActionPerformed
+        clearCategoryPanel();
+    }//GEN-LAST:event_catButCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton catButCancel;
+    private javax.swing.JButton catButDelete;
+    private javax.swing.JButton catButEdit;
+    private javax.swing.JButton catButInsert;
+    private app.bolivia.swing.JCTextField catDescription;
+    private app.bolivia.swing.JCTextField catSearch;
+    private app.bolivia.swing.JCTextField catSpecNote;
+    private rojeru_san.complementos.RSTableMetro categoryTable;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton prodButCancel;
-    private javax.swing.JButton prodButDelete;
-    private javax.swing.JButton prodButEdit;
-    private javax.swing.JButton prodButInsert;
-    private app.bolivia.swing.JCTextField prodDescription;
-    private app.bolivia.swing.JCTextField prodPurchPrice;
-    private app.bolivia.swing.JCTextField prodSearch;
-    private rojeru_san.complementos.RSTableMetro productTable;
     // End of variables declaration//GEN-END:variables
 }

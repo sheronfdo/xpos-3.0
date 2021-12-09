@@ -5,17 +5,86 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class EmpPosition extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    int empPosId;
+
     /**
      * Creates new form EmpPosition
      */
     public EmpPosition() {
         initComponents();
+        fillEmpPosTable(null);
+    }
+
+    public void clearEmpPosPanel() {
+        empPosSearch.setText("");
+        empPosName.setText("");
+        empPosPerSale.setSelected(false);
+        empPosPerPurchase.setSelected(false);
+        empPosPerReturn.setSelected(false);
+        empPosPerCustomer.setSelected(false);
+        empPosPerSupplier.setSelected(false);
+        empPosPerEmployee.setSelected(false);
+        empPosPerUserPosition.setSelected(false);
+        empPosPerUserProfile.setSelected(false);
+        empPosPerProducts.setSelected(false);
+        empPosPerInvoice.setSelected(false);
+        empPosPerXIncome.setSelected(false);
+        empPosPerXCost.setSelected(false);
+        empPosPerReport.setSelected(false);
+        fillEmpPosTable(null);
+    }
+
+    public void fillEmpPosTable(String query) {
+        tablemodel = (DefaultTableModel) empPosTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "select * from employeeposition where status=1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getString("PositionName"));
+                v.add(rs.getBoolean("Sale") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("Purchase") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("Return") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("Customer") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("Supplier") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("Employee") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("UserPosition") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("UserProfile") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("Products") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("Invoice") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("ExIncome") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("ExCost") ? "Allow" : "Deny");
+                v.add(rs.getBoolean("Report") ? "Allow" : "Deny");
+
+                tablemodel.addRow(v);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -380,23 +449,23 @@ public class EmpPosition extends javax.swing.JPanel {
         boolean reportPerm = empPosPerReport.isSelected();
 
         String query = "INSERT INTO `employeeposition`(`PositionName`, `Sale`, "
-        + "`Purchase`, `Return`, `Customer`, `Supplier`, `Employee`, "
-        + "`UserPosition`, `UserProfile`, `Products`, `ExIncome`, "
-        + "`ExCost`, `Invoice`, `Report`) VALUES ('" + name + "'," + salePerm + "," + purchasePerm
-        + "," + returnPerm + "," + customerPerm + "," + supplierPerm + "," + employeePerm
-        + "," + userPosPerm + "," + userProfPerm + "," + productsPerm + "," + exIncomePerm
-        + "," + exCostPerm + "," + invoicePerm + "," + reportPerm + ")";
+                + "`Purchase`, `Return`, `Customer`, `Supplier`, `Employee`, "
+                + "`UserPosition`, `UserProfile`, `Products`, `ExIncome`, "
+                + "`ExCost`, `Invoice`, `Report`) VALUES ('" + name + "'," + salePerm + "," + purchasePerm
+                + "," + returnPerm + "," + customerPerm + "," + supplierPerm + "," + employeePerm
+                + "," + userPosPerm + "," + userProfPerm + "," + productsPerm + "," + exIncomePerm
+                + "," + exCostPerm + "," + invoicePerm + "," + reportPerm + ")";
 
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearEmpPosPanel();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            DbConnect.pushToDB(query);
+            clearEmpPosPanel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_empPosButInsertActionPerformed
 
     private void empPosButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosButEditActionPerformed
@@ -415,51 +484,49 @@ public class EmpPosition extends javax.swing.JPanel {
         boolean exCostPerm = empPosPerXCost.isSelected();
         boolean reportPerm = empPosPerReport.isSelected();
 
-//        String query = "UPDATE `employeeposition` SET `PositionName`='" + name + "',`Sale`=" + salePerm
-//        + ",`Purchase`=" + purchasePerm + ",`Return`=" + returnPerm + ",`Customer`=" + customerPerm
-//        + ",`Supplier`=" + supplierPerm + ",`Employee`=" + employeePerm + ",`UserPosition`=" + userPosPerm
-//        + ",`UserProfile`=" + userProfPerm + ",`Products`=" + productsPerm + ",`ExIncome`=" + exIncomePerm
-//        + ",`ExCost`=" + exCostPerm + ",`Invoice`=" + invoicePerm + ",`Report`=" + reportPerm + " WHERE `Id`=" + empPosId;
-//
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearEmpPosPanel();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String query = "UPDATE `employeeposition` SET `PositionName`='" + name + "',`Sale`=" + salePerm
+                + ",`Purchase`=" + purchasePerm + ",`Return`=" + returnPerm + ",`Customer`=" + customerPerm
+                + ",`Supplier`=" + supplierPerm + ",`Employee`=" + employeePerm + ",`UserPosition`=" + userPosPerm
+                + ",`UserProfile`=" + userProfPerm + ",`Products`=" + productsPerm + ",`ExIncome`=" + exIncomePerm
+                + ",`ExCost`=" + exCostPerm + ",`Invoice`=" + invoicePerm + ",`Report`=" + reportPerm + " WHERE `Id`=" + empPosId;
+
+        try {
+            DbConnect.pushToDB(query);
+            clearEmpPosPanel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_empPosButEditActionPerformed
 
     private void empPosButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosButDeleteActionPerformed
-//
-//        String query = "UPDATE `employeeposition` SET `Status`=0 WHERE `Id`=" + empPosId;
-//
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearEmpPosPanel();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String query = "UPDATE `employeeposition` SET `Status`=0 WHERE `Id`=" + empPosId;
+        try {
+            DbConnect.pushToDB(query);
+            clearEmpPosPanel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_empPosButDeleteActionPerformed
 
     private void empPosButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosButCancelActionPerformed
-        //clearEmpPosPanel();
+        clearEmpPosPanel();
     }//GEN-LAST:event_empPosButCancelActionPerformed
 
     private void empPosPerProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosPerProductsActionPerformed
-        // TODO add your handling code here:
+        //TODO add your handling code here:
     }//GEN-LAST:event_empPosPerProductsActionPerformed
 
     private void empPosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empPosTableMouseClicked
         int selectedRow = empPosTable.getSelectedRow();
-        //empPosId = Integer.parseInt(empPosTable.getValueAt(selectedRow, 0).toString());
+        empPosId = Integer.parseInt(empPosTable.getValueAt(selectedRow, 0).toString());
         String posName = empPosTable.getValueAt(selectedRow, 1).toString();
         boolean salePerm = empPosTable.getValueAt(selectedRow, 2).toString().equals("Allow");
         boolean purchasePerm = empPosTable.getValueAt(selectedRow, 3).toString().equals("Allow");
@@ -493,7 +560,7 @@ public class EmpPosition extends javax.swing.JPanel {
 
     private void empPosSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empPosSearchKeyReleased
         String query = "select * from employeeposition where PositionName like '%" + empPosSearch.getText().toString() + "%'";
-        //fillEmpPosTable(query);
+        fillEmpPosTable(query);
     }//GEN-LAST:event_empPosSearchKeyReleased
 
 

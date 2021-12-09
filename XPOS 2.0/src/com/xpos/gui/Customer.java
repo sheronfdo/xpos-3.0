@@ -5,17 +5,75 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class Customer extends javax.swing.JPanel {
-
+    DefaultTableModel tablemodel;
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    int customerId;
+    
     /**
      * Creates new form Customer
      */
     public Customer() {
         initComponents();
+    }
+
+    public void clearCustomerPanel() {
+        customerName.setText("");
+        customerAddress.setText("");
+        customerTeleNumber.setText("");
+        customerNIC.setText("");
+        customerDOB.setDate(null);
+        customerJoinedDate.setDate(null);
+        customerEmail.setText("");
+        customerGenMale.setSelected(true);
+        customerSearch.setText("");
+        fillCustomerTable(null);
+    }
+
+    public void fillCustomerTable(String query) {
+        tablemodel = (DefaultTableModel) customerTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "SELECT * FROM `customer` WHERE STATUS=1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getString("Name"));
+                v.add(rs.getString("Address"));
+                v.add(rs.getString("TelephoneNo"));
+                v.add(rs.getString("NIC"));
+                v.add(rs.getDate("DOB"));
+                v.add(rs.getDate("JoinedDate"));
+                v.add(rs.getString("Email"));
+                v.add(rs.getString("Gender").equals("M") ? "Male" : "Female");
+
+                tablemodel.addRow(v);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -312,95 +370,95 @@ public class Customer extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void customerButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButInsertActionPerformed
-//        String name = customerName.getText();
-//        String address = customerAddress.getText();
-//        String teleNumber = customerTeleNumber.getText();
-//        String NIC = customerNIC.getText();
-//        LocalDate DOB = customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        LocalDate joinedDate = customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        String email = customerEmail.getText();
-//        String gender = (customerGenMale.isSelected()) ? "M" : "F";
-//
-//        String query = "INSERT INTO `customer`(`Name`, `Address`, `TelephoneNo`,"
-//        + " `NIC`, `DOB`, `JoinedDate`, `Email`, `Gender`) VALUES ('" + name + "',"
-//        + "'" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat) + "','"
-//        + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "')";
-//        try {
-//            DbConnect.pushToDB(query);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        clearCustomerPanel();
+        String name = customerName.getText();
+        String address = customerAddress.getText();
+        String teleNumber = customerTeleNumber.getText();
+        String NIC = customerNIC.getText();
+        LocalDate DOB = customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate joinedDate = customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String email = customerEmail.getText();
+        String gender = (customerGenMale.isSelected()) ? "M" : "F";
+
+        String query = "INSERT INTO `customer`(`Name`, `Address`, `TelephoneNo`,"
+                + " `NIC`, `DOB`, `JoinedDate`, `Email`, `Gender`) VALUES ('" + name + "',"
+                + "'" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat) + "','"
+                + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "')";
+        try {
+            DbConnect.pushToDB(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        clearCustomerPanel();
     }//GEN-LAST:event_customerButInsertActionPerformed
 
     private void customerButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButEditActionPerformed
-//        String name = customerName.getText();
-//        String address = customerAddress.getText();
-//        String teleNumber = customerTeleNumber.getText();
-//        String NIC = customerNIC.getText();
-//        LocalDate DOB = customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        LocalDate joinedDate = customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        String email = customerEmail.getText();
-//        String gender = (customerGenMale.isSelected()) ? "M" : "F";
-//
-//        String query = "UPDATE customer SET Name='" + name + "',Address='" + address + "',"
-//        + "TelephoneNo='" + teleNumber + "',NIC='" + NIC + "',DOB='" + DOB.format(defaultDateFormat) + "',JoinedDate='" + joinedDate.format(defaultDateFormat) + "',"
-//        + "Email='" + email + "',Gender='" + gender + "' WHERE Id=" + customerId;
-//        try {
-//            DbConnect.pushToDB(query);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        clearCustomerPanel();
+        String name = customerName.getText();
+        String address = customerAddress.getText();
+        String teleNumber = customerTeleNumber.getText();
+        String NIC = customerNIC.getText();
+        LocalDate DOB = customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate joinedDate = customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String email = customerEmail.getText();
+        String gender = (customerGenMale.isSelected()) ? "M" : "F";
+
+        String query = "UPDATE customer SET Name='" + name + "',Address='" + address + "',"
+        + "TelephoneNo='" + teleNumber + "',NIC='" + NIC + "',DOB='" + DOB.format(defaultDateFormat) + "',JoinedDate='" + joinedDate.format(defaultDateFormat) + "',"
+        + "Email='" + email + "',Gender='" + gender + "' WHERE Id=" + customerId;
+        try {
+            DbConnect.pushToDB(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        clearCustomerPanel();
     }//GEN-LAST:event_customerButEditActionPerformed
 
     private void customerButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButDeleteActionPerformed
-//        String query = "UPDATE customer SET Status=0 WHERE Id=" + customerId;
-//        try {
-//            DbConnect.pushToDB(query);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        clearCustomerPanel();
+        String query = "UPDATE customer SET Status=0 WHERE Id=" + customerId;
+        try {
+            DbConnect.pushToDB(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        clearCustomerPanel();
     }//GEN-LAST:event_customerButDeleteActionPerformed
 
     private void customerButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButCancelActionPerformed
-        //clearCustomerPanel();        // TODO add your handling code here:
+        clearCustomerPanel();        // TODO add your handling code here:
     }//GEN-LAST:event_customerButCancelActionPerformed
 
     private void customerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerTableMouseClicked
-//        int selectedRow = customerTable.getSelectedRow();
-//        customerId = Integer.parseInt(customerTable.getValueAt(selectedRow, 0).toString());
-//
-//        try {
-//            customerName.setText(customerTable.getValueAt(selectedRow, 1).toString());
-//            customerAddress.setText(customerTable.getValueAt(selectedRow, 2).toString());
-//            customerTeleNumber.setText(customerTable.getValueAt(selectedRow, 3).toString());
-//            customerNIC.setText(customerTable.getValueAt(selectedRow, 4).toString());
-//            customerDOB.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(customerTable.getValueAt(selectedRow, 5).toString()));
-//            customerJoinedDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(customerTable.getValueAt(selectedRow, 6).toString()));
-//            customerEmail.setText(customerTable.getValueAt(selectedRow, 7).toString());
-//            customerGenMale.setSelected(customerTable.getValueAt(selectedRow, 8).toString().equals("Male"));
-//            customerGenFemale.setSelected(customerTable.getValueAt(selectedRow, 8).toString().equals("Female"));
-//        } catch (Exception e) {
-//        }
+        int selectedRow = customerTable.getSelectedRow();
+        customerId = Integer.parseInt(customerTable.getValueAt(selectedRow, 0).toString());
+
+        try {
+            customerName.setText(customerTable.getValueAt(selectedRow, 1).toString());
+            customerAddress.setText(customerTable.getValueAt(selectedRow, 2).toString());
+            customerTeleNumber.setText(customerTable.getValueAt(selectedRow, 3).toString());
+            customerNIC.setText(customerTable.getValueAt(selectedRow, 4).toString());
+            customerDOB.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(customerTable.getValueAt(selectedRow, 5).toString()));
+            customerJoinedDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(customerTable.getValueAt(selectedRow, 6).toString()));
+            customerEmail.setText(customerTable.getValueAt(selectedRow, 7).toString());
+            customerGenMale.setSelected(customerTable.getValueAt(selectedRow, 8).toString().equals("Male"));
+            customerGenFemale.setSelected(customerTable.getValueAt(selectedRow, 8).toString().equals("Female"));
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_customerTableMouseClicked
 
     private void customerSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerSearchKeyReleased
         String query = "SELECT * from customer WHERE Name LIKE '%" + customerSearch.getText().toString() + "%' and Status=1";
-        //fillCustomerTable(query);
+        fillCustomerTable(query);
     }//GEN-LAST:event_customerSearchKeyReleased
 
 

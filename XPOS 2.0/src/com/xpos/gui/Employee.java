@@ -5,17 +5,78 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class Employee extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    int employeeId;
     /**
      * Creates new form Employee
      */
     public Employee() {
         initComponents();
+        fillEmpTable(null);
+    }
+
+    public void clearEmployePanel() {
+        empName.setText("");
+        empAddress.setText("");
+        empTeleNumber.setText("");
+        empNIC.setText("");
+        empDOB.setDate(null);
+        empJoinedDate.setDate(null);
+        empEmail.setText("");
+        empGenMale.setSelected(true);
+        empPositionCombo.setSelectedIndex(0);
+        fillEmpTable(null);
+    }
+
+    public void fillEmpTable(String query) {
+        tablemodel = (DefaultTableModel) empTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "SELECT * FROM employee join employeeposition on employee.EmployeePosition_id=employeeposition.Id  where employee.status=1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getString("Name"));
+                v.add(rs.getString("Address"));
+                v.add(rs.getString("TelephoneNo"));
+                v.add(rs.getString("NIC"));
+                v.add(rs.getDate("DOB"));
+                v.add(rs.getDate("JoinedDate"));
+                v.add(rs.getString("Email"));
+                v.add(rs.getString("Gender").equals("M") ? "Male" : "Female");
+                v.add(rs.getInt("employeeposition.Id"));
+                v.add(rs.getString("PositionName"));
+
+                tablemodel.addRow(v);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -322,103 +383,102 @@ public class Employee extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void empButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButInsertActionPerformed
-//        String name = empName.getText();
-//        String address = empAddress.getText();
-//        String teleNumber = empTeleNumber.getText();
-//        String NIC = empNIC.getText();
-//        LocalDate DOB = empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        LocalDate joinedDate = empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        String email = empEmail.getText();
-//        String gender = empGenMale.isSelected() ? "M" : "F";
-//        int positionId = Integer.parseInt(empPositionCombo.getSelectedItem().toString().split(" - ")[0]);
-//
-//        String query = "INSERT INTO `employee`( `Name`, `Address`, `TelephoneNo`, `NIC`,"
-//        + " `DOB`, `JoinedDate`, `Email`, `Gender`, `EmployeePosition_id`) VALUES "
-//        + "('" + name + "','" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat)
-//        + "','" + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "'," + positionId + ")";
-//
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearEmployePanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String name = empName.getText();
+        String address = empAddress.getText();
+        String teleNumber = empTeleNumber.getText();
+        String NIC = empNIC.getText();
+        LocalDate DOB = empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate joinedDate = empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String email = empEmail.getText();
+        String gender = empGenMale.isSelected() ? "M" : "F";
+        int positionId = Integer.parseInt(empPositionCombo.getSelectedItem().toString().split(" - ")[0]);
+
+        String query = "INSERT INTO `employee`( `Name`, `Address`, `TelephoneNo`, `NIC`,"
+                + " `DOB`, `JoinedDate`, `Email`, `Gender`, `EmployeePosition_id`) VALUES "
+                + "('" + name + "','" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat)
+                + "','" + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "'," + positionId + ")";
+
+        try {
+            DbConnect.pushToDB(query);
+            clearEmployePanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_empButInsertActionPerformed
 
     private void empButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButEditActionPerformed
-//        String name = empName.getText();
-//        String address = empAddress.getText();
-//        String teleNumber = empTeleNumber.getText();
-//        String NIC = empNIC.getText();
-//        LocalDate DOB = empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        LocalDate joinedDate = empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        String email = empEmail.getText();
-//        String gender = empGenMale.isSelected() ? "M" : "F";
-//        int positionId = Integer.parseInt(empPositionCombo.getSelectedItem().toString().split(" - ")[0]);
-//
-//        String query = "UPDATE `employee` SET `Name`='" + name + "',`Address`='" + address + "',`TelephoneNo`='" + teleNumber
-//        + "',`NIC`='" + NIC + "',`DOB`='" + DOB.format(defaultDateFormat) + "',`JoinedDate`='" + joinedDate.format(defaultDateFormat)
-//        + "',`Email`='" + email + "',`Gender`='" + gender + "',`EmployeePosition_id`=" + positionId + " WHERE Id=" + employeeId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearEmployePanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String name = empName.getText();
+        String address = empAddress.getText();
+        String teleNumber = empTeleNumber.getText();
+        String NIC = empNIC.getText();
+        LocalDate DOB = empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate joinedDate = empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String email = empEmail.getText();
+        String gender = empGenMale.isSelected() ? "M" : "F";
+        int positionId = Integer.parseInt(empPositionCombo.getSelectedItem().toString().split(" - ")[0]);
+
+        String query = "UPDATE `employee` SET `Name`='" + name + "',`Address`='" + address + "',`TelephoneNo`='" + teleNumber
+                + "',`NIC`='" + NIC + "',`DOB`='" + DOB.format(defaultDateFormat) + "',`JoinedDate`='" + joinedDate.format(defaultDateFormat)
+                + "',`Email`='" + email + "',`Gender`='" + gender + "',`EmployeePosition_id`=" + positionId + " WHERE Id=" + employeeId;
+        try {
+            DbConnect.pushToDB(query);
+            clearEmployePanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_empButEditActionPerformed
 
     private void empButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButDeleteActionPerformed
-//        String query = "UPDATE `employee` SET Status=0 WHERE Id=" + employeeId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearEmployePanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String query = "UPDATE `employee` SET Status=0 WHERE Id=" + employeeId;
+        try {
+            DbConnect.pushToDB(query);
+            clearEmployePanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_empButDeleteActionPerformed
 
     private void empButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButCancelActionPerformed
-        //clearEmployePanel();
+        clearEmployePanel();
     }//GEN-LAST:event_empButCancelActionPerformed
 
     private void empTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empTableMouseClicked
-//        try {
-//            int selectedRow = empTable.getSelectedRow();
-//            employeeId = Integer.parseInt(empTable.getValueAt(selectedRow, 0).toString());
-//
-//            empName.setText(empTable.getValueAt(selectedRow, 1).toString());
-//            empAddress.setText(empTable.getValueAt(selectedRow, 2).toString());
-//            empTeleNumber.setText(empTable.getValueAt(selectedRow, 3).toString());
-//            empNIC.setText(empTable.getValueAt(selectedRow, 4).toString());
-//            empDOB.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(empTable.getValueAt(selectedRow, 5).toString()));
-//            empJoinedDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(empTable.getValueAt(selectedRow, 6).toString()));
-//            empEmail.setText(empTable.getValueAt(selectedRow, 7).toString());
-//            empGenMale.setSelected(empTable.getValueAt(selectedRow, 8).toString().equals("Male"));
-//            empGenFemale.setSelected(empTable.getValueAt(selectedRow, 8).toString().equals("Female"));
-//            empPositionCombo.setSelectedItem(empTable.getValueAt(selectedRow, 9).toString() + " - " + empTable.getValueAt(selectedRow, 10).toString());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            int selectedRow = empTable.getSelectedRow();
+            employeeId = Integer.parseInt(empTable.getValueAt(selectedRow, 0).toString());
+
+            empName.setText(empTable.getValueAt(selectedRow, 1).toString());
+            empAddress.setText(empTable.getValueAt(selectedRow, 2).toString());
+            empTeleNumber.setText(empTable.getValueAt(selectedRow, 3).toString());
+            empNIC.setText(empTable.getValueAt(selectedRow, 4).toString());
+            empDOB.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(empTable.getValueAt(selectedRow, 5).toString()));
+            empJoinedDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(empTable.getValueAt(selectedRow, 6).toString()));
+            empEmail.setText(empTable.getValueAt(selectedRow, 7).toString());
+            empGenMale.setSelected(empTable.getValueAt(selectedRow, 8).toString().equals("Male"));
+            empGenFemale.setSelected(empTable.getValueAt(selectedRow, 8).toString().equals("Female"));
+            empPositionCombo.setSelectedItem(empTable.getValueAt(selectedRow, 9).toString() + " - " + empTable.getValueAt(selectedRow, 10).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_empTableMouseClicked
 
     private void empSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empSearchKeyReleased
         String query = "SELECT * FROM employee join employeeposition on "
-        + "employee.EmployeePosition_id=employeeposition.Id  "
-        + "where employee.status=1 and employee.name like '%" + empSearch.getText() + "%'";
-
-        //fillEmpTable(query);
+                + "employee.EmployeePosition_id=employeeposition.Id  "
+                + "where employee.status=1 and employee.name like '%" + empSearch.getText() + "%'";
+        fillEmpTable(query);
     }//GEN-LAST:event_empSearchKeyReleased
 
 

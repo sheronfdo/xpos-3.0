@@ -30,6 +30,7 @@ public class Customer extends javax.swing.JPanel {
      */
     public Customer() {
         initComponents();
+        fillCustomerTable(null);
     }
 
     public void clearCustomerPanel() {

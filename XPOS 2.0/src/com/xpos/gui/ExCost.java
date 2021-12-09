@@ -5,17 +5,64 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class ExCost extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    int xCostId;
     /**
      * Creates new form ExCost
      */
     public ExCost() {
         initComponents();
+    }
+
+    public void clearExCostPanel() {
+        xCostDate.setDate(null);
+        xCostDescription.setText("");
+        xCostAmount.setText("");
+        xCostSearch.setText("");
+        fillExCostTable(null);
+    }
+
+    public void fillExCostTable(String query) {
+        tablemodel = (DefaultTableModel) xCostTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "select * from excost where Status=1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getDate("Date"));
+                v.add(rs.getString("Description"));
+                v.add(rs.getDouble("CostAmount"));
+                tablemodel.addRow(v);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -233,73 +280,73 @@ public class ExCost extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void xCostButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButInsertActionPerformed
-//        LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        String desc = xCostDescription.getText().toString();
-//        double amount = Double.valueOf(xCostAmount.getText().toString());
-//        String query = "INSERT INTO `excost`(`Date`, `Description`, `CostAmount`) VALUES ('" + date.format(defaultDateFormat)
-//        + "','" + desc + "'," + amount + ")";
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearExCostPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String desc = xCostDescription.getText().toString();
+        double amount = Double.valueOf(xCostAmount.getText().toString());
+        String query = "INSERT INTO `excost`(`Date`, `Description`, `CostAmount`) VALUES ('" + date.format(defaultDateFormat)
+                + "','" + desc + "'," + amount + ")";
+        try {
+            DbConnect.pushToDB(query);
+            clearExCostPanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_xCostButInsertActionPerformed
 
     private void xCostButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButEditActionPerformed
-//        LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        String desc = xCostDescription.getText().toString();
-//        double amount = Double.valueOf(xCostAmount.getText().toString());
-//        String query = "update excost set Date='" + date + "',Description='" + desc + "',CostAmount=" + amount + " where Id=" + xCostId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearExCostPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String desc = xCostDescription.getText().toString();
+        double amount = Double.valueOf(xCostAmount.getText().toString());
+        String query = "update excost set Date='" + date + "',Description='" + desc + "',CostAmount=" + amount + " where Id=" + xCostId;
+        try {
+            DbConnect.pushToDB(query);
+            clearExCostPanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_xCostButEditActionPerformed
 
     private void xCostButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButDeleteActionPerformed
-//        String query = "update excost set Status=0 where Id=" + xCostId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearExCostPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }// TODO add your handling code here:
+        String query = "update excost set Status=0 where Id=" + xCostId;
+        try {
+            DbConnect.pushToDB(query);
+            clearExCostPanel();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }// TODO add your handling code here:
     }//GEN-LAST:event_xCostButDeleteActionPerformed
 
     private void xCostButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButCancelActionPerformed
-        //clearExCostPanel();
+        clearExCostPanel();
     }//GEN-LAST:event_xCostButCancelActionPerformed
 
     private void xCostTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xCostTableMouseClicked
-//        int selectedRow = xCostTable.getSelectedRow();
-//        try {
-//            xCostId = Integer.parseInt(xCostTable.getValueAt(selectedRow, 0).toString());
-//            xCostDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(xCostTable.getValueAt(selectedRow, 1).toString()));
-//            xCostDescription.setText(xCostTable.getValueAt(selectedRow, 2).toString());
-//            xCostAmount.setText(xCostTable.getValueAt(selectedRow, 3).toString());
-//        } catch (Exception e) {
-//
-//        }
+        int selectedRow = xCostTable.getSelectedRow();
+        try {
+            xCostId = Integer.parseInt(xCostTable.getValueAt(selectedRow, 0).toString());
+            xCostDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(xCostTable.getValueAt(selectedRow, 1).toString()));
+            xCostDescription.setText(xCostTable.getValueAt(selectedRow, 2).toString());
+            xCostAmount.setText(xCostTable.getValueAt(selectedRow, 3).toString());
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_xCostTableMouseClicked
 
     private void xCostSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostSearchKeyReleased
-//        String query = "select * from excost where Description like '%" + xCostSearch.getText().toString() + "%' and status=1";
-//        fillExCostTable(query);
+        String query = "select * from excost where Description like '%" + xCostSearch.getText().toString() + "%' and status=1";
+        fillExCostTable(query);
     }//GEN-LAST:event_xCostSearchKeyReleased
 
 

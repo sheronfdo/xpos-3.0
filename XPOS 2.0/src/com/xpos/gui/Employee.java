@@ -55,7 +55,7 @@ public class Employee extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("EMP DETAILS");
+        jLabel9.setText("EMPLOYEE");
         jLabel9.setOpaque(true);
         jLabel9.setPreferredSize(new java.awt.Dimension(150, 22));
 

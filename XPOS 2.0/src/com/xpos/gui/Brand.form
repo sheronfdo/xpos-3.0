@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -76,7 +76,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane2" alignment="0" pref="990" max="32767" attributes="0"/>
-                      <Component id="prodSearch" alignment="0" max="32767" attributes="0"/>
+                      <Component id="brandSearch" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -86,7 +86,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="prodSearch" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="brandSearch" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane2" pref="686" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -102,18 +102,15 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="rojeru_san.complementos.RSTableMetro" name="productTable">
+            <Component class="rojeru_san.complementos.RSTableMetro" name="brandTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="8" rowCount="0">
+                  <Table columnCount="5" rowCount="0">
                     <Column editable="true" title="ID" type="java.lang.Object"/>
                     <Column editable="true" title="Brand" type="java.lang.Object"/>
                     <Column editable="true" title="Company" type="java.lang.Object"/>
                     <Column editable="true" title="Company Address" type="java.lang.Object"/>
                     <Column editable="true" title="Company Reg NO" type="java.lang.Object"/>
-                    <Column editable="true" title="Distributor" type="java.lang.Object"/>
-                    <Column editable="true" title="Distributor Address" type="java.lang.Object"/>
-                    <Column editable="true" title="Distributor Reg NO" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="colorBackgoundHead" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -121,21 +118,6 @@
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
@@ -176,12 +158,12 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="productTableMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="brandTableMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="app.bolivia.swing.JCTextField" name="prodSearch">
+        <Component class="app.bolivia.swing.JCTextField" name="brandSearch">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -208,8 +190,8 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prodSearchActionPerformed"/>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="prodSearchKeyReleased"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brandSearchActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="brandSearchKeyReleased"/>
           </Events>
         </Component>
       </SubComponents>
@@ -227,22 +209,19 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="prodBarcode" alignment="0" max="32767" attributes="0"/>
+                      <Component id="brandName" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="prodButInsert" min="-2" pref="90" max="-2" attributes="0"/>
+                          <Component id="brandButInsert" min="-2" pref="90" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="prodButEdit" min="-2" pref="90" max="-2" attributes="0"/>
+                          <Component id="brandButEdit" min="-2" pref="90" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="prodButDelete" min="-2" pref="90" max="-2" attributes="0"/>
+                          <Component id="brandButDelete" min="-2" pref="90" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="prodButCancel" min="-2" pref="90" max="-2" attributes="0"/>
+                          <Component id="brandButCancel" min="-2" pref="90" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="prodDescription" alignment="0" max="32767" attributes="0"/>
-                      <Component id="prodPurchPrice" alignment="0" max="32767" attributes="0"/>
-                      <Component id="prodRetailPrice" alignment="0" max="32767" attributes="0"/>
-                      <Component id="prodDescription1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="prodPurchPrice1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="prodRetailPrice1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="brandCompanyName" alignment="0" max="32767" attributes="0"/>
+                      <Component id="brandCompanyAddress" alignment="0" max="32767" attributes="0"/>
+                      <Component id="brandCompanyRegNo" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -252,25 +231,19 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="prodBarcode" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="brandName" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="prodDescription" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="brandCompanyName" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="prodPurchPrice" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="brandCompanyAddress" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="prodRetailPrice" min="-2" pref="45" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="prodDescription1" min="-2" pref="45" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="prodPurchPrice1" min="-2" pref="45" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="prodRetailPrice1" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="brandCompanyRegNo" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="prodButInsert" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="prodButEdit" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="prodButDelete" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="prodButCancel" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="brandButInsert" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="brandButEdit" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="brandButDelete" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="brandButCancel" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -278,7 +251,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="app.bolivia.swing.JCTextField" name="prodDescription">
+        <Component class="app.bolivia.swing.JCTextField" name="brandCompanyName">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -305,7 +278,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="prodPurchPrice">
+        <Component class="app.bolivia.swing.JCTextField" name="brandCompanyAddress">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -332,7 +305,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="prodRetailPrice">
+        <Component class="app.bolivia.swing.JCTextField" name="brandCompanyRegNo">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -359,7 +332,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="prodButInsert">
+        <Component class="javax.swing.JButton" name="brandButInsert">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -377,10 +350,10 @@
             <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prodButInsertActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brandButInsertActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="prodButEdit">
+        <Component class="javax.swing.JButton" name="brandButEdit">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -398,10 +371,10 @@
             <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prodButEditActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brandButEditActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="prodButDelete">
+        <Component class="javax.swing.JButton" name="brandButDelete">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -419,10 +392,10 @@
             <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prodButDeleteActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brandButDeleteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="prodButCancel">
+        <Component class="javax.swing.JButton" name="brandButCancel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -440,10 +413,10 @@
             <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prodButCancelActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brandButCancelActionPerformed"/>
           </Events>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="prodBarcode">
+        <Component class="app.bolivia.swing.JCTextField" name="brandName">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -465,87 +438,6 @@
               <Color blue="ff" green="33" red="0" type="rgb"/>
             </Property>
             <Property name="placeholder" type="java.lang.String" value="Brand Name"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="prodRetailPrice1">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Distributor Register NO">
-                  <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder>
-                      <Color PropertyName="color" blue="ff" green="8c" red="1a" type="rgb"/>
-                    </LineBorder>
-                  </Border>
-                  <Font PropertyName="font" name="Tahoma" size="10" style="1"/>
-                  <Color PropertyName="color" blue="ff" green="8c" red="1a" type="rgb"/>
-                </TitledBorder>
-              </Border>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="14" style="1"/>
-            </Property>
-            <Property name="phColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="33" red="0" type="rgb"/>
-            </Property>
-            <Property name="placeholder" type="java.lang.String" value="Distributor Register NO"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="prodPurchPrice1">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Distributor Address">
-                  <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder>
-                      <Color PropertyName="color" blue="ff" green="8c" red="1a" type="rgb"/>
-                    </LineBorder>
-                  </Border>
-                  <Font PropertyName="font" name="Tahoma" size="10" style="1"/>
-                  <Color PropertyName="color" blue="ff" green="8c" red="1a" type="rgb"/>
-                </TitledBorder>
-              </Border>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="14" style="1"/>
-            </Property>
-            <Property name="phColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="33" red="0" type="rgb"/>
-            </Property>
-            <Property name="placeholder" type="java.lang.String" value="Distributor Address"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="prodDescription1">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Distributor Name">
-                  <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder>
-                      <Color PropertyName="color" blue="ff" green="8c" red="1a" type="rgb"/>
-                    </LineBorder>
-                  </Border>
-                  <Font PropertyName="font" name="Tahoma" size="10" style="1"/>
-                  <Color PropertyName="color" blue="ff" green="8c" red="1a" type="rgb"/>
-                </TitledBorder>
-              </Border>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="14" style="1"/>
-            </Property>
-            <Property name="phColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="33" red="0" type="rgb"/>
-            </Property>
-            <Property name="placeholder" type="java.lang.String" value="Distributor Name"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 30]"/>
             </Property>

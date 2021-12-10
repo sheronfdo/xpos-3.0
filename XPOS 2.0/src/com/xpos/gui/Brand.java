@@ -5,17 +5,68 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JCheckBox;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class Brand extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    int brandId;
+
     /**
      * Creates new form Brand
      */
     public Brand() {
         initComponents();
+        clearBrandPanel();
+    }
+
+    public void clearBrandPanel() {
+        brandName.setText("");
+        brandCompanyName.setText("");
+        brandCompanyAddress.setText("");
+        brandCompanyRegNo.setText("");
+        fillBrandTable(null);
+    }
+
+    public void fillBrandTable(String query) {
+        tablemodel = (DefaultTableModel) brandTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "SELECT * FROM `brand` where status=1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getString("BrandName"));
+                v.add(rs.getString("CompanyName"));
+                v.add(rs.getString("CompanyAddress"));
+                v.add(rs.getString("CompanyRegNo"));
+
+                tablemodel.addRow(v);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -30,20 +81,17 @@ public class Brand extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        productTable = new rojeru_san.complementos.RSTableMetro();
-        prodSearch = new app.bolivia.swing.JCTextField();
+        brandTable = new rojeru_san.complementos.RSTableMetro();
+        brandSearch = new app.bolivia.swing.JCTextField();
         jPanel10 = new javax.swing.JPanel();
-        prodDescription = new app.bolivia.swing.JCTextField();
-        prodPurchPrice = new app.bolivia.swing.JCTextField();
-        prodRetailPrice = new app.bolivia.swing.JCTextField();
-        prodButInsert = new javax.swing.JButton();
-        prodButEdit = new javax.swing.JButton();
-        prodButDelete = new javax.swing.JButton();
-        prodButCancel = new javax.swing.JButton();
-        prodBarcode = new app.bolivia.swing.JCTextField();
-        prodRetailPrice1 = new app.bolivia.swing.JCTextField();
-        prodPurchPrice1 = new app.bolivia.swing.JCTextField();
-        prodDescription1 = new app.bolivia.swing.JCTextField();
+        brandCompanyName = new app.bolivia.swing.JCTextField();
+        brandCompanyAddress = new app.bolivia.swing.JCTextField();
+        brandCompanyRegNo = new app.bolivia.swing.JCTextField();
+        brandButInsert = new javax.swing.JButton();
+        brandButEdit = new javax.swing.JButton();
+        brandButDelete = new javax.swing.JButton();
+        brandButCancel = new javax.swing.JButton();
+        brandName = new app.bolivia.swing.JCTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -56,39 +104,39 @@ public class Brand extends javax.swing.JPanel {
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
-        productTable.setModel(new javax.swing.table.DefaultTableModel(
+        brandTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Brand", "Company", "Company Address", "Company Reg NO", "Distributor", "Distributor Address", "Distributor Reg NO"
+                "ID", "Brand", "Company", "Company Address", "Company Reg NO"
             }
         ));
-        productTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        productTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        productTable.setRowHeight(25);
-        productTable.setRowMargin(0);
-        productTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        productTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        brandTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        brandTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        brandTable.setRowHeight(25);
+        brandTable.setRowMargin(0);
+        brandTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        brandTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                productTableMouseClicked(evt);
+                brandTableMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(productTable);
+        jScrollPane2.setViewportView(brandTable);
 
-        prodSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodSearch.setPhColor(new java.awt.Color(0, 51, 255));
-        prodSearch.setPlaceholder("Search");
-        prodSearch.setPreferredSize(new java.awt.Dimension(200, 30));
-        prodSearch.addActionListener(new java.awt.event.ActionListener() {
+        brandSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        brandSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        brandSearch.setPhColor(new java.awt.Color(0, 51, 255));
+        brandSearch.setPlaceholder("Search");
+        brandSearch.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodSearchActionPerformed(evt);
+                brandSearchActionPerformed(evt);
             }
         });
-        prodSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+        brandSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                prodSearchKeyReleased(evt);
+                brandSearchKeyReleased(evt);
             }
         });
 
@@ -99,14 +147,14 @@ public class Brand extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 990, Short.MAX_VALUE)
-                    .addComponent(prodSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(brandSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(prodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(brandSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                 .addContainerGap())
@@ -114,95 +162,77 @@ public class Brand extends javax.swing.JPanel {
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
-        prodDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Company Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodDescription.setPhColor(new java.awt.Color(0, 51, 255));
-        prodDescription.setPlaceholder("Company Name");
-        prodDescription.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandCompanyName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Company Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        brandCompanyName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        brandCompanyName.setPhColor(new java.awt.Color(0, 51, 255));
+        brandCompanyName.setPlaceholder("Company Name");
+        brandCompanyName.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodPurchPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Company Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodPurchPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodPurchPrice.setPhColor(new java.awt.Color(0, 51, 255));
-        prodPurchPrice.setPlaceholder("Company Address");
-        prodPurchPrice.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandCompanyAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Company Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        brandCompanyAddress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        brandCompanyAddress.setPhColor(new java.awt.Color(0, 51, 255));
+        brandCompanyAddress.setPlaceholder("Company Address");
+        brandCompanyAddress.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodRetailPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Company Register NO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodRetailPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodRetailPrice.setPhColor(new java.awt.Color(0, 51, 255));
-        prodRetailPrice.setPlaceholder("Company Register NO");
-        prodRetailPrice.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandCompanyRegNo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Company Register NO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        brandCompanyRegNo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        brandCompanyRegNo.setPhColor(new java.awt.Color(0, 51, 255));
+        brandCompanyRegNo.setPlaceholder("Company Register NO");
+        brandCompanyRegNo.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodButInsert.setBackground(new java.awt.Color(0, 60, 128));
-        prodButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        prodButInsert.setForeground(new java.awt.Color(255, 255, 255));
-        prodButInsert.setText("INSERT");
-        prodButInsert.setBorder(null);
-        prodButInsert.setFocusPainted(false);
-        prodButInsert.addActionListener(new java.awt.event.ActionListener() {
+        brandButInsert.setBackground(new java.awt.Color(0, 60, 128));
+        brandButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        brandButInsert.setForeground(new java.awt.Color(255, 255, 255));
+        brandButInsert.setText("INSERT");
+        brandButInsert.setBorder(null);
+        brandButInsert.setFocusPainted(false);
+        brandButInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodButInsertActionPerformed(evt);
+                brandButInsertActionPerformed(evt);
             }
         });
 
-        prodButEdit.setBackground(new java.awt.Color(0, 60, 128));
-        prodButEdit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        prodButEdit.setForeground(new java.awt.Color(255, 255, 255));
-        prodButEdit.setText("EDIT");
-        prodButEdit.setBorder(null);
-        prodButEdit.setFocusPainted(false);
-        prodButEdit.addActionListener(new java.awt.event.ActionListener() {
+        brandButEdit.setBackground(new java.awt.Color(0, 60, 128));
+        brandButEdit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        brandButEdit.setForeground(new java.awt.Color(255, 255, 255));
+        brandButEdit.setText("EDIT");
+        brandButEdit.setBorder(null);
+        brandButEdit.setFocusPainted(false);
+        brandButEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodButEditActionPerformed(evt);
+                brandButEditActionPerformed(evt);
             }
         });
 
-        prodButDelete.setBackground(new java.awt.Color(0, 60, 128));
-        prodButDelete.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        prodButDelete.setForeground(new java.awt.Color(255, 255, 255));
-        prodButDelete.setText("DELETE");
-        prodButDelete.setBorder(null);
-        prodButDelete.setFocusPainted(false);
-        prodButDelete.addActionListener(new java.awt.event.ActionListener() {
+        brandButDelete.setBackground(new java.awt.Color(0, 60, 128));
+        brandButDelete.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        brandButDelete.setForeground(new java.awt.Color(255, 255, 255));
+        brandButDelete.setText("DELETE");
+        brandButDelete.setBorder(null);
+        brandButDelete.setFocusPainted(false);
+        brandButDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodButDeleteActionPerformed(evt);
+                brandButDeleteActionPerformed(evt);
             }
         });
 
-        prodButCancel.setBackground(new java.awt.Color(0, 60, 128));
-        prodButCancel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        prodButCancel.setForeground(new java.awt.Color(255, 255, 255));
-        prodButCancel.setText("CANCEL");
-        prodButCancel.setBorder(null);
-        prodButCancel.setFocusPainted(false);
-        prodButCancel.addActionListener(new java.awt.event.ActionListener() {
+        brandButCancel.setBackground(new java.awt.Color(0, 60, 128));
+        brandButCancel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        brandButCancel.setForeground(new java.awt.Color(255, 255, 255));
+        brandButCancel.setText("CANCEL");
+        brandButCancel.setBorder(null);
+        brandButCancel.setFocusPainted(false);
+        brandButCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodButCancelActionPerformed(evt);
+                brandButCancelActionPerformed(evt);
             }
         });
 
-        prodBarcode.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Brand Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodBarcode.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodBarcode.setPhColor(new java.awt.Color(0, 51, 255));
-        prodBarcode.setPlaceholder("Brand Name");
-        prodBarcode.setPreferredSize(new java.awt.Dimension(200, 30));
-
-        prodRetailPrice1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Distributor Register NO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodRetailPrice1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodRetailPrice1.setPhColor(new java.awt.Color(0, 51, 255));
-        prodRetailPrice1.setPlaceholder("Distributor Register NO");
-        prodRetailPrice1.setPreferredSize(new java.awt.Dimension(200, 30));
-
-        prodPurchPrice1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Distributor Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodPurchPrice1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodPurchPrice1.setPhColor(new java.awt.Color(0, 51, 255));
-        prodPurchPrice1.setPlaceholder("Distributor Address");
-        prodPurchPrice1.setPreferredSize(new java.awt.Dimension(200, 30));
-
-        prodDescription1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Distributor Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodDescription1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodDescription1.setPhColor(new java.awt.Color(0, 51, 255));
-        prodDescription1.setPlaceholder("Distributor Name");
-        prodDescription1.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Brand Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        brandName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        brandName.setPhColor(new java.awt.Color(0, 51, 255));
+        brandName.setPlaceholder("Brand Name");
+        brandName.setPreferredSize(new java.awt.Dimension(200, 30));
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -211,46 +241,37 @@ public class Brand extends javax.swing.JPanel {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(prodBarcode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(brandName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(prodButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(brandButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(prodButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(brandButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(prodButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(brandButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(prodButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(prodDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodPurchPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodRetailPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodDescription1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodPurchPrice1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodRetailPrice1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(brandButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(brandCompanyName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(brandCompanyAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(brandCompanyRegNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(prodBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(brandName, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(brandCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodPurchPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(brandCompanyAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodRetailPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodDescription1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodPurchPrice1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodRetailPrice1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(brandCompanyRegNo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(prodButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prodButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prodButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prodButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(brandButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brandButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brandButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brandButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -278,52 +299,96 @@ public class Brand extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void productTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTableMouseClicked
-        
-    }//GEN-LAST:event_productTableMouseClicked
+    private void brandTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brandTableMouseClicked
+        int selectedRow = brandTable.getSelectedRow();
+        brandId = Integer.parseInt(brandTable.getValueAt(selectedRow, 0).toString());
+        String name = brandTable.getValueAt(selectedRow, 1).toString();
+        String companyName = brandTable.getValueAt(selectedRow, 2).toString();
+        String companyAddress = brandTable.getValueAt(selectedRow, 3).toString();
+        String companyRegNO = brandTable.getValueAt(selectedRow, 4).toString();
 
-    private void prodSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodSearchActionPerformed
+        brandName.setText(name);
+        brandCompanyName.setText(companyName);
+        brandCompanyAddress.setText(companyAddress);
+        brandCompanyRegNo.setText(companyRegNO);
+    }//GEN-LAST:event_brandTableMouseClicked
+
+    private void brandSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_prodSearchActionPerformed
+    }//GEN-LAST:event_brandSearchActionPerformed
 
-    private void prodSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodSearchKeyReleased
-       
-    }//GEN-LAST:event_prodSearchKeyReleased
+    private void brandSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandSearchKeyReleased
+        String query = "select * from brand where BrandName like '%" + brandSearch.getText() + "%' and status=1";
+        fillBrandTable(query);
+    }//GEN-LAST:event_brandSearchKeyReleased
 
-    private void prodButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButInsertActionPerformed
-        
-    }//GEN-LAST:event_prodButInsertActionPerformed
+    private void brandButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButInsertActionPerformed
+        String name = brandName.getText();
+        String companyName = brandCompanyName.getText();
+        String companyAddress = brandCompanyAddress.getText();
+        String companyRegNO = brandCompanyRegNo.getText();
 
-    private void prodButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButEditActionPerformed
-        
-    }//GEN-LAST:event_prodButEditActionPerformed
+        String query = "INSERT INTO `brand`(`BrandName`, `CompanyName`, `CompanyAddress`, `CompanyRegNo`) "
+                + "VALUES ('" + name + "','" + companyName + "','" + companyAddress + "','" + companyRegNO + "')";
+        try {
+            DbConnect.pushToDB(query);
+            clearBrandPanel();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_brandButInsertActionPerformed
 
-    private void prodButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButDeleteActionPerformed
-        
-    }//GEN-LAST:event_prodButDeleteActionPerformed
+    private void brandButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButEditActionPerformed
+        String name = brandName.getText();
+        String companyName = brandCompanyName.getText();
+        String companyAddress = brandCompanyAddress.getText();
+        String companyRegNO = brandCompanyRegNo.getText();
 
-    private void prodButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButCancelActionPerformed
-        
-    }//GEN-LAST:event_prodButCancelActionPerformed
+        String query = "UPDATE `brand` SET `BrandName`='" + name + "',`CompanyName`='" + companyName + "',"
+                + "`CompanyAddress`='" + companyAddress + "',`CompanyRegNo`='" + companyRegNO + "' WHERE `Id`=" + brandId;
+        try {
+            DbConnect.pushToDB(query);
+            clearBrandPanel();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_brandButEditActionPerformed
+
+    private void brandButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButDeleteActionPerformed
+        String query = "UPDATE `brand` SET `Status`=0 WHERE `Id`=" + brandId;
+        try {
+            DbConnect.pushToDB(query);
+            clearBrandPanel();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_brandButDeleteActionPerformed
+
+    private void brandButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButCancelActionPerformed
+        clearBrandPanel();
+    }//GEN-LAST:event_brandButCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton brandButCancel;
+    private javax.swing.JButton brandButDelete;
+    private javax.swing.JButton brandButEdit;
+    private javax.swing.JButton brandButInsert;
+    private app.bolivia.swing.JCTextField brandCompanyAddress;
+    private app.bolivia.swing.JCTextField brandCompanyName;
+    private app.bolivia.swing.JCTextField brandCompanyRegNo;
+    private app.bolivia.swing.JCTextField brandName;
+    private app.bolivia.swing.JCTextField brandSearch;
+    private rojeru_san.complementos.RSTableMetro brandTable;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private app.bolivia.swing.JCTextField prodBarcode;
-    private javax.swing.JButton prodButCancel;
-    private javax.swing.JButton prodButDelete;
-    private javax.swing.JButton prodButEdit;
-    private javax.swing.JButton prodButInsert;
-    private app.bolivia.swing.JCTextField prodDescription;
-    private app.bolivia.swing.JCTextField prodDescription1;
-    private app.bolivia.swing.JCTextField prodPurchPrice;
-    private app.bolivia.swing.JCTextField prodPurchPrice1;
-    private app.bolivia.swing.JCTextField prodRetailPrice;
-    private app.bolivia.swing.JCTextField prodRetailPrice1;
-    private app.bolivia.swing.JCTextField prodSearch;
-    private rojeru_san.complementos.RSTableMetro productTable;
     // End of variables declaration//GEN-END:variables
 }

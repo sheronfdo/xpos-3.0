@@ -28,7 +28,7 @@ public class Category extends javax.swing.JPanel {
      */
     public Category() {
         initComponents();
-        fillCategoryTable(null);
+        clearCategoryPanel();
     }
 
     public void clearCategoryPanel() {

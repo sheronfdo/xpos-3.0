@@ -26,7 +26,7 @@ public class Main extends javax.swing.JFrame {
         runDateTime();
         setVisibleFalseAllPanels();
     }
-    
+
     Timer myTimer = new Timer();
     TimerTask task = new TimerTask() {
         @Override
@@ -38,11 +38,11 @@ public class Main extends javax.swing.JFrame {
             systemDate.setText(k.format(d));
         }
     };
-    
+
     public void runDateTime() {
         myTimer.scheduleAtFixedRate(task, 0, 500);
     }
-    
+
     public void setVisibleFalseAllPanels() {
         dashboard.setVisible(false);
         supplier.setVisible(false);
@@ -55,8 +55,10 @@ public class Main extends javax.swing.JFrame {
         ExIncome.setVisible(false);
         Purchase.setVisible(false);
         Sale.setVisible(false);
-//        Batch.setVisible(false);
+        Batch.setVisible(false);
         HRM.setVisible(false);
+        Brand.setVisible(false);
+        Category.setVisible(false);
     }
 
     /**
@@ -80,6 +82,8 @@ public class Main extends javax.swing.JFrame {
         sale = new javax.swing.JButton();
         batch = new javax.swing.JButton();
         hrm = new javax.swing.JButton();
+        brand = new javax.swing.JButton();
+        category = new javax.swing.JButton();
         Header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -88,6 +92,7 @@ public class Main extends javax.swing.JFrame {
         systemTime = new javax.swing.JLabel();
         MainPanel = new javax.swing.JPanel();
         dashboard = new javax.swing.JPanel();
+        Batch = new com.xpos.gui.ProductBatch();
         supplier = new com.xpos.gui.Supply();
         Sale = new com.xpos.gui.Sale();
         Purchase = new com.xpos.gui.Purchase();
@@ -104,6 +109,8 @@ public class Main extends javax.swing.JFrame {
         employee = new javax.swing.JButton();
         userProfile = new javax.swing.JButton();
         userPosition = new javax.swing.JButton();
+        Brand = new com.xpos.gui.Brand();
+        Category = new com.xpos.gui.Category();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -232,6 +239,30 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        brand.setBackground(new java.awt.Color(0, 60, 128));
+        brand.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        brand.setForeground(new java.awt.Color(255, 255, 255));
+        brand.setText("BRAND");
+        brand.setBorder(null);
+        brand.setFocusPainted(false);
+        brand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                brandActionPerformed(evt);
+            }
+        });
+
+        category.setBackground(new java.awt.Color(0, 60, 128));
+        category.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        category.setForeground(new java.awt.Color(255, 255, 255));
+        category.setText("CATEGORY");
+        category.setBorder(null);
+        category.setFocusPainted(false);
+        category.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SideBar2Layout = new javax.swing.GroupLayout(SideBar2);
         SideBar2.setLayout(SideBar2Layout);
         SideBar2Layout.setHorizontalGroup(
@@ -248,7 +279,9 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(purchase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(batch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(hrm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(hrm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(brand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         SideBar2Layout.setVerticalGroup(
@@ -274,6 +307,10 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(sale, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(batch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(brand, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -364,6 +401,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         MainPanel.add(dashboard, "card3");
+        MainPanel.add(Batch, "card11");
         MainPanel.add(supplier, "card2");
         MainPanel.add(Sale, "card4");
         MainPanel.add(Purchase, "card5");
@@ -459,6 +497,8 @@ public class Main extends javax.swing.JFrame {
         );
 
         MainPanel.add(HRM, "card2");
+        MainPanel.add(Brand, "card12");
+        MainPanel.add(Category, "card13");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -538,19 +578,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_saleActionPerformed
 
     private void batchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchActionPerformed
-//        Dashboard.setVisible(false);
-//        Supplier.setVisible(false);
-//        Product.setVisible(false);
-//        Customer.setVisible(false);
-//        EmpPosition.setVisible(false);
-//        Employee.setVisible(false);
-//        UserProfile.setVisible(false);
-//        ExCost.setVisible(false);
-//        ExIncome.setVisible(false);
-//        Purchase.setVisible(false);
-//        Sale.setVisible(false);
-//        Batch.setVisible(true);
-//        HRM.setVisible(false);
+        setVisibleFalseAllPanels();
+        Batch.setVisible(true);
     }//GEN-LAST:event_batchActionPerformed
 
     private void hrmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hrmActionPerformed
@@ -575,6 +604,16 @@ public class Main extends javax.swing.JFrame {
         HRM.setVisible(true);
         EmpPosition.setVisible(true);
     }//GEN-LAST:event_userPositionActionPerformed
+
+    private void brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandActionPerformed
+        setVisibleFalseAllPanels();
+        Brand.setVisible(true);
+    }//GEN-LAST:event_brandActionPerformed
+
+    private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
+        setVisibleFalseAllPanels();
+        Category.setVisible(true);
+    }//GEN-LAST:event_categoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -612,6 +651,9 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.xpos.gui.ProductBatch Batch;
+    private com.xpos.gui.Brand Brand;
+    private com.xpos.gui.Category Category;
     private com.xpos.gui.Customer Customer;
     private com.xpos.gui.EmpPosition EmpPosition;
     private com.xpos.gui.Employee Employee;
@@ -628,6 +670,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel SideBar2;
     private com.xpos.gui.UserProfile UserProfile;
     private javax.swing.JButton batch;
+    private javax.swing.JButton brand;
+    private javax.swing.JButton category;
     private javax.swing.JButton customer;
     private javax.swing.JPanel dashboard;
     private javax.swing.JButton employee;

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,22 +21,14 @@ public class Product extends javax.swing.JPanel {
 
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    int supplierId;
-    int customerId;
-    int xCostId;
-    int xIncomeId;
-    int empPosId;
-    int employeeId;
     int productId;
-    int batchId;
-    int userProId;
 
     /**
      * Creates new form Product
      */
     public Product() {
         initComponents();
-        fillProductTable(null);
+        clearProductPanel();
     }
 
     /**
@@ -54,15 +47,15 @@ public class Product extends javax.swing.JPanel {
         prodSearch = new app.bolivia.swing.JCTextField();
         jPanel10 = new javax.swing.JPanel();
         prodDescription = new app.bolivia.swing.JCTextField();
-        prodPurchPrice = new app.bolivia.swing.JCTextField();
-        prodRetailPrice = new app.bolivia.swing.JCTextField();
+        prodReOrderLevel = new app.bolivia.swing.JCTextField();
+        prodOrderedQuantity = new app.bolivia.swing.JCTextField();
         prodQuantity = new app.bolivia.swing.JCTextField();
         prodButInsert = new javax.swing.JButton();
         prodButEdit = new javax.swing.JButton();
         prodButDelete = new javax.swing.JButton();
         prodButCancel = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        prodBrandCombo = new javax.swing.JComboBox<>();
+        prodCategoryCombo = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1440, 937));
@@ -140,22 +133,22 @@ public class Product extends javax.swing.JPanel {
         prodDescription.setPlaceholder("Description");
         prodDescription.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodPurchPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Re-Order Level", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodPurchPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodPurchPrice.setPhColor(new java.awt.Color(0, 51, 255));
-        prodPurchPrice.setPlaceholder("Re-Order Level");
-        prodPurchPrice.setPreferredSize(new java.awt.Dimension(200, 30));
+        prodReOrderLevel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Re-Order Level", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        prodReOrderLevel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        prodReOrderLevel.setPhColor(new java.awt.Color(0, 51, 255));
+        prodReOrderLevel.setPlaceholder("Re-Order Level");
+        prodReOrderLevel.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        prodRetailPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Ordered Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodRetailPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodRetailPrice.setPhColor(new java.awt.Color(0, 51, 255));
-        prodRetailPrice.setPlaceholder("Ordered Quantity");
-        prodRetailPrice.setPreferredSize(new java.awt.Dimension(200, 30));
+        prodOrderedQuantity.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Ordered Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        prodOrderedQuantity.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        prodOrderedQuantity.setPhColor(new java.awt.Color(0, 51, 255));
+        prodOrderedQuantity.setPlaceholder("Ordered Quantity");
+        prodOrderedQuantity.setPreferredSize(new java.awt.Dimension(200, 30));
 
         prodQuantity.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         prodQuantity.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         prodQuantity.setPhColor(new java.awt.Color(0, 51, 255));
-        prodQuantity.setPlaceholder("Quantity");
+        prodQuantity.setPlaceholder("Quantity (In Stock)");
         prodQuantity.setPreferredSize(new java.awt.Dimension(200, 30));
 
         prodButInsert.setBackground(new java.awt.Color(0, 60, 128));
@@ -206,9 +199,15 @@ public class Product extends javax.swing.JPanel {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Brand" }));
+        prodBrandCombo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        prodBrandCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Brand" }));
+        prodBrandCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Brand", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        prodBrandCombo.setOpaque(false);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category" }));
+        prodCategoryCombo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        prodCategoryCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category" }));
+        prodCategoryCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        prodCategoryCombo.setOpaque(false);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -219,7 +218,7 @@ public class Product extends javax.swing.JPanel {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodBrandCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel10Layout.createSequentialGroup()
                                 .addComponent(prodButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -229,11 +228,11 @@ public class Product extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(prodButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(prodDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(prodPurchPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(prodRetailPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodReOrderLevel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodOrderedQuantity, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(prodQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(prodCategoryCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -242,13 +241,13 @@ public class Product extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(prodDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(prodBrandCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(prodCategoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodPurchPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(prodReOrderLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prodRetailPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(prodOrderedQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(prodQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -284,22 +283,66 @@ public class Product extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void loadProdBrandCombo() {
+        try {
+            ResultSet rs = DbConnect.getFromDB("select Id,BrandName from brand where status=1");
+            Vector v = new Vector();
+            v.add("Select Brand");
+            while (rs.next()) {
+                String position = rs.getString("Id") + " - " + rs.getString("BrandName");
+                v.add(position);
+            }
+            prodBrandCombo.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadProdCategoryCombo() {
+        try {
+            ResultSet rs = DbConnect.getFromDB("select Id,Description from category where status=1");
+            Vector v = new Vector();
+            v.add("Select Category");
+            while (rs.next()) {
+                String position = rs.getString("Id") + " - " + rs.getString("Description");
+                v.add(position);
+            }
+            prodCategoryCombo.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void fillProductTable(String query) {
         tablemodel = (DefaultTableModel) productTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
-            query = "select * from product where Status=1";
+            query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId, category.Description as categoryName,"
+                    + " product.Description as description, product.TotalQuantity as totalQuantity,"
+                    + " product.OrderedQuantity as orderedQuantity, product.ReOrderLevel as reOrderLevel"
+                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                    + " WHERE product.Status = 1";
         }
         try {
             ResultSet rs = DbConnect.getFromDB(query);
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getInt("Id"));
-                v.add(rs.getString("Barcode"));
                 v.add(rs.getString("Description"));
-                v.add(rs.getFloat("PurchasePrice"));
-                v.add(rs.getFloat("RetailPrice"));
-                v.add(rs.getInt("TotalQuantity"));
+                v.add(rs.getString("brandId") + " - " + rs.getString("brandName"));
+                v.add(rs.getString("categoryId") + " - " + rs.getString("categoryName"));
+                v.add(rs.getInt("reOrderLevel"));
+                v.add(rs.getInt("orderedQuantity"));
+                v.add(rs.getInt("totalQuantity"));
 
                 tablemodel.addRow(v);
             }
@@ -313,10 +356,11 @@ public class Product extends javax.swing.JPanel {
     }
 
     public void clearProductPanel() {
-        //prodBarcode.setText("");
+        loadProdBrandCombo();
+        loadProdCategoryCombo();
         prodDescription.setText("");
-        prodPurchPrice.setText("");
-        prodRetailPrice.setText("");
+        prodReOrderLevel.setText("");
+        prodOrderedQuantity.setText("");
         prodQuantity.setText("");
         prodSearch.setText("");
         fillProductTable(null);
@@ -325,11 +369,12 @@ public class Product extends javax.swing.JPanel {
     private void productTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTableMouseClicked
         int selectedRow = productTable.getSelectedRow();
         productId = Integer.parseInt(productTable.getValueAt(selectedRow, 0).toString());
-        //prodBarcode.setText(productTable.getValueAt(selectedRow, 1).toString());
-        prodDescription.setText(productTable.getValueAt(selectedRow, 2).toString());
-        prodPurchPrice.setText(productTable.getValueAt(selectedRow, 3).toString());
-        prodRetailPrice.setText(productTable.getValueAt(selectedRow, 4).toString());
-        prodQuantity.setText(productTable.getValueAt(selectedRow, 5).toString());
+        prodDescription.setText(productTable.getValueAt(selectedRow, 1).toString());
+        prodBrandCombo.setSelectedItem(productTable.getValueAt(selectedRow, 2).toString());
+        prodCategoryCombo.setSelectedItem(productTable.getValueAt(selectedRow, 3).toString());
+        prodReOrderLevel.setText(productTable.getValueAt(selectedRow, 4).toString());
+        prodOrderedQuantity.setText(productTable.getValueAt(selectedRow, 5).toString());
+        prodQuantity.setText(productTable.getValueAt(selectedRow, 6).toString());
     }//GEN-LAST:event_productTableMouseClicked
 
     private void prodSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodSearchActionPerformed
@@ -337,53 +382,59 @@ public class Product extends javax.swing.JPanel {
     }//GEN-LAST:event_prodSearchActionPerformed
 
     private void prodSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodSearchKeyReleased
-        String query = "select * from product where description like '%" + prodSearch.getText() + "%' and status=1";
+        String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId, category.Description as categoryName,"
+                    + " product.Description as description, product.TotalQuantity as totalQuantity,"
+                    + " product.OrderedQuantity as orderedQuantity, product.ReOrderLevel as reOrderLevel"
+                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                    + " where product.Description like '%" + prodSearch.getText() + "%' and product.Status=1";
         fillProductTable(query);
     }//GEN-LAST:event_prodSearchKeyReleased
 
     private void prodButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButInsertActionPerformed
-        //String barcode = prodBarcode.getText();
         String description = prodDescription.getText();
-        double purchasePrice = Double.parseDouble(prodPurchPrice.getText());
-        double retailPrice = Double.parseDouble(prodRetailPrice.getText());
+        int brandId = Integer.parseInt(prodBrandCombo.getSelectedItem().toString().trim().split(" - ")[0]);
+        int categoryId = Integer.parseInt(prodCategoryCombo.getSelectedItem().toString().trim().split(" - ")[0]);
+        int reOrderLevel = Integer.parseInt(prodReOrderLevel.getText());
+        int orderedQuantity = Integer.parseInt(prodOrderedQuantity.getText());
         int quantity = Integer.parseInt(prodQuantity.getText());
-//        String query = "INSERT INTO `product`( `Barcode`, `Description`,"
-//                + " `PurchasePrice`, `RetailPrice`, `TotalQuantity`) "
-//                + "VALUES ('" + barcode + "','" + description + "'," + purchasePrice
-//                + "," + retailPrice + "," + quantity + ")";
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearProductPanel();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+        String query = "INSERT INTO `product`(`Brand_Id`, `Category_Id`, `Description`,"
+                + " `TotalQuantity`, `OrderedQuantity`, `ReOrderLevel`)"
+                + " VALUES ('" + brandId + "','" + categoryId + "','" + description + "','" + quantity + "','" + orderedQuantity + "','" + reOrderLevel + "')";
+
+        try {
+            DbConnect.pushToDB(query);
+            clearProductPanel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_prodButInsertActionPerformed
 
     private void prodButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButEditActionPerformed
-        //String barcode = prodBarcode.getText();
         String description = prodDescription.getText();
-        double purchasePrice = Double.parseDouble(prodPurchPrice.getText());
-        double retailPrice = Double.parseDouble(prodRetailPrice.getText());
+        int brandId = Integer.parseInt(prodBrandCombo.getSelectedItem().toString().trim().split(" - ")[0]);
+        int categoryId = Integer.parseInt(prodCategoryCombo.getSelectedItem().toString().trim().split(" - ")[0]);
+        int reOrderLevel = Integer.parseInt(prodReOrderLevel.getText());
+        int orderedQuantity = Integer.parseInt(prodOrderedQuantity.getText());
         int quantity = Integer.parseInt(prodQuantity.getText());
-
-//        String query = "UPDATE `product` SET `Barcode`='" + barcode + "',`Description`='" + description
-//                + "',`PurchasePrice`='" + purchasePrice + "',`RetailPrice`='" + retailPrice
-//                + "',`TotalQuantity`='" + quantity + "' WHERE Id=" + productId;
-//
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearProductPanel();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String query = "UPDATE `product` SET `Brand_Id`='"+brandId+"',`Category_Id`='"+categoryId+"'"
+                + ",`Description`='"+description+"',`TotalQuantity`='"+quantity+"',`OrderedQuantity`='"+orderedQuantity+"'"
+                + ",`ReOrderLevel`='"+reOrderLevel+"' WHERE Id=" + productId;
+        try {
+            DbConnect.pushToDB(query);
+            clearProductPanel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_prodButEditActionPerformed
 
     private void prodButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButDeleteActionPerformed
@@ -406,20 +457,20 @@ public class Product extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> prodBrandCombo;
     private javax.swing.JButton prodButCancel;
     private javax.swing.JButton prodButDelete;
     private javax.swing.JButton prodButEdit;
     private javax.swing.JButton prodButInsert;
+    private javax.swing.JComboBox<String> prodCategoryCombo;
     private app.bolivia.swing.JCTextField prodDescription;
-    private app.bolivia.swing.JCTextField prodPurchPrice;
+    private app.bolivia.swing.JCTextField prodOrderedQuantity;
     private app.bolivia.swing.JCTextField prodQuantity;
-    private app.bolivia.swing.JCTextField prodRetailPrice;
+    private app.bolivia.swing.JCTextField prodReOrderLevel;
     private app.bolivia.swing.JCTextField prodSearch;
     private rojeru_san.complementos.RSTableMetro productTable;
     // End of variables declaration//GEN-END:variables

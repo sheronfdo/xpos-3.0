@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -57,16 +57,16 @@
                   <Component id="selectCustomer" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-              <Component id="jPanel30" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel32" min="-2" max="-2" attributes="0"/>
-                  <Component id="jPanel31" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel30" min="-2" pref="99" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jPanel31" max="32767" attributes="0"/>
+                  <Component id="jPanel32" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel28" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel29" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jPanel28" max="32767" attributes="0"/>
+                  <Component id="jPanel29" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -125,13 +125,12 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="saleProdBarcode" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                       <Component id="saleProdDesc" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane12" pref="117" max="32767" attributes="0"/>
+                  <Component id="jScrollPane12" pref="96" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -300,7 +299,6 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="saleProdBatchNumber" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane13" pref="0" max="32767" attributes="0"/>
@@ -459,12 +457,19 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="saleItemDisAmount" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="saleItemDisPercent" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="saleItemTotal" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="saleItemTotal" min="-2" pref="177" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="saleItemDisAmount" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="saleItemDisPercent" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="190" max="32767" attributes="0"/>
+                          <Component id="saleAddToTable" min="-2" pref="200" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="108" max="32767" attributes="0"/>
-                  <Component id="saleAddToTable" min="-2" pref="200" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -473,39 +478,32 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="saleProdId" min="-2" pref="45" max="-2" attributes="0"/>
-                  <EmptySpace pref="7" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="saleBarcode" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               </Group>
               <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="saleDesc" alignment="0" max="32767" attributes="0"/>
+                      <Component id="saleManufacDate" alignment="0" max="32767" attributes="0"/>
+                      <Component id="salePurchasePrice" alignment="0" max="32767" attributes="0"/>
+                      <Component id="saleRetailPrice" alignment="0" max="32767" attributes="0"/>
+                      <Component id="saleItemTotal" alignment="1" min="-2" pref="45" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                          <Component id="saleAddToTable" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="saleDiscount" alignment="1" max="32767" attributes="0"/>
+                          <Component id="saleQuantity" alignment="1" max="32767" attributes="0"/>
+                          <Component id="saleExpireDate" alignment="1" max="32767" attributes="0"/>
+                          <Component id="saleBatchNumber" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="saleDesc" alignment="0" max="32767" attributes="0"/>
-                              <Component id="saleManufacDate" alignment="0" max="32767" attributes="0"/>
-                              <Component id="salePurchasePrice" alignment="0" max="32767" attributes="0"/>
-                              <Component id="saleRetailPrice" alignment="0" max="32767" attributes="0"/>
-                              <Component id="saleItemTotal" alignment="1" min="-2" pref="45" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="saleDiscount" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="saleQuantity" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="saleExpireDate" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="saleBatchNumber" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="saleItemDisPercent" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="saleItemDisAmount" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="saleItemDisPercent" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="saleItemDisAmount" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="saleAddToTable" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -1318,7 +1316,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane14" pref="534" max="32767" attributes="0"/>
+                  <Component id="jScrollPane14" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

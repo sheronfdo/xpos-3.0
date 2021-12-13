@@ -5,12 +5,19 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class Sale extends javax.swing.JPanel {
-
+DefaultTableModel tablemodel;
     /**
      * Creates new form Sale
      */
@@ -18,6 +25,7 @@ public class Sale extends javax.swing.JPanel {
         initComponents();
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,7 +108,7 @@ public class Sale extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Brand", "Category", "Description", "Total Quantity"
+                "ID", "Category", "Brand", "Description", "Total Quantity"
             }
         ));
         saleProdTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
@@ -720,29 +728,29 @@ public class Sale extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saleProdTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleProdTableMouseClicked
-//        fillSaleBatchTable(null);
-//        saleBatchNumber.setText("");
-//        saleManufacDate.setText("");
-//        saleExpireDate.setText("");
-//        saleQuantity.setText("");
-//        saleDiscount.setText("");
-//        saleItemTotal.setText("");
+        fillSaleBatchTable(null);
+        saleBatchNumber.setText("");
+        saleManufacDate.setText("");
+        saleExpireDate.setText("");
+        saleQuantity.setText("");
+        saleDiscount.setText("");
+        saleItemTotal.setText("");
     }//GEN-LAST:event_saleProdTableMouseClicked
 
     private void saleProdBarcodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdBarcodeKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-//            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Barcode="
-//            + saleProdBarcode.getText();
-//            fillSaleProdTable(query);
-//        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
+            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Barcode="
+            + saleProdBarcode.getText();
+            fillSaleProdTable(query);
+        }
     }//GEN-LAST:event_saleProdBarcodeKeyReleased
 
     private void saleProdDescKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdDescKeyReleased
         String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-        + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` "
-        + "WHERE status=1 and Description like '%" + saleProdDesc.getText() + "%'";
-        //fillSaleProdTable(query);
+                + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` "
+                + "WHERE status=1 and Description like '%" + saleProdDesc.getText() + "%'";
+        fillSaleProdTable(query);
     }//GEN-LAST:event_saleProdDescKeyReleased
 
     private void saleBatchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleBatchTableMouseClicked
@@ -753,137 +761,137 @@ public class Sale extends javax.swing.JPanel {
     }//GEN-LAST:event_saleBatchTableMouseClicked
 
     private void saleProdBatchNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdBatchNumberKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String query = "SELECT "
-//            + "batchesofproduct.BatchNumber as BatchNumber, "
-//            + "batchesofproduct.QuantityByBatch as Quantity, "
-//            + "batchesofproduct.ManufactureDate as ManufactureDate, "
-//            + "batchesofproduct.ExpireDate as ExpireDate "
-//            + "from batchesofproduct WHERE batchesofproduct.BatchNumber="
-//            + saleProdBatchNumber.getText() + " and batchesofproduct.Product_Id=" + saleProdId.getText();
-//            fillSaleBatchTable(query);
-//        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String query = "SELECT "
+            + "batchesofproduct.BatchNumber as BatchNumber, "
+            + "batchesofproduct.QuantityByBatch as Quantity, "
+            + "batchesofproduct.ManufactureDate as ManufactureDate, "
+            + "batchesofproduct.ExpireDate as ExpireDate "
+            + "from batchesofproduct WHERE batchesofproduct.BatchNumber="
+            + saleProdBatchNumber.getText() + " and batchesofproduct.Product_Id=" + saleProdId.getText();
+            fillSaleBatchTable(query);
+        }
     }//GEN-LAST:event_saleProdBatchNumberKeyReleased
 
     private void saleProdIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdIdKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-//            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Id="
-//            + saleProdId.getText();
-//
-//            saleBarcode.setText("");
-//            saleDesc.setText("");
-//            saleExpireDate.setText("");
-//            saleManufacDate.setText("");
-//            saleRetailPrice.setText("");
-//            salePurchasePrice.setText("");
-//            saleQuantity.setText("");
-//            saleBatchNumber.setText("");
-//            saleDiscount.setText("");
-//            saleItemTotal.setText("");
-//
-//            fillSaleProdTable(query);
-//
-//            tablemodel = (DefaultTableModel) saleBatchTable.getModel();
-//            tablemodel.setRowCount(0);
-//        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
+            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Id="
+            + saleProdId.getText();
+
+            saleBarcode.setText("");
+            saleDesc.setText("");
+            saleExpireDate.setText("");
+            saleManufacDate.setText("");
+            saleRetailPrice.setText("");
+            salePurchasePrice.setText("");
+            saleQuantity.setText("");
+            saleBatchNumber.setText("");
+            saleDiscount.setText("");
+            saleItemTotal.setText("");
+
+            fillSaleProdTable(query);
+
+            tablemodel = (DefaultTableModel) saleBatchTable.getModel();
+            tablemodel.setRowCount(0);
+        }
     }//GEN-LAST:event_saleProdIdKeyReleased
 
     private void saleBarcodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleBarcodeKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-//            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Barcode="
-//            + saleBarcode.getText();
-//
-//            saleProdId.setText("");
-//            saleDesc.setText("");
-//            saleExpireDate.setText("");
-//            saleManufacDate.setText("");
-//            saleRetailPrice.setText("");
-//            salePurchasePrice.setText("");
-//            saleQuantity.setText("");
-//            saleBatchNumber.setText("");
-//            saleDiscount.setText("");
-//            saleItemTotal.setText("");
-//
-//            fillSaleProdTable(query);
-//
-//            tablemodel = (DefaultTableModel) saleBatchTable.getModel();
-//            tablemodel.setRowCount(0);
-//        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
+            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Barcode="
+            + saleBarcode.getText();
+
+            saleProdId.setText("");
+            saleDesc.setText("");
+            saleExpireDate.setText("");
+            saleManufacDate.setText("");
+            saleRetailPrice.setText("");
+            salePurchasePrice.setText("");
+            saleQuantity.setText("");
+            saleBatchNumber.setText("");
+            saleDiscount.setText("");
+            saleItemTotal.setText("");
+
+            fillSaleProdTable(query);
+
+            tablemodel = (DefaultTableModel) saleBatchTable.getModel();
+            tablemodel.setRowCount(0);
+        }
     }//GEN-LAST:event_saleBarcodeKeyReleased
 
     private void saleBatchNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleBatchNumberKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            int typedBatchNumber = Integer.parseInt(saleBatchNumber.getText());
-//            int productId = Integer.parseInt(saleProdId.getText());
-//            String query = "SELECT * from batchesofproduct WHERE "
-//            + "batchesofproduct.BatchNumber=" + typedBatchNumber + " and batchesofproduct.Product_Id=" + productId;
-//            try {
-//                ResultSet rs = DbConnect.getFromDB(query);
-//                if (rs.next()) {
-//                    saleManufacDate.setText(rs.getDate("ManufactureDate").toString());
-//                    saleExpireDate.setText(rs.getDate("ExpireDate").toString());
-//                }
-//            } catch (NullPointerException e) {
-//                e.printStackTrace();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int typedBatchNumber = Integer.parseInt(saleBatchNumber.getText());
+            int productId = Integer.parseInt(saleProdId.getText());
+            String query = "SELECT * from batchesofproduct WHERE "
+            + "batchesofproduct.BatchNumber=" + typedBatchNumber + " and batchesofproduct.Product_Id=" + productId;
+            try {
+                ResultSet rs = DbConnect.getFromDB(query);
+                if (rs.next()) {
+                    saleManufacDate.setText(rs.getDate("ManufactureDate").toString());
+                    saleExpireDate.setText(rs.getDate("ExpireDate").toString());
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }//GEN-LAST:event_saleBatchNumberKeyReleased
 
     private void saleQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleQuantityKeyReleased
-//        if (!saleQuantity.getText().equals("")) {
-//            calSaleItemTotal();
-//        }
+        if (!saleQuantity.getText().equals("")) {
+            calSaleItemTotal();
+        }
     }//GEN-LAST:event_saleQuantityKeyReleased
 
     private void saleAddToTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleAddToTableActionPerformed
-//        String prodId = saleProdId.getText();
-//        String description = saleDesc.getText();
-//        String batch = saleBatchNumber.getText();
-//        String retailPrice = saleRetailPrice.getText();
-//        String quantity = saleQuantity.getText();
-//        Double total = Double.parseDouble(retailPrice) * Integer.parseInt(quantity);
-//        String totWithDisc = saleItemTotal.getText();
-//        Double discount = total - Double.parseDouble(totWithDisc);
-//
-//        Vector v = new Vector();
-//        v.add(prodId);
-//        v.add(description);
-//        v.add(batch);
-//        v.add(retailPrice);
-//        v.add(quantity);
-//        v.add(total);
-//        v.add(discount);
-//        v.add(totWithDisc);
-//
-//        tablemodel = (DefaultTableModel) saleTable.getModel();
-//        tablemodel.addRow(v);
+        String prodId = saleProdId.getText();
+        String description = saleDesc.getText();
+        String batch = saleBatchNumber.getText();
+        String retailPrice = saleRetailPrice.getText();
+        String quantity = saleQuantity.getText();
+        Double total = Double.parseDouble(retailPrice) * Integer.parseInt(quantity);
+        String totWithDisc = saleItemTotal.getText();
+        Double discount = total - Double.parseDouble(totWithDisc);
+
+        Vector v = new Vector();
+        v.add(prodId);
+        v.add(description);
+        v.add(batch);
+        v.add(retailPrice);
+        v.add(quantity);
+        v.add(total);
+        v.add(discount);
+        v.add(totWithDisc);
+
+        tablemodel = (DefaultTableModel) saleTable.getModel();
+        tablemodel.addRow(v);
     }//GEN-LAST:event_saleAddToTableActionPerformed
 
     private void saleDiscountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleDiscountKeyReleased
-//        if (!saleQuantity.getText().equals("")) {
-//            calSaleItemTotal();
-//        }
+        if (!saleQuantity.getText().equals("")) {
+            calSaleItemTotal();
+        }
     }//GEN-LAST:event_saleDiscountKeyReleased
 
     private void saleItemDisAmountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleItemDisAmountMouseClicked
-//        if (!saleQuantity.getText().equals("")) {
-//            calSaleItemTotal();
-//        }
+        if (!saleQuantity.getText().equals("")) {
+            calSaleItemTotal();
+        }
     }//GEN-LAST:event_saleItemDisAmountMouseClicked
 
     private void saleItemDisPercentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleItemDisPercentMouseClicked
-//        if (!saleQuantity.getText().equals("")) {
-//            calSaleItemTotal();
-//        }
+        if (!saleQuantity.getText().equals("")) {
+            calSaleItemTotal();
+        }
     }//GEN-LAST:event_saleItemDisPercentMouseClicked
 
     private void saleCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleCompleteActionPerformed

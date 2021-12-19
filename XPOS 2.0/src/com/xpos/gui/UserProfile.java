@@ -29,7 +29,7 @@ public class UserProfile extends javax.swing.JPanel {
      */
     public UserProfile() {
         initComponents();
-        loadUserProCombo();
+        clearUserProPanel();
     }
 
     public void clearUserProPanel() {
@@ -96,6 +96,7 @@ public class UserProfile extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        isActive = new javax.swing.ButtonGroup();
         jLabel10 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         userProButInsert = new javax.swing.JButton();
@@ -181,12 +182,14 @@ public class UserProfile extends javax.swing.JPanel {
         jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Is Active", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
         userProActive.setBackground(new java.awt.Color(255, 255, 255));
+        isActive.add(userProActive);
         userProActive.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         userProActive.setForeground(new java.awt.Color(26, 140, 255));
         userProActive.setSelected(true);
         userProActive.setText("Active");
 
         userProNotActive.setBackground(new java.awt.Color(255, 255, 255));
+        isActive.add(userProNotActive);
         userProNotActive.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         userProNotActive.setForeground(new java.awt.Color(26, 140, 255));
         userProNotActive.setText("Not-Active");
@@ -422,6 +425,7 @@ public class UserProfile extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup isActive;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;

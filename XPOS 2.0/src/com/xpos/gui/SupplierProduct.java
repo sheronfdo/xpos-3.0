@@ -5,17 +5,130 @@
  */
 package com.xpos.gui;
 
+import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class SupplierProduct extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+
     /**
      * Creates new form SupplierProduct
      */
     public SupplierProduct() {
         initComponents();
+        clearSupplierProductPanel();
+    }
+
+    private void clearSupplierProductPanel() {
+        fillSupplierTable(null);
+        fillProductTable(null);
+        fillSupplierProductTable(null);
+        supplierId.setText("");
+        supplierName.setText("");
+        productId.setText("");
+        productName.setText("");
+        itemCode.setText("");
+    }
+
+    public void fillProductTable(String query) {
+        tablemodel = (DefaultTableModel) supProdProductTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId, category.Description as categoryName,"
+                    + " product.Description as description, product.TotalQuantity as totalQuantity,"
+                    + " product.OrderedQuantity as orderedQuantity, product.ReOrderLevel as reOrderLevel"
+                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                    + " WHERE product.Status = 1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getString("Description"));
+                v.add(rs.getString("brandId") + " - " + rs.getString("brandName"));
+                v.add(rs.getString("categoryId") + " - " + rs.getString("categoryName"));
+                v.add(rs.getInt("reOrderLevel"));
+                v.add(rs.getInt("orderedQuantity"));
+                v.add(rs.getInt("totalQuantity"));
+
+                tablemodel.addRow(v);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillSupplierTable(String query) {
+        tablemodel = (DefaultTableModel) supProdSupplierTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "select * from supplier where Status=1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getString("Name"));
+                v.add(rs.getString("Address"));
+                v.add(rs.getString("TelephoneNo"));
+                v.add(rs.getString("RegisterNo"));
+                tablemodel.addRow(v);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillSupplierProductTable(String query) {
+        tablemodel = (DefaultTableModel) supplierProductTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "SELECT supplierproduct.`Supplier_Id` as SupplierId, supplierproduct.`Product_Id` as ProductId,"
+                    + " supplierproduct. `ItemCode` as ItemCode,supplier.Name as supplierName, product.Description as productName"
+                    + " FROM ((`supplierproduct` JOIN supplier on supplierproduct.Supplier_Id=supplier.Id)"
+                    + " JOIN product on supplierproduct.Product_Id=product.Id) WHERE supplierproduct.Status=1";
+        }
+        ResultSet rs;
+        try {
+            rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("SupplierId"));
+                v.add(rs.getString("supplierName"));
+                v.add(rs.getInt("ProductId"));
+                v.add(rs.getString("productName"));
+                v.add(rs.getString("ItemCode"));
+                tablemodel.addRow(v);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SupplierProduct.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SupplierProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -29,28 +142,28 @@ public class SupplierProduct extends javax.swing.JPanel {
 
         jLabel5 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        supName = new app.bolivia.swing.JCTextField();
-        supButInsert = new javax.swing.JButton();
-        supButEdit = new javax.swing.JButton();
-        supButDelete = new javax.swing.JButton();
-        supButCancel = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        supName1 = new app.bolivia.swing.JCTextField();
-        jLabel2 = new javax.swing.JLabel();
-        supName2 = new app.bolivia.swing.JCTextField();
+        supplierId = new app.bolivia.swing.JCTextField();
+        supProdInsert = new javax.swing.JButton();
+        supProdEdit = new javax.swing.JButton();
+        supProdDelete = new javax.swing.JButton();
+        supProdCancel = new javax.swing.JButton();
+        supplierName = new javax.swing.JLabel();
+        productId = new app.bolivia.swing.JCTextField();
+        productName = new javax.swing.JLabel();
+        itemCode = new app.bolivia.swing.JCTextField();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        supplierTable = new rojeru_san.complementos.RSTableMetro();
-        supSearch = new app.bolivia.swing.JCTextField();
+        supplierProductTable = new rojeru_san.complementos.RSTableMetro();
+        supProductSearch = new app.bolivia.swing.JCTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        productTable = new rojeru_san.complementos.RSTableMetro();
-        prodSearch = new app.bolivia.swing.JCTextField();
+        supProdProductTable = new rojeru_san.complementos.RSTableMetro();
+        supProdProductSearch = new app.bolivia.swing.JCTextField();
         jPanel13 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        supplierTable1 = new rojeru_san.complementos.RSTableMetro();
-        supSearch1 = new app.bolivia.swing.JCTextField();
+        supProdSupplierTable = new rojeru_san.complementos.RSTableMetro();
+        supProdSupplierSearch = new app.bolivia.swing.JCTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -63,77 +176,87 @@ public class SupplierProduct extends javax.swing.JPanel {
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-        supName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Supplier ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        supName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        supName.setPhColor(new java.awt.Color(0, 51, 255));
-        supName.setPlaceholder("Supplier ID");
-        supName.setPreferredSize(new java.awt.Dimension(200, 30));
-
-        supButInsert.setBackground(new java.awt.Color(0, 60, 128));
-        supButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        supButInsert.setForeground(new java.awt.Color(255, 255, 255));
-        supButInsert.setText("INSERT");
-        supButInsert.setBorder(null);
-        supButInsert.setFocusPainted(false);
-        supButInsert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                supButInsertActionPerformed(evt);
+        supplierId.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Supplier ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        supplierId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        supplierId.setPhColor(new java.awt.Color(0, 51, 255));
+        supplierId.setPlaceholder("Supplier ID");
+        supplierId.setPreferredSize(new java.awt.Dimension(200, 30));
+        supplierId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                supplierIdKeyReleased(evt);
             }
         });
 
-        supButEdit.setBackground(new java.awt.Color(0, 60, 128));
-        supButEdit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        supButEdit.setForeground(new java.awt.Color(255, 255, 255));
-        supButEdit.setText("EDIT");
-        supButEdit.setBorder(null);
-        supButEdit.setFocusPainted(false);
-        supButEdit.addActionListener(new java.awt.event.ActionListener() {
+        supProdInsert.setBackground(new java.awt.Color(0, 60, 128));
+        supProdInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        supProdInsert.setForeground(new java.awt.Color(255, 255, 255));
+        supProdInsert.setText("INSERT");
+        supProdInsert.setBorder(null);
+        supProdInsert.setFocusPainted(false);
+        supProdInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                supButEditActionPerformed(evt);
+                supProdInsertActionPerformed(evt);
             }
         });
 
-        supButDelete.setBackground(new java.awt.Color(0, 60, 128));
-        supButDelete.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        supButDelete.setForeground(new java.awt.Color(255, 255, 255));
-        supButDelete.setText("DELETE");
-        supButDelete.setBorder(null);
-        supButDelete.setFocusPainted(false);
-        supButDelete.addActionListener(new java.awt.event.ActionListener() {
+        supProdEdit.setBackground(new java.awt.Color(0, 60, 128));
+        supProdEdit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        supProdEdit.setForeground(new java.awt.Color(255, 255, 255));
+        supProdEdit.setText("EDIT");
+        supProdEdit.setBorder(null);
+        supProdEdit.setFocusPainted(false);
+        supProdEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                supButDeleteActionPerformed(evt);
+                supProdEditActionPerformed(evt);
             }
         });
 
-        supButCancel.setBackground(new java.awt.Color(0, 60, 128));
-        supButCancel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        supButCancel.setForeground(new java.awt.Color(255, 255, 255));
-        supButCancel.setText("CANCEL");
-        supButCancel.setBorder(null);
-        supButCancel.setFocusPainted(false);
-        supButCancel.addActionListener(new java.awt.event.ActionListener() {
+        supProdDelete.setBackground(new java.awt.Color(0, 60, 128));
+        supProdDelete.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        supProdDelete.setForeground(new java.awt.Color(255, 255, 255));
+        supProdDelete.setText("DELETE");
+        supProdDelete.setBorder(null);
+        supProdDelete.setFocusPainted(false);
+        supProdDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                supButCancelActionPerformed(evt);
+                supProdDeleteActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Supplier Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        supProdCancel.setBackground(new java.awt.Color(0, 60, 128));
+        supProdCancel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        supProdCancel.setForeground(new java.awt.Color(255, 255, 255));
+        supProdCancel.setText("CANCEL");
+        supProdCancel.setBorder(null);
+        supProdCancel.setFocusPainted(false);
+        supProdCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supProdCancelActionPerformed(evt);
+            }
+        });
 
-        supName1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Select Product", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        supName1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        supName1.setPhColor(new java.awt.Color(0, 51, 255));
-        supName1.setPlaceholder("Select Product");
-        supName1.setPreferredSize(new java.awt.Dimension(200, 30));
+        supplierName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        supplierName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Supplier Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Supplier Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        productId.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Product ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        productId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        productId.setPhColor(new java.awt.Color(0, 51, 255));
+        productId.setPlaceholder("Product ID");
+        productId.setPreferredSize(new java.awt.Dimension(200, 30));
+        productId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                productIdKeyReleased(evt);
+            }
+        });
 
-        supName2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Item Code", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        supName2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        supName2.setPhColor(new java.awt.Color(0, 51, 255));
-        supName2.setPlaceholder("Item Code");
-        supName2.setPreferredSize(new java.awt.Dimension(200, 30));
+        productName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        productName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Product Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+
+        itemCode.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Item Code", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        itemCode.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        itemCode.setPhColor(new java.awt.Color(0, 51, 255));
+        itemCode.setPlaceholder("Item Code");
+        itemCode.setPreferredSize(new java.awt.Dimension(200, 30));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -144,74 +267,74 @@ public class SupplierProduct extends javax.swing.JPanel {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(supName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(supplierName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(supplierId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel11Layout.createSequentialGroup()
-                                .addComponent(supButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(supProdInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(supButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(supProdEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(supButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(supProdDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(supButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(supProdCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(supName1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(supName2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(productId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(productName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(itemCode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(supName, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(supplierId, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(supplierName, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(supName1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(productId, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(productName, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(supName2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(itemCode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(supButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(supButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(supButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(supButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(supProdInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(supProdEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(supProdDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(supProdCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(135, Short.MAX_VALUE))
         );
 
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
 
-        supplierTable.setModel(new javax.swing.table.DefaultTableModel(
+        supplierProductTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Supplier ID", "Supplier Name", "Product ID", "Product Name", "Item Code"
+                "Supplier ID", "Supplier Name", "Product ID", "Product Name", "Item Code"
             }
         ));
-        supplierTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        supplierTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        supplierTable.setRowHeight(25);
-        supplierTable.setRowMargin(0);
-        supplierTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        supplierTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        supplierProductTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        supplierProductTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        supplierProductTable.setRowHeight(25);
+        supplierProductTable.setRowMargin(0);
+        supplierProductTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        supplierProductTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                supplierTableMouseClicked(evt);
+                supplierProductTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(supplierTable);
+        jScrollPane1.setViewportView(supplierProductTable);
 
-        supSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        supSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        supSearch.setPhColor(new java.awt.Color(0, 51, 255));
-        supSearch.setPlaceholder("Search");
-        supSearch.setPreferredSize(new java.awt.Dimension(200, 30));
-        supSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+        supProductSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        supProductSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        supProductSearch.setPhColor(new java.awt.Color(0, 51, 255));
+        supProductSearch.setPlaceholder("Search");
+        supProductSearch.setPreferredSize(new java.awt.Dimension(200, 30));
+        supProductSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                supSearchKeyReleased(evt);
+                supProductSearchKeyReleased(evt);
             }
         });
 
@@ -221,7 +344,7 @@ public class SupplierProduct extends javax.swing.JPanel {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(supSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(supProductSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1045, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -229,7 +352,7 @@ public class SupplierProduct extends javax.swing.JPanel {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(supSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(supProductSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
@@ -240,7 +363,7 @@ public class SupplierProduct extends javax.swing.JPanel {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Prodcts", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
-        productTable.setModel(new javax.swing.table.DefaultTableModel(
+        supProdProductTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -248,31 +371,31 @@ public class SupplierProduct extends javax.swing.JPanel {
                 "ID", "Description", "Brand", "Category", "Re-Order Level", "Ordered Quantity", "Quantity"
             }
         ));
-        productTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        productTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        productTable.setRowHeight(25);
-        productTable.setRowMargin(0);
-        productTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        productTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        supProdProductTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        supProdProductTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        supProdProductTable.setRowHeight(25);
+        supProdProductTable.setRowMargin(0);
+        supProdProductTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        supProdProductTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                productTableMouseClicked(evt);
+                supProdProductTableMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(productTable);
+        jScrollPane3.setViewportView(supProdProductTable);
 
-        prodSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        prodSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        prodSearch.setPhColor(new java.awt.Color(0, 51, 255));
-        prodSearch.setPlaceholder("Search");
-        prodSearch.setPreferredSize(new java.awt.Dimension(200, 30));
-        prodSearch.addActionListener(new java.awt.event.ActionListener() {
+        supProdProductSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        supProdProductSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        supProdProductSearch.setPhColor(new java.awt.Color(0, 51, 255));
+        supProdProductSearch.setPlaceholder("Search");
+        supProdProductSearch.setPreferredSize(new java.awt.Dimension(200, 30));
+        supProdProductSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prodSearchActionPerformed(evt);
+                supProdProductSearchActionPerformed(evt);
             }
         });
-        prodSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+        supProdProductSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                prodSearchKeyReleased(evt);
+                supProdProductSearchKeyReleased(evt);
             }
         });
 
@@ -280,14 +403,14 @@ public class SupplierProduct extends javax.swing.JPanel {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(prodSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(supProdProductSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane3)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(prodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(supProdProductSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
@@ -295,7 +418,7 @@ public class SupplierProduct extends javax.swing.JPanel {
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Suppliers", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
-        supplierTable1.setModel(new javax.swing.table.DefaultTableModel(
+        supProdSupplierTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -303,26 +426,26 @@ public class SupplierProduct extends javax.swing.JPanel {
                 "ID", "Name", "Address", "Telephone No", "Register No"
             }
         ));
-        supplierTable1.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        supplierTable1.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        supplierTable1.setRowHeight(25);
-        supplierTable1.setRowMargin(0);
-        supplierTable1.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        supplierTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        supProdSupplierTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        supProdSupplierTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        supProdSupplierTable.setRowHeight(25);
+        supProdSupplierTable.setRowMargin(0);
+        supProdSupplierTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        supProdSupplierTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                supplierTable1MouseClicked(evt);
+                supProdSupplierTableMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(supplierTable1);
+        jScrollPane2.setViewportView(supProdSupplierTable);
 
-        supSearch1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        supSearch1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        supSearch1.setPhColor(new java.awt.Color(0, 51, 255));
-        supSearch1.setPlaceholder("Search");
-        supSearch1.setPreferredSize(new java.awt.Dimension(200, 30));
-        supSearch1.addKeyListener(new java.awt.event.KeyAdapter() {
+        supProdSupplierSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        supProdSupplierSearch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        supProdSupplierSearch.setPhColor(new java.awt.Color(0, 51, 255));
+        supProdSupplierSearch.setPlaceholder("Search");
+        supProdSupplierSearch.setPreferredSize(new java.awt.Dimension(200, 30));
+        supProdSupplierSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                supSearch1KeyReleased(evt);
+                supProdSupplierSearchKeyReleased(evt);
             }
         });
 
@@ -330,14 +453,14 @@ public class SupplierProduct extends javax.swing.JPanel {
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(supSearch1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+            .addComponent(supProdSupplierSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(supSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(supProdSupplierSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
         );
@@ -348,8 +471,8 @@ public class SupplierProduct extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -389,115 +512,149 @@ public class SupplierProduct extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void supButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supButInsertActionPerformed
-//        String name = supName.getText();
-//        String address = supAddress.getText();
-//        String teleNumber = supTeleNumber.getText();
-//        String regNumber = supRegisterNumber.getText();
-//
-//        String query = "INSERT INTO supplier(Name,Address,TelephoneNo,RegisterNo) VALUES('" + name + "','" + address + "','" + teleNumber + "'," + regNumber + ")";
-//        try {
-//            DbConnect.pushToDB(query);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        clearSupPanel();
-    }//GEN-LAST:event_supButInsertActionPerformed
+    private void supProdInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supProdInsertActionPerformed
+        int supId = Integer.parseInt(supplierId.getText().toString());
+        int prodId = Integer.parseInt(productId.getText().toString());
+        String itemCodeValue = itemCode.getText();
 
-    private void supButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supButEditActionPerformed
-//        String name = supName.getText();
-//        String address = supAddress.getText();
-//        String teleNumber = supTeleNumber.getText();
-//        String regNumber = supRegisterNumber.getText();
-//
-//        String query = "UPDATE supplier set Name='" + name + "', Address='" + address + "',TelephoneNo='" + teleNumber + "',RegisterNo=" + regNumber + " WHERE Id=" + supplierId;
-//        try {
-//            DbConnect.pushToDB(query);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        clearSupPanel();
-    }//GEN-LAST:event_supButEditActionPerformed
+        String query = "INSERT INTO `supplierproduct`(`Supplier_Id`, `Product_Id`, `ItemCode`) VALUES (" + supId + "," + prodId + ",'" + itemCodeValue + "')";
+        try {
+            DbConnect.pushToDB(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        clearSupplierProductPanel();
+    }//GEN-LAST:event_supProdInsertActionPerformed
 
-    private void supButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supButDeleteActionPerformed
-//        String query = "UPDATE supplier set Status=" + 0 + " where Id=" + supplierId;
-//        try {
-//            DbConnect.pushToDB(query);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        clearSupPanel();
-    }//GEN-LAST:event_supButDeleteActionPerformed
+    private void supProdEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supProdEditActionPerformed
+        int supId = Integer.parseInt(supplierId.getText().toString());
+        int prodId = Integer.parseInt(productId.getText().toString());
+        String itemCodeValue = itemCode.getText();
 
-    private void supButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supButCancelActionPerformed
-        //clearSupPanel();
-    }//GEN-LAST:event_supButCancelActionPerformed
+        String query = "UPDATE `supplierproduct` SET `ItemCode`='" + itemCodeValue + "' WHERE `Supplier_Id`=" + supId + " and `Product_Id`=" + prodId;
+        try {
+            DbConnect.pushToDB(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        clearSupplierProductPanel();
+    }//GEN-LAST:event_supProdEditActionPerformed
 
-    private void supplierTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supplierTableMouseClicked
-        int selRow = supplierTable.getSelectedRow();
-        //supplierId = Integer.parseInt(supplierTable.getValueAt(selRow, 0).toString());
+    private void supProdDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supProdDeleteActionPerformed
+        int supId = Integer.parseInt(supplierId.getText().toString());
+        int prodId = Integer.parseInt(productId.getText().toString());
+        String query = "UPDATE `supplierproduct` SET `Status`=" + 0 + " WHERE `Supplier_Id`=" + supId + " and `Product_Id`=" + prodId;
+        try {
+            DbConnect.pushToDB(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        clearSupplierProductPanel();
+    }//GEN-LAST:event_supProdDeleteActionPerformed
 
-        supName.setText(supplierTable.getValueAt(selRow, 1).toString());
-        //supAddress.setText(supplierTable.getValueAt(selRow, 2).toString());
-        //supTeleNumber.setText(supplierTable.getValueAt(selRow, 3).toString());
-        //supRegisterNumber.setText(supplierTable.getValueAt(selRow, 4).toString());
-    }//GEN-LAST:event_supplierTableMouseClicked
+    private void supProdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supProdCancelActionPerformed
+        clearSupplierProductPanel();
+    }//GEN-LAST:event_supProdCancelActionPerformed
 
-    private void supSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supSearchKeyReleased
-        String query = "SELECT * from supplier WHERE Name LIKE '%" + supSearch.getText().toString() + "%' and Status=1";
-        //fillSupTable(query);
-    }//GEN-LAST:event_supSearchKeyReleased
+    private void supplierProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supplierProductTableMouseClicked
+        int selRow = supplierProductTable.getSelectedRow();
 
-    private void supplierTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supplierTable1MouseClicked
-//        int selRow = supplierTable.getSelectedRow();
-//        supplierId = Integer.parseInt(supplierTable.getValueAt(selRow, 0).toString());
-//
-//        supName.setText(supplierTable.getValueAt(selRow, 1).toString());
-//        supAddress.setText(supplierTable.getValueAt(selRow, 2).toString());
-//        supTeleNumber.setText(supplierTable.getValueAt(selRow, 3).toString());
-//        supRegisterNumber.setText(supplierTable.getValueAt(selRow, 4).toString());
-    }//GEN-LAST:event_supplierTable1MouseClicked
+        supplierId.setText(supplierProductTable.getValueAt(selRow, 0).toString());
+        supplierName.setText(supplierProductTable.getValueAt(selRow, 1).toString());
+        productId.setText(supplierProductTable.getValueAt(selRow, 2).toString());
+        productName.setText(supplierProductTable.getValueAt(selRow, 3).toString());
+        itemCode.setText(supplierProductTable.getValueAt(selRow, 4).toString());
+    }//GEN-LAST:event_supplierProductTableMouseClicked
 
-    private void supSearch1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supSearch1KeyReleased
-        String query = "SELECT * from supplier WHERE Name LIKE '%" + supSearch.getText().toString() + "%' and Status=1";
-        //fillSupTable(query);
-    }//GEN-LAST:event_supSearch1KeyReleased
+    private void supProductSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supProductSearchKeyReleased
+        String search = supProductSearch.getText().toString();
+        String query = "SELECT supplierproduct.`Supplier_Id` as SupplierId, supplierproduct.`Product_Id` as ProductId,"
+                + " supplierproduct. `ItemCode` as ItemCode,supplier.Name as supplierName, product.Description as productName"
+                + " FROM ((`supplierproduct` JOIN supplier on supplierproduct.Supplier_Id=supplier.Id)"
+                + " JOIN product on supplierproduct.Product_Id=product.Id) WHERE supplierproduct.Status=1 and (supplier.Name like '%"
+                + search + "%' OR product.Description like '%" + search + "%')";
+        fillSupplierProductTable(query);
+    }//GEN-LAST:event_supProductSearchKeyReleased
 
-    private void productTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTableMouseClicked
-//        int selectedRow = productTable.getSelectedRow();
-//        productId = Integer.parseInt(productTable.getValueAt(selectedRow, 0).toString());
-//        //prodBarcode.setText(productTable.getValueAt(selectedRow, 1).toString());
-//        prodDescription.setText(productTable.getValueAt(selectedRow, 2).toString());
-//        prodPurchPrice.setText(productTable.getValueAt(selectedRow, 3).toString());
-//        prodRetailPrice.setText(productTable.getValueAt(selectedRow, 4).toString());
-//        prodQuantity.setText(productTable.getValueAt(selectedRow, 5).toString());
-    }//GEN-LAST:event_productTableMouseClicked
+    private void supProdSupplierTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supProdSupplierTableMouseClicked
+        int selRow = supProdSupplierTable.getSelectedRow();
+        supplierId.setText(supProdSupplierTable.getValueAt(selRow, 0).toString());
+        supplierName.setText(supProdSupplierTable.getValueAt(selRow, 1).toString());
+    }//GEN-LAST:event_supProdSupplierTableMouseClicked
 
-    private void prodSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodSearchActionPerformed
+    private void supProdSupplierSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supProdSupplierSearchKeyReleased
+        String query = "SELECT * from supplier WHERE Name LIKE '%" + supProdSupplierSearch.getText().toString() + "%' and Status=1";
+        fillSupplierTable(query);
+    }//GEN-LAST:event_supProdSupplierSearchKeyReleased
+
+    private void supProdProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supProdProductTableMouseClicked
+        int selectedRow = supProdProductTable.getSelectedRow();
+        productId.setText(supProdProductTable.getValueAt(selectedRow, 0).toString());
+        productName.setText(supProdProductTable.getValueAt(selectedRow, 1).toString());
+    }//GEN-LAST:event_supProdProductTableMouseClicked
+
+    private void supProdProductSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supProdProductSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_prodSearchActionPerformed
+    }//GEN-LAST:event_supProdProductSearchActionPerformed
 
-    private void prodSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodSearchKeyReleased
-        String query = "select * from product where description like '%" + prodSearch.getText() + "%' and status=1";
-        //fillProductTable(query);
-    }//GEN-LAST:event_prodSearchKeyReleased
+    private void supProdProductSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supProdProductSearchKeyReleased
+        String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                + " product.Category_Id as categoryId, category.Description as categoryName,"
+                + " product.Description as description, product.TotalQuantity as totalQuantity,"
+                + " product.OrderedQuantity as orderedQuantity, product.ReOrderLevel as reOrderLevel"
+                + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                + " where product.Description like '%" + supProdProductSearch.getText() + "%' and product.Status=1";
+        fillProductTable(query);
+    }//GEN-LAST:event_supProdProductSearchKeyReleased
 
+    private void supplierIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supplierIdKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int supId = Integer.parseInt(supplierId.getText().toString());
+            String query = "SELECT supplier.Name FROM `supplier` WHERE id="+supId;
+            try {
+                ResultSet rs =  DbConnect.getFromDB(query);
+                if (rs.next()) {
+                    supplierName.setText(rs.getString("supplier.Name"));
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(SupplierProduct.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(SupplierProduct.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_supplierIdKeyReleased
+
+    private void productIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productIdKeyReleased
+if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int prodId = Integer.parseInt(productId.getText().toString());
+            String query = "SELECT product.description FROM `product` WHERE id="+prodId;
+            try {
+                ResultSet rs =  DbConnect.getFromDB(query);
+                if (rs.next()) {
+                    productName.setText(rs.getString("product.description"));
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(SupplierProduct.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(SupplierProduct.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_productIdKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private app.bolivia.swing.JCTextField itemCode;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
@@ -507,18 +664,19 @@ public class SupplierProduct extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private app.bolivia.swing.JCTextField prodSearch;
-    private rojeru_san.complementos.RSTableMetro productTable;
-    private javax.swing.JButton supButCancel;
-    private javax.swing.JButton supButDelete;
-    private javax.swing.JButton supButEdit;
-    private javax.swing.JButton supButInsert;
-    private app.bolivia.swing.JCTextField supName;
-    private app.bolivia.swing.JCTextField supName1;
-    private app.bolivia.swing.JCTextField supName2;
-    private app.bolivia.swing.JCTextField supSearch;
-    private app.bolivia.swing.JCTextField supSearch1;
-    private rojeru_san.complementos.RSTableMetro supplierTable;
-    private rojeru_san.complementos.RSTableMetro supplierTable1;
+    private app.bolivia.swing.JCTextField productId;
+    private javax.swing.JLabel productName;
+    private javax.swing.JButton supProdCancel;
+    private javax.swing.JButton supProdDelete;
+    private javax.swing.JButton supProdEdit;
+    private javax.swing.JButton supProdInsert;
+    private app.bolivia.swing.JCTextField supProdProductSearch;
+    private rojeru_san.complementos.RSTableMetro supProdProductTable;
+    private app.bolivia.swing.JCTextField supProdSupplierSearch;
+    private rojeru_san.complementos.RSTableMetro supProdSupplierTable;
+    private app.bolivia.swing.JCTextField supProductSearch;
+    private app.bolivia.swing.JCTextField supplierId;
+    private javax.swing.JLabel supplierName;
+    private rojeru_san.complementos.RSTableMetro supplierProductTable;
     // End of variables declaration//GEN-END:variables
 }

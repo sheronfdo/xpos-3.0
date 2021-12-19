@@ -26,6 +26,7 @@ public class Employee extends javax.swing.JPanel {
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     int employeeId;
+
     /**
      * Creates new form Employee
      */
@@ -46,8 +47,10 @@ public class Employee extends javax.swing.JPanel {
         empGenMale.setSelected(true);
         empPositionCombo.setSelectedIndex(0);
         fillEmpTable(null);
+        loadEmpPosCombo();
     }
-public void loadEmpPosCombo() {
+
+    public void loadEmpPosCombo() {
         try {
             ResultSet rs = DbConnect.getFromDB("select Id,PositionName from employeeposition where status=1");
             Vector v = new Vector();
@@ -65,6 +68,7 @@ public void loadEmpPosCombo() {
             e.printStackTrace();
         }
     }
+
     public void fillEmpTable(String query) {
         tablemodel = (DefaultTableModel) empTable.getModel();
         tablemodel.setRowCount(0);

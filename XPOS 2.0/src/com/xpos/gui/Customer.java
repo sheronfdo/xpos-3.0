@@ -20,11 +20,12 @@ import javax.swing.table.DefaultTableModel;
  * @author Jamit
  */
 public class Customer extends javax.swing.JPanel {
+
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    
+
     int customerId;
-    
+
     /**
      * Creates new form Customer
      */
@@ -64,7 +65,8 @@ public class Customer extends javax.swing.JPanel {
                 v.add(rs.getDate("DOB"));
                 v.add(rs.getDate("JoinedDate"));
                 v.add(rs.getString("Email"));
-                v.add(rs.getString("Gender").equals("M") ? "Male" : "Female");
+                v.add(rs.getString("Gender")!=null ? 
+                        (rs.getString("Gender").equals("M") ? "Male" : "Female") : (""));
 
                 tablemodel.addRow(v);
             }
@@ -407,8 +409,8 @@ public class Customer extends javax.swing.JPanel {
         String gender = (customerGenMale.isSelected()) ? "M" : "F";
 
         String query = "UPDATE customer SET Name='" + name + "',Address='" + address + "',"
-        + "TelephoneNo='" + teleNumber + "',NIC='" + NIC + "',DOB='" + DOB.format(defaultDateFormat) + "',JoinedDate='" + joinedDate.format(defaultDateFormat) + "',"
-        + "Email='" + email + "',Gender='" + gender + "' WHERE Id=" + customerId;
+                + "TelephoneNo='" + teleNumber + "',NIC='" + NIC + "',DOB='" + DOB.format(defaultDateFormat) + "',JoinedDate='" + joinedDate.format(defaultDateFormat) + "',"
+                + "Email='" + email + "',Gender='" + gender + "' WHERE Id=" + customerId;
         try {
             DbConnect.pushToDB(query);
         } catch (SQLException e) {

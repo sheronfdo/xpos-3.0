@@ -59,6 +59,7 @@ public class Main extends javax.swing.JFrame {
         HRM.setVisible(false);
         Brand.setVisible(false);
         Category.setVisible(false);
+        SupplierProduct.setVisible(false);
     }
 
     /**
@@ -84,6 +85,7 @@ public class Main extends javax.swing.JFrame {
         hrm = new javax.swing.JButton();
         brand = new javax.swing.JButton();
         category = new javax.swing.JButton();
+        supplierProduct = new javax.swing.JButton();
         Header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -111,6 +113,7 @@ public class Main extends javax.swing.JFrame {
         userPosition = new javax.swing.JButton();
         Brand = new com.xpos.gui.Brand();
         Category = new com.xpos.gui.Category();
+        SupplierProduct = new com.xpos.gui.SupplierProduct();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -263,6 +266,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        supplierProduct.setBackground(new java.awt.Color(0, 60, 128));
+        supplierProduct.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        supplierProduct.setForeground(new java.awt.Color(255, 255, 255));
+        supplierProduct.setText("SUPPLIER PRODUCT");
+        supplierProduct.setBorder(null);
+        supplierProduct.setFocusPainted(false);
+        supplierProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supplierProductActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SideBar2Layout = new javax.swing.GroupLayout(SideBar2);
         SideBar2.setLayout(SideBar2Layout);
         SideBar2Layout.setHorizontalGroup(
@@ -281,7 +296,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(batch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(hrm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(brand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(supplierProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         SideBar2Layout.setVerticalGroup(
@@ -311,6 +327,8 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(brand, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(supplierProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -393,7 +411,7 @@ public class Main extends javax.swing.JFrame {
         dashboard.setLayout(dashboardLayout);
         dashboardLayout.setHorizontalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1460, Short.MAX_VALUE)
+            .addGap(0, 1495, Short.MAX_VALUE)
         );
         dashboardLayout.setVerticalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,7 +490,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(HRMLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(HRMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, 1440, Short.MAX_VALUE)
+                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, 1475, Short.MAX_VALUE)
                     .addGroup(HRMLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(employee, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -499,6 +517,7 @@ public class Main extends javax.swing.JFrame {
         MainPanel.add(HRM, "card2");
         MainPanel.add(Brand, "card12");
         MainPanel.add(Category, "card13");
+        MainPanel.add(SupplierProduct, "card14");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -527,7 +546,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1732, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1767, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -615,6 +634,11 @@ public class Main extends javax.swing.JFrame {
         Category.setVisible(true);
     }//GEN-LAST:event_categoryActionPerformed
 
+    private void supplierProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierProductActionPerformed
+        setVisibleFalseAllPanels();
+        SupplierProduct.setVisible(true);
+    }//GEN-LAST:event_supplierProductActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -665,9 +689,8 @@ public class Main extends javax.swing.JFrame {
     private com.xpos.gui.Product Product;
     private com.xpos.gui.Purchase Purchase;
     private com.xpos.gui.Sale Sale;
-    private javax.swing.JPanel SideBar;
-    private javax.swing.JPanel SideBar1;
     private javax.swing.JPanel SideBar2;
+    private com.xpos.gui.SupplierProduct SupplierProduct;
     private com.xpos.gui.UserProfile UserProfile;
     private javax.swing.JButton batch;
     private javax.swing.JButton brand;
@@ -677,14 +700,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton employee;
     private javax.swing.JButton exCost;
     private javax.swing.JButton exIncome;
-    private javax.swing.JButton homeBut;
-    private javax.swing.JButton homeBut1;
     private javax.swing.JButton homeBut2;
     private javax.swing.JButton hrm;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel45;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel4;
@@ -693,6 +712,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton sale;
     private com.xpos.gui.Supply supplier;
     private javax.swing.JButton supplierBut;
+    private javax.swing.JButton supplierProduct;
     private javax.swing.JLabel systemDate;
     private javax.swing.JLabel systemTime;
     private javax.swing.JLabel systemUserName;

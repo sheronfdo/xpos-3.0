@@ -60,6 +60,7 @@ public class Main extends javax.swing.JFrame {
         Brand.setVisible(false);
         Category.setVisible(false);
         SupplierProduct.setVisible(false);
+        PurchaseOrder.setVisible(false);
     }
 
     /**
@@ -86,6 +87,7 @@ public class Main extends javax.swing.JFrame {
         brand = new javax.swing.JButton();
         category = new javax.swing.JButton();
         supplierProduct = new javax.swing.JButton();
+        purchaseOrder = new javax.swing.JButton();
         Header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -114,6 +116,7 @@ public class Main extends javax.swing.JFrame {
         Brand = new com.xpos.gui.Brand();
         Category = new com.xpos.gui.Category();
         SupplierProduct = new com.xpos.gui.SupplierProduct();
+        PurchaseOrder = new com.xpos.gui.PurchaseOrder();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -278,6 +281,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        purchaseOrder.setBackground(new java.awt.Color(0, 60, 128));
+        purchaseOrder.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        purchaseOrder.setForeground(new java.awt.Color(255, 255, 255));
+        purchaseOrder.setText("PURCHASE ORDER");
+        purchaseOrder.setBorder(null);
+        purchaseOrder.setFocusPainted(false);
+        purchaseOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchaseOrderActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SideBar2Layout = new javax.swing.GroupLayout(SideBar2);
         SideBar2.setLayout(SideBar2Layout);
         SideBar2Layout.setHorizontalGroup(
@@ -285,7 +300,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(SideBar2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(SideBar2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(homeBut2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                    .addComponent(homeBut2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(supplierBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(customer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -297,7 +312,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(hrm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(brand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(supplierProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(supplierProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                    .addComponent(purchaseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         SideBar2Layout.setVerticalGroup(
@@ -329,6 +345,8 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(supplierProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(purchaseOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -411,7 +429,7 @@ public class Main extends javax.swing.JFrame {
         dashboard.setLayout(dashboardLayout);
         dashboardLayout.setHorizontalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1495, Short.MAX_VALUE)
+            .addGap(0, 1644, Short.MAX_VALUE)
         );
         dashboardLayout.setVerticalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -490,7 +508,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(HRMLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(HRMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, 1475, Short.MAX_VALUE)
+                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, 1624, Short.MAX_VALUE)
                     .addGroup(HRMLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(employee, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -518,6 +536,7 @@ public class Main extends javax.swing.JFrame {
         MainPanel.add(Brand, "card12");
         MainPanel.add(Category, "card13");
         MainPanel.add(SupplierProduct, "card14");
+        MainPanel.add(PurchaseOrder, "card15");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -525,7 +544,7 @@ public class Main extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(SideBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(Header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -546,7 +565,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1767, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -639,6 +658,11 @@ public class Main extends javax.swing.JFrame {
         SupplierProduct.setVisible(true);
     }//GEN-LAST:event_supplierProductActionPerformed
 
+    private void purchaseOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseOrderActionPerformed
+        setVisibleFalseAllPanels();
+        PurchaseOrder.setVisible(true);
+    }//GEN-LAST:event_purchaseOrderActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -688,6 +712,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel MainPanel;
     private com.xpos.gui.Product Product;
     private com.xpos.gui.Purchase Purchase;
+    private com.xpos.gui.PurchaseOrder PurchaseOrder;
     private com.xpos.gui.Sale Sale;
     private javax.swing.JPanel SideBar2;
     private com.xpos.gui.SupplierProduct SupplierProduct;
@@ -709,6 +734,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton product;
     private javax.swing.JButton purchase;
+    private javax.swing.JButton purchaseOrder;
     private javax.swing.JButton sale;
     private com.xpos.gui.Supply supplier;
     private javax.swing.JButton supplierBut;

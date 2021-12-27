@@ -88,6 +88,7 @@ public class Customer extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        gender = new javax.swing.ButtonGroup();
         jLabel7 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         customerButInsert = new javax.swing.JButton();
@@ -212,12 +213,14 @@ public class Customer extends javax.swing.JPanel {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Gender", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
         customerGenMale.setBackground(new java.awt.Color(255, 255, 255));
+        gender.add(customerGenMale);
         customerGenMale.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         customerGenMale.setForeground(new java.awt.Color(26, 140, 255));
         customerGenMale.setSelected(true);
         customerGenMale.setText("Male");
 
         customerGenFemale.setBackground(new java.awt.Color(255, 255, 255));
+        gender.add(customerGenFemale);
         customerGenFemale.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         customerGenFemale.setForeground(new java.awt.Color(26, 140, 255));
         customerGenFemale.setText("Female");
@@ -481,6 +484,7 @@ public class Customer extends javax.swing.JPanel {
     private app.bolivia.swing.JCTextField customerSearch;
     private rojeru_san.complementos.RSTableMetro customerTable;
     private app.bolivia.swing.JCTextField customerTeleNumber;
+    private javax.swing.ButtonGroup gender;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;

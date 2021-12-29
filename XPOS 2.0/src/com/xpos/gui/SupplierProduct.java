@@ -590,6 +590,12 @@ public class SupplierProduct extends javax.swing.JPanel {
         int selRow = supProdSupplierTable.getSelectedRow();
         supplierId.setText(supProdSupplierTable.getValueAt(selRow, 0).toString());
         supplierName.setText(supProdSupplierTable.getValueAt(selRow, 1).toString());
+        String query = "SELECT supplierproduct.`Supplier_Id` as SupplierId, supplierproduct.`Product_Id` as ProductId,"
+                    + " supplierproduct. `ItemCode` as ItemCode,supplier.Name as supplierName, product.Description as productName"
+                    + " FROM ((`supplierproduct` JOIN supplier on supplierproduct.Supplier_Id=supplier.Id)"
+                    + " JOIN product on supplierproduct.Product_Id=product.Id) WHERE supplierproduct.Status=1 and supplierproduct.Supplier_Id="
+                    + supProdSupplierTable.getValueAt(selRow, 0).toString();
+        fillSupplierProductTable(query);
     }//GEN-LAST:event_supProdSupplierTableMouseClicked
 
     private void supProdSupplierSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supProdSupplierSearchKeyReleased

@@ -5,17 +5,47 @@
  */
 package com.xpos.gui;
 
+import com.xpos.SystemUser;
+import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jamit
  */
 public class Purchase extends javax.swing.JPanel {
 
+    DefaultTableModel tablemodel;
+
+    DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
+
+    Double totalWithNoDiscount = 0.0;
+    Double discount = 0.0;
+    Double finalTotal = 0.0;
+    int purchaseOrderId = 0;
+    int supplierId = 0;
+
     /**
      * Creates new form Purchase
      */
     public Purchase() {
         initComponents();
+        loadPurchaseSupplierCombo();
+        fillPurchaseProdTable(null);
     }
 
     /**
@@ -27,28 +57,27 @@ public class Purchase extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        purchDisGroup = new javax.swing.ButtonGroup();
         jLabel13 = new javax.swing.JLabel();
         jPanel26 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         purchProdTable = new rojeru_san.complementos.RSTableMetro();
-        purchProdBarcode = new app.bolivia.swing.JCTextField();
         purchProdDescription = new app.bolivia.swing.JCTextField();
-        purchAddProduct = new javax.swing.JButton();
         jPanel27 = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
         purchBatchTable = new rojeru_san.complementos.RSTableMetro();
         purchProdBatchNumber = new app.bolivia.swing.JCTextField();
-        purchAddBatch = new javax.swing.JButton();
+        purchProdBarcode = new app.bolivia.swing.JCTextField();
         jPanel3 = new javax.swing.JPanel();
         purchProductId = new app.bolivia.swing.JCTextField();
         purchBarcode = new app.bolivia.swing.JCTextField();
         purchDescription = new javax.swing.JLabel();
-        purchBatchNumber = new app.bolivia.swing.JCTextField();
         purchManufacDate = new javax.swing.JLabel();
         purchExpireDate = new javax.swing.JLabel();
         purchQuantity = new app.bolivia.swing.JCTextField();
         purchPurchasePrice = new app.bolivia.swing.JCTextField();
         purchAddToTable = new javax.swing.JButton();
+        purchBatchId = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         purchComplete = new javax.swing.JButton();
         purchDeleteItem = new javax.swing.JButton();
@@ -67,7 +96,7 @@ public class Purchase extends javax.swing.JPanel {
         jScrollPane11 = new javax.swing.JScrollPane();
         purchProduct = new rojeru_san.complementos.RSTableMetro();
         purchSupplierCombo = new javax.swing.JComboBox<>();
-        purchSupplierCombo1 = new javax.swing.JComboBox<>();
+        purchPurchaseOrderCombo = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -86,7 +115,7 @@ public class Purchase extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Brand", "Description", "Category", "Quantity (In Stock)", "Ordered Quantoty"
+                "ID", "Category", "Brand", "Description", "Quantity (In Stock)", "Ordered Quantoty"
             }
         ));
         purchProdTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
@@ -101,17 +130,6 @@ public class Purchase extends javax.swing.JPanel {
         });
         jScrollPane9.setViewportView(purchProdTable);
 
-        purchProdBarcode.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Barcode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        purchProdBarcode.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchProdBarcode.setPhColor(new java.awt.Color(0, 51, 255));
-        purchProdBarcode.setPlaceholder("Search Barcode");
-        purchProdBarcode.setPreferredSize(new java.awt.Dimension(200, 30));
-        purchProdBarcode.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                purchProdBarcodeKeyReleased(evt);
-            }
-        });
-
         purchProdDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         purchProdDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         purchProdDescription.setPhColor(new java.awt.Color(0, 51, 255));
@@ -123,40 +141,22 @@ public class Purchase extends javax.swing.JPanel {
             }
         });
 
-        purchAddProduct.setBackground(new java.awt.Color(0, 60, 128));
-        purchAddProduct.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchAddProduct.setForeground(new java.awt.Color(255, 255, 255));
-        purchAddProduct.setText("ADD PRODUCT");
-        purchAddProduct.setBorder(null);
-        purchAddProduct.setFocusPainted(false);
-        purchAddProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                purchAddProductActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
             .addGroup(jPanel26Layout.createSequentialGroup()
-                .addComponent(purchProdBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(purchProdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
-                .addComponent(purchAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane9)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(purchProdBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(purchProdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(purchAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(purchProdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
         );
 
         jPanel27.setBackground(new java.awt.Color(255, 255, 255));
@@ -167,7 +167,7 @@ public class Purchase extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Barcode", "Batch Number", "Quantities By Batch", "Manufac. Date", "Expire Date", "Purchase Price", "Retail Price"
+                "ID", "Batch Number", "Barcode", "Quantities By Batch", "Purchase Price", "Retail Price", "Manufac. Date", "Expire Date"
             }
         ));
         purchBatchTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
@@ -193,15 +193,14 @@ public class Purchase extends javax.swing.JPanel {
             }
         });
 
-        purchAddBatch.setBackground(new java.awt.Color(0, 60, 128));
-        purchAddBatch.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchAddBatch.setForeground(new java.awt.Color(255, 255, 255));
-        purchAddBatch.setText("ADD BATCH");
-        purchAddBatch.setBorder(null);
-        purchAddBatch.setFocusPainted(false);
-        purchAddBatch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                purchAddBatchActionPerformed(evt);
+        purchProdBarcode.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Barcode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        purchProdBarcode.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchProdBarcode.setPhColor(new java.awt.Color(0, 51, 255));
+        purchProdBarcode.setPlaceholder("Search Barcode");
+        purchProdBarcode.setPreferredSize(new java.awt.Dimension(200, 30));
+        purchProdBarcode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                purchProdBarcodeKeyReleased(evt);
             }
         });
 
@@ -211,8 +210,9 @@ public class Purchase extends javax.swing.JPanel {
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addComponent(purchProdBatchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(purchAddBatch, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(purchProdBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
         );
         jPanel27Layout.setVerticalGroup(
@@ -221,9 +221,9 @@ public class Purchase extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(purchProdBatchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(purchAddBatch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(purchProdBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -252,17 +252,6 @@ public class Purchase extends javax.swing.JPanel {
 
         purchDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         purchDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-
-        purchBatchNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Batch Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        purchBatchNumber.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchBatchNumber.setPhColor(new java.awt.Color(0, 51, 255));
-        purchBatchNumber.setPlaceholder("Search Batch");
-        purchBatchNumber.setPreferredSize(new java.awt.Dimension(200, 30));
-        purchBatchNumber.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                purchBatchNumberKeyReleased(evt);
-            }
-        });
 
         purchManufacDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         purchManufacDate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Manufacture Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
@@ -304,6 +293,9 @@ public class Purchase extends javax.swing.JPanel {
             }
         });
 
+        purchBatchId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchBatchId.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Batch Id", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -315,8 +307,8 @@ public class Purchase extends javax.swing.JPanel {
                     .addComponent(purchBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(purchDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(purchBatchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(purchDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                    .addComponent(purchBatchId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(purchExpireDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -344,7 +336,7 @@ public class Purchase extends javax.swing.JPanel {
                     .addComponent(purchExpireDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(purchQuantity, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                     .addComponent(purchBarcode, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(purchBatchNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(purchBatchId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -408,6 +400,7 @@ public class Purchase extends javax.swing.JPanel {
         });
 
         purchDisAmount.setBackground(new java.awt.Color(255, 255, 255));
+        purchDisGroup.add(purchDisAmount);
         purchDisAmount.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         purchDisAmount.setSelected(true);
         purchDisAmount.setText("Amount");
@@ -418,6 +411,7 @@ public class Purchase extends javax.swing.JPanel {
         });
 
         purchDisPercent.setBackground(new java.awt.Color(255, 255, 255));
+        purchDisGroup.add(purchDisPercent);
         purchDisPercent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         purchDisPercent.setText("Percent (%)");
         purchDisPercent.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -497,7 +491,7 @@ public class Purchase extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(purchFinalDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(purchTotal)
@@ -518,7 +512,7 @@ public class Purchase extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Description", "Batch Number", "Purchase Price", "Quantity", "Total"
+                "ID", "Description", "Batch Id", "Purchase Price", "Quantity", "Total"
             }
         ));
         purchProduct.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
@@ -550,11 +544,21 @@ public class Purchase extends javax.swing.JPanel {
         purchSupplierCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Supplier" }));
         purchSupplierCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Supplier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         purchSupplierCombo.setOpaque(false);
+        purchSupplierCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchSupplierComboActionPerformed(evt);
+            }
+        });
 
-        purchSupplierCombo1.setForeground(new java.awt.Color(26, 140, 255));
-        purchSupplierCombo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Purchase Order" }));
-        purchSupplierCombo1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Purchase Order", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        purchSupplierCombo1.setOpaque(false);
+        purchPurchaseOrderCombo.setForeground(new java.awt.Color(26, 140, 255));
+        purchPurchaseOrderCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Purchase Order" }));
+        purchPurchaseOrderCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Purchase Order", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        purchPurchaseOrderCombo.setOpaque(false);
+        purchPurchaseOrderCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchPurchaseOrderComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -584,7 +588,7 @@ public class Purchase extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(purchSupplierCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(purchPurchaseOrderCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -592,7 +596,7 @@ public class Purchase extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(purchSupplierCombo)
-                    .addComponent(purchSupplierCombo1))
+                    .addComponent(purchPurchaseOrderCombo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -607,149 +611,300 @@ public class Purchase extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadPurchaseSupplierCombo() {
+        try {
+            ResultSet rs = DbConnect.getFromDB("select Id,Name from supplier where status=1");
+            Vector v = new Vector();
+            v.add("Select Supplier");
+            while (rs.next()) {
+                String supplier = rs.getString("Id") + " - " + rs.getString("Name");
+                v.add(supplier);
+            }
+            purchSupplierCombo.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadPurchaseOrderCombo() {
+        try {
+            int supplierId = Integer.parseInt(purchSupplierCombo.getSelectedItem().toString().split(" - ")[0].trim());
+            ResultSet rs = DbConnect.getFromDB("select Id from purchaseorder where status=1 and IsSupplied=0 and Supplier_Id=" + supplierId);
+            Vector v = new Vector();
+            v.add("Select Purchase Order");
+            while (rs.next()) {
+                String supplier = rs.getString("Id");
+                v.add(supplier);
+            }
+            purchPurchaseOrderCombo.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillPurchaseProdTable(String query) {
+        tablemodel = (DefaultTableModel) purchProdTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId, category.Description as categoryName,"
+                    + " product.Description as description, product.TotalQuantity as totalQuantity, product.orderedQuantity as orderedQuantity"
+                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                    + " WHERE product.Status = 1";
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("Id"));
+                v.add(rs.getString("categoryId") + " - " + rs.getString("categoryName"));
+                v.add(rs.getString("brandId") + " - " + rs.getString("brandName"));
+                v.add(rs.getString("Description"));
+                v.add(rs.getInt("totalQuantity"));
+                v.add(rs.getInt("orderedQuantity"));
+
+                tablemodel.addRow(v);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillPurchaseBatchTable(String query) {
+        int prodId = 0;
+        tablemodel = (DefaultTableModel) purchBatchTable.getModel();
+        tablemodel.setRowCount(0);
+        if (query == null) {
+            prodId = Integer.parseInt(purchProdTable.getValueAt(purchProdTable.getSelectedRow(), 0).toString().trim());
+            query = "SELECT batchesofproduct.Id as batchid,"
+                    + " batchesofproduct.Barcode as Barcode,"
+                    + " batchesofproduct.BatchNumber as BatchNumber,"
+                    + " batchesofproduct.QuantityByBatch as quantity,"
+                    + " batchesofproduct.PurchasePrice as purchPrice,"
+                    + " batchesofproduct.RetailPrice AS RetailPrice"
+                    + " FROM batchesofproduct "
+                    + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id=" + prodId;
+        }
+        try {
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("batchid"));
+                v.add(rs.getInt("BatchNumber"));
+                v.add(rs.getInt("Barcode"));
+                v.add(rs.getInt("quantity"));
+                v.add(rs.getDouble("purchPrice"));
+                v.add(rs.getDouble("RetailPrice"));
+
+                String query2 = "select ManufactureDate as manufacDate,"
+                        + "ExpireDate as expireDate "
+                        + "from datesOfBatch "
+                        + "where Status=1 and BatchesOfProduct_Id="
+                        + rs.getInt("batchId");
+                ResultSet rs2 = DbConnect.getFromDB(query2);
+                if (rs2.next()) {
+                    v.add(rs2.getDate("manufacDate"));
+                    v.add(rs2.getDate("expireDate"));
+                }
+                tablemodel.addRow(v);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void calPurchaseDetails() {
+        int rows = purchProduct.getRowCount();
+        totalWithNoDiscount = 0.0;
+        discount = 0.0;
+        finalTotal = 0.0;
+        for (int i = 0; i < rows; i++) {
+            totalWithNoDiscount = totalWithNoDiscount + Double.parseDouble(purchProduct.getValueAt(i, 5).toString());
+        }
+        if (purchDisAmount.isSelected()) {
+            discount = Double.parseDouble(purchDiscount.getText().toString());
+        } else if (purchDisPercent.isSelected()) {
+            discount = totalWithNoDiscount * Double.parseDouble(purchDiscount.getText().toString()) / 100;
+        }
+        finalTotal = totalWithNoDiscount - discount;
+        purchSubTotal.setText(totalWithNoDiscount.toString());
+        purchFinalDiscount.setText(discount.toString());
+        purchTotal.setText(finalTotal.toString());
+    }
+
+    private void clearPurchPanel() {
+        purchSupplierCombo.setSelectedIndex(0);
+        ((DefaultTableModel) purchProduct.getModel()).setRowCount(0);
+        ((DefaultTableModel) purchProdTable.getModel()).setRowCount(0);
+        ((DefaultTableModel) purchBatchTable.getModel()).setRowCount(0);
+        purchPurchaseOrderCombo.setSelectedIndex(0);
+        purchBarcode.setText("");
+        purchDescription.setText("");
+        purchManufacDate.setText("");
+        purchPurchasePrice.setText("");
+        purchProductId.setText("");
+        purchBatchId.setText("");
+        purchExpireDate.setText("");
+        purchQuantity.setText("");
+        purchProdBarcode.setText("");
+        purchProdDescription.setText("");
+        purchProdBatchNumber.setText("");
+        purchSubTotal.setText("0.0");
+        purchDiscount.setText("0");
+        purchDisAmount.setSelected(true);
+        purchTotal.setText("0.00");
+        fillPurchaseProdTable(null);
+    }
+
     private void purchProdTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchProdTableMouseClicked
-        //fillPurchBatchTable(null);
+        fillPurchaseBatchTable(null);
+        int selectedRow = purchProdTable.getSelectedRow();
+        purchProductId.setText(purchProdTable.getValueAt(selectedRow, 0).toString());
+        purchDescription.setText(purchProdTable.getValueAt(selectedRow, 3).toString());
+        purchBarcode.setText("");
         purchExpireDate.setText("");
         purchManufacDate.setText("");
         purchPurchasePrice.setText("");
         purchQuantity.setText("");
-        purchBatchNumber.setText("");
+        purchBatchId.setText("");
     }//GEN-LAST:event_purchProdTableMouseClicked
 
-    private void purchProdBarcodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchProdBarcodeKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-//            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Barcode="
-//            + purchProdBarcode.getText();
-//            fillPurchProdTable(query);
-//        }
-    }//GEN-LAST:event_purchProdBarcodeKeyReleased
-
     private void purchProdDescriptionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchProdDescriptionKeyReleased
-//        String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-//        + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` "
-//        + "WHERE status=1 and Description like '%" + purchProdDescription.getText() + "%'";
-//        fillPurchProdTable(query);
+        String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                + " product.Category_Id as categoryId, category.Description as categoryName,"
+                + " product.Description as description, product.TotalQuantity as totalQuantity, product.orderedQuantity as orderedQuantity"
+                + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                + " WHERE product.Status = 1 and product.Description like '%" + purchProdDescription.getText().toString() + "%'";
+        fillPurchaseProdTable(query);
     }//GEN-LAST:event_purchProdDescriptionKeyReleased
-
-    private void purchAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchAddProductActionPerformed
-//        Dashboard.setVisible(false);
-//        Supplier.setVisible(false);
-//        Product.setVisible(true);
-//        Customer.setVisible(false);
-//        EmpPosition.setVisible(false);
-//        Employee.setVisible(false);
-//        UserProfile.setVisible(false);
-//        ExCost.setVisible(false);
-//        ExIncome.setVisible(false);
-//        Purchase.setVisible(false);
-//        Sale.setVisible(false);
-//        Batch.setVisible(false);
-//        HRM.setVisible(false);
-    }//GEN-LAST:event_purchAddProductActionPerformed
 
     private void purchBatchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchBatchTableMouseClicked
         int selectedRow = purchBatchTable.getSelectedRow();
-        purchBatchNumber.setText(purchBatchTable.getValueAt(selectedRow, 0).toString());
-        purchManufacDate.setText(purchBatchTable.getValueAt(selectedRow, 2).toString());
-        purchExpireDate.setText(purchBatchTable.getValueAt(selectedRow, 3).toString());
+        purchBarcode.setText(purchBatchTable.getValueAt(selectedRow, 2).toString());
+        purchExpireDate.setText(purchBatchTable.getValueAt(selectedRow, 7) == null ? "" : purchBatchTable.getValueAt(selectedRow, 7).toString());
+        purchManufacDate.setText(purchBatchTable.getValueAt(selectedRow, 6) == null ? "" : purchBatchTable.getValueAt(selectedRow, 6).toString());
+        purchPurchasePrice.setText(purchBatchTable.getValueAt(selectedRow, 4).toString());
+        purchBatchId.setText(purchBatchTable.getValueAt(selectedRow, 0).toString());
     }//GEN-LAST:event_purchBatchTableMouseClicked
 
     private void purchProdBatchNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchProdBatchNumberKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String query = "SELECT "
-//            + "batchesofproduct.BatchNumber as BatchNumber, "
-//            + "batchesofproduct.QuantityByBatch as Quantity, "
-//            + "batchesofproduct.ManufactureDate as ManufactureDate, "
-//            + "batchesofproduct.ExpireDate as ExpireDate "
-//            + "from batchesofproduct WHERE batchesofproduct.BatchNumber="
-//            + purchProdBatchNumber.getText() + " and batchesofproduct.Product_Id=" + purchProductId.getText();
-//            fillPurchBatchTable(query);
-//        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String query2 = "SELECT batchesofproduct.Id as batchid,"
+                    + " batchesofproduct.Barcode as Barcode,"
+                    + " batchesofproduct.BatchNumber as BatchNumber,"
+                    + " batchesofproduct.QuantityByBatch as quantity,"
+                    + " batchesofproduct.PurchasePrice as purchPrice,"
+                    + " batchesofproduct.RetailPrice AS RetailPrice"
+                    + " FROM batchesofproduct "
+                    + " WHERE batchesofproduct.Status = 1 and batchesofproduct.BatchNumber=" + purchProdBatchNumber.getText().toString();
+            fillPurchaseBatchTable(query2);
+        }
     }//GEN-LAST:event_purchProdBatchNumberKeyReleased
 
-    private void purchAddBatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchAddBatchActionPerformed
-//        Dashboard.setVisible(false);
-//        Supplier.setVisible(false);
-//        Product.setVisible(false);
-//        Customer.setVisible(false);
-//        EmpPosition.setVisible(false);
-//        Employee.setVisible(false);
-//        UserProfile.setVisible(false);
-//        ExCost.setVisible(false);
-//        ExIncome.setVisible(false);
-//        Purchase.setVisible(false);
-//        Sale.setVisible(false);
-//        Batch.setVisible(true);
-//        HRM.setVisible(false);
-    }//GEN-LAST:event_purchAddBatchActionPerformed
-
     private void purchProductIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchProductIdKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-//            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Id="
-//            + purchProductId.getText();
-//
-//            purchBarcode.setText("");
-//            purchDescription.setText("");
-//            purchExpireDate.setText("");
-//            purchManufacDate.setText("");
-//            purchPurchasePrice.setText("");
-//            purchQuantity.setText("");
-//            purchBatchNumber.setText("");
-//
-//            fillPurchProdTable(query);
-//
-//            tablemodel = (DefaultTableModel) purchBatchTable.getModel();
-//            tablemodel.setRowCount(0);
-//        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String query = "SELECT `Id`, `Description` FROM `product` WHERE status=1 and Id="
+                    + purchProductId.getText();
+            try {
+                ResultSet rs = DbConnect.getFromDB(query);
+                if (rs.next()) {
+                    purchDescription.setText(rs.getString("Description").toString());
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            purchBarcode.setText("");
+            purchExpireDate.setText("");
+            purchManufacDate.setText("");
+            purchPurchasePrice.setText("");
+            purchQuantity.setText("");
+            purchBatchId.setText("");
+
+            String query1 = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId, category.Description as categoryName,"
+                    + " product.Description as description, product.TotalQuantity as totalQuantity, product.orderedQuantity as orderedQuantity"
+                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                    + " WHERE product.Status = 1 and product.Id=" + purchProductId.getText();
+            fillPurchaseProdTable(query1);
+            String query2 = "SELECT batchesofproduct.Id as batchid,"
+                    + " batchesofproduct.Barcode as Barcode,"
+                    + " batchesofproduct.BatchNumber as BatchNumber,"
+                    + " batchesofproduct.QuantityByBatch as quantity,"
+                    + " batchesofproduct.PurchasePrice as purchPrice,"
+                    + " batchesofproduct.RetailPrice AS RetailPrice"
+                    + " FROM batchesofproduct "
+                    + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id=" + purchProductId.getText();
+            fillPurchaseBatchTable(query2);
+        }
     }//GEN-LAST:event_purchProductIdKeyReleased
 
     private void purchBarcodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchBarcodeKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-//            + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Barcode="
-//            + purchBarcode.getText();
-//
-//            purchBatchNumber.setText("");
-//            purchProductId.setText("");
-//            purchDescription.setText("");
-//            purchExpireDate.setText("");
-//            purchManufacDate.setText("");
-//            purchPurchasePrice.setText("");
-//            purchQuantity.setText("");
-//
-//            fillPurchProdTable(query);
-//
-//            tablemodel = (DefaultTableModel) purchBatchTable.getModel();
-//            tablemodel.setRowCount(0);
-//        }
-    }//GEN-LAST:event_purchBarcodeKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int prodId = 0;
+            String query = "SELECT batchesofproduct.Id as batchId,"
+                    + " batchesofproduct.Product_Id as ProductId,"
+                    + " product.Description as description,"
+                    + " batchesofproduct.Barcode as Barcode,"
+                    + " batchesofproduct.PurchasePrice as PurchasePrice,"
+                    + " datesofbatch.ManufactureDate as manufacDate,"
+                    + " datesofbatch.ExpireDate as expDate"
+                    + " FROM ((`batchesofproduct`"
+                    + " JOIN product on batchesofproduct.Product_Id=product.Id)"
+                    + " JOIN datesofbatch on batchesofproduct.Id=datesofbatch.BatchesOfProduct_Id)"
+                    + " WHERE batchesofproduct.Barcode=" + purchBarcode.getText().toString().trim();
+            try {
+                ResultSet rs = DbConnect.getFromDB(query);
+                if (rs.next()) {
+                    prodId = Integer.parseInt(rs.getString("ProductId").toString());
+                    purchProductId.setText(rs.getString("ProductId").toString());
+                    purchBatchId.setText(rs.getString("ProductId").toString());
+                    purchDescription.setText(rs.getString("description").toString());
+                    purchBarcode.setText(rs.getString("Barcode").toString());
+                    purchPurchasePrice.setText(rs.getString("PurchasePrice").toString());
+                    purchManufacDate.setText(rs.getString("manufacDate").toString());
+                    purchExpireDate.setText(rs.getString("expDate").toString());
+                }
+                String query1 = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                        + " product.Category_Id as categoryId, category.Description as categoryName,"
+                        + " product.Description as description, product.TotalQuantity as totalQuantity, product.orderedQuantity as orderedQuantity"
+                        + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                        + " WHERE product.Status = 1 and product.Id=" + prodId;
+                fillPurchaseProdTable(query1);
 
-    private void purchBatchNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchBatchNumberKeyReleased
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            int typedBatchNumber = Integer.parseInt(purchBatchNumber.getText());
-//            int productId = Integer.parseInt(purchProductId.getText());
-//            String query = "SELECT * from batchesofproduct WHERE "
-//            + "batchesofproduct.BatchNumber=" + typedBatchNumber + " and batchesofproduct.Product_Id=" + productId;
-//            try {
-//                ResultSet rs = DbConnect.getFromDB(query);
-//                if (rs.next()) {
-//                    purchManufacDate.setText(rs.getDate("ManufactureDate").toString());
-//                    purchExpireDate.setText(rs.getDate("ExpireDate").toString());
-//                }
-//            } catch (NullPointerException e) {
-//                e.printStackTrace();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-    }//GEN-LAST:event_purchBatchNumberKeyReleased
+                String query2 = "SELECT batchesofproduct.Id as batchid,"
+                        + " batchesofproduct.Barcode as Barcode,"
+                        + " batchesofproduct.BatchNumber as BatchNumber,"
+                        + " batchesofproduct.QuantityByBatch as quantity,"
+                        + " batchesofproduct.PurchasePrice as purchPrice,"
+                        + " batchesofproduct.RetailPrice AS RetailPrice"
+                        + " FROM batchesofproduct "
+                        + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id=" + prodId;
+                fillPurchaseBatchTable(query2);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_purchBarcodeKeyReleased
 
     private void purchQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchQuantityKeyReleased
         // TODO add your handling code here:
@@ -760,133 +915,189 @@ public class Purchase extends javax.swing.JPanel {
     }//GEN-LAST:event_purchPurchasePriceKeyReleased
 
     private void purchAddToTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchAddToTableActionPerformed
-//        Vector v = new Vector();
-//        v.add(purchProductId.getText());
-//        v.add(purchDescription.getText());
-//        v.add(purchBatchNumber.getText());
-//        v.add(purchPurchasePrice.getText());
-//        v.add(purchQuantity.getText());
-//        v.add(Double.parseDouble(purchPurchasePrice.getText()) * Integer.parseInt(purchQuantity.getText()));
-//
-//        tablemodel = (DefaultTableModel) purchProduct.getModel();
-//        tablemodel.addRow(v);
-//
-//        purchProductId.setText("");
-//        purchBarcode.setText("");
-//        purchDescription.setText("");
-//        purchExpireDate.setText("");
-//        purchManufacDate.setText("");
-//        purchPurchasePrice.setText("");
-//        purchQuantity.setText("");
-//        purchBatchNumber.setText("");
-//        calPurchTotNoDiscount();
+        Vector v = new Vector();
+        v.add(purchProductId.getText());
+        v.add(purchDescription.getText());
+        v.add(purchBatchId.getText());
+        v.add(purchPurchasePrice.getText());
+        v.add(purchQuantity.getText());
+        v.add(Double.parseDouble(purchPurchasePrice.getText()) * Integer.parseInt(purchQuantity.getText()));
+
+        tablemodel = (DefaultTableModel) purchProduct.getModel();
+        tablemodel.addRow(v);
+
+        purchProductId.setText("");
+        purchBarcode.setText("");
+        purchDescription.setText("");
+        purchExpireDate.setText("");
+        purchManufacDate.setText("");
+        purchPurchasePrice.setText("");
+        purchQuantity.setText("");
+        purchBatchId.setText("");
+        calPurchaseDetails();
     }//GEN-LAST:event_purchAddToTableActionPerformed
 
     private void purchCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchCompleteActionPerformed
-//        if ((purchProduct.getRowCount() > 0) && (purchSupplierCombo.getSelectedIndex() > 0)) {
-//            String date = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(defaultDateFormat);
-//            String total = purchSubTotal.getText();
-//            String discount = purchFinalDiscount.getText();
-//            String finalTotal = purchTotal.getText();
-//            String supplierId = purchSupplierCombo.getSelectedItem().toString().split(" - ")[0];
-//            int userProId = UserProfileAndPrivilege.userProId;
-//
-//            int currentPurchaseId = 0;
-//            String purchQuery = "INSERT INTO `purchase`(`PurchaseDate`, `Total`, `Discount`, `Balance`, `Supplier_Id`, `UserProfile_Id`) "
-//            + "VALUES ('" + date + "'," + total + "," + discount + "," + finalTotal + "," + supplierId + "," + userProId + ")";
-//            try {
-//                PreparedStatement pst = DbConnect.getDBConnection().prepareStatement(purchQuery, Statement.RETURN_GENERATED_KEYS);
-//                pst.executeUpdate();
-//                ResultSet rs = pst.getGeneratedKeys();
-//                if (rs.next()) {
-//                    currentPurchaseId = rs.getInt(1);
-//                }
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            for (int i = 0; i < purchProduct.getRowCount(); i++) {
-//                String proId = purchProduct.getValueAt(i, 0).toString();
-//                String batchNumber = purchProduct.getValueAt(i, 2).toString();
-//                String purchPrice = purchProduct.getValueAt(i, 3).toString();
-//                String quantity = purchProduct.getValueAt(i, 4).toString();
-//                String itemTotal = purchProduct.getValueAt(i, 5).toString();
-//
-//                try {
-//                    String purchPriceAndQuantity = "select PurchasePrice,TotalQuantity from product where Id=" + proId;
-//                    ResultSet rs = DbConnect.getFromDB(purchPriceAndQuantity);
-//                    double prePurchPrice = 0.0;
-//                    int preQuantity = 0;
-//                    if (rs.next()) {
-//                        prePurchPrice = rs.getDouble("PurchasePrice");
-//                        preQuantity = rs.getInt("TotalQuantity");
-//                    }
-//                    double curStockValue = prePurchPrice * preQuantity;
-//                    double newStockValue = Double.parseDouble(purchPrice) * Integer.parseInt(quantity);
-//                    double avgPurchPrice = (curStockValue + newStockValue) / (Integer.parseInt(quantity) + preQuantity);
-//
-//                    String updateProduct = "UPDATE product SET PurchasePrice=" + avgPurchPrice + ",TotalQuantity=TotalQuantity+" + quantity + " WHERE Id=" + proId;
-//
-//                    String itemQuery = "INSERT INTO `purchaseitem`( `Purchase_Id`, `Product_Id`, `PurchasePrice`, `Quantity`, `TotalPrice`) "
-//                    + "VALUES (" + currentPurchaseId + "," + proId + "," + purchPrice + "," + quantity + "," + itemTotal + ")";
-//
-//                    DbConnect.pushToDB(itemQuery);
-//                    DbConnect.pushToDB(updateProduct);
-//                    if (Integer.parseInt(quantity) > 0) {
-//                        String updateBatch = "UPDATE batchesofproduct SET QuantityByBatch=QuantityByBatch+" + quantity + " WHERE Product_Id=" + proId + " and BatchNumber=" + batchNumber;
-//                        DbConnect.pushToDB(updateBatch);
-//                    }
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                } catch (ClassNotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            clearPurchPanel();
-//        } else {
-//            if (purchProduct.getRowCount() == 0) {
-//                JOptionPane.showMessageDialog(this, "No Items In the Purchased Product Table");
-//            }
-//            if (purchSupplierCombo.getSelectedIndex() == 0) {
-//                JOptionPane.showMessageDialog(this, "Please select Supplier");
-//            }
-//        }
+        if ((purchProduct.getRowCount() > 0) && (purchSupplierCombo.getSelectedIndex() > 0)) {
+            String date = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(defaultDateFormat);
+
+            calPurchaseDetails();
+
+            int userProId = SystemUser.userId;
+            int currentPurchaseId = 0;
+
+            String purchQuery = "INSERT INTO `purchase`(`PurchaseDate`, `Total`, `Discount`, `Balance`,"
+                    + " `Supplier_Id`, `UserProfile_Id`,`PurchaseOrder_Id`) "
+                    + "VALUES ('" + date + "'," + totalWithNoDiscount + "," + discount + "," + finalTotal + ","
+                    + supplierId + "," + userProId + "," + purchaseOrderId + ")";
+            try {
+                PreparedStatement pst = DbConnect.getDBConnection().prepareStatement(purchQuery, Statement.RETURN_GENERATED_KEYS);
+                pst.executeUpdate();
+                ResultSet rs = pst.getGeneratedKeys();
+                if (rs.next()) {
+                    currentPurchaseId = rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            for (int i = 0; i < purchProduct.getRowCount(); i++) {
+                String proId = purchProduct.getValueAt(i, 0).toString();
+                String batchId = purchProduct.getValueAt(i, 2).toString();
+                String purchPrice = purchProduct.getValueAt(i, 3).toString();
+                String quantity = purchProduct.getValueAt(i, 4).toString();
+                String itemTotal = purchProduct.getValueAt(i, 5).toString();
+
+                try {
+                    String purchPriceAndQuantity = "select PurchasePrice,QuantityByBatch as TotalQuantity from batchesofproduct where Id=" + batchId;
+                    ResultSet rs = DbConnect.getFromDB(purchPriceAndQuantity);
+                    double prePurchPrice = 0.0;
+                    int preQuantity = 0;
+                    if (rs.next()) {
+                        prePurchPrice = rs.getDouble("PurchasePrice");
+                        preQuantity = rs.getInt("TotalQuantity");
+                    }
+                    double curStockValue = prePurchPrice * preQuantity;
+                    double newStockValue = Double.parseDouble(purchPrice) * Integer.parseInt(quantity);
+                    double avgPurchPrice = (curStockValue + newStockValue) / (Integer.parseInt(quantity) + preQuantity);
+
+                    String updateBatch = "UPDATE batchesofproduct SET PurchasePrice=" + avgPurchPrice
+                            + ",QuantityByBatch=QuantityByBatch+" + quantity + " WHERE Id=" + batchId;
+
+                    String itemQuery = "INSERT INTO `purchaseitem`( `Purchase_Id`, `Product_Id`, `PurchasePrice`,"
+                            + " `Quantity`, `TotalPrice`, `BatchesOfProduct_Id`) "
+                            + "VALUES (" + currentPurchaseId + "," + proId + "," + purchPrice + ","
+                            + quantity + "," + itemTotal + "," + batchId + ")";
+
+                    String updateProduct = "UPDATE product SET TotalQuantity=TotalQuantity+"
+                            + quantity + " WHERE Id=" + proId;
+
+                    String purchaseOrderQuery = "UPDATE `purchaseorder` SET `IsSupplied`=1 WHERE `Id`=" + purchaseOrderId;
+
+                    DbConnect.pushToDB(itemQuery);
+                    DbConnect.pushToDB(updateBatch);
+                    DbConnect.pushToDB(updateProduct);
+                    DbConnect.pushToDB(purchaseOrderQuery);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            clearPurchPanel();
+            calPurchaseDetails();
+        } else {
+            if (purchProduct.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No Items In the Purchased Product Table");
+            }
+            if (purchSupplierCombo.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "Please select Supplier");
+            }
+        }
     }//GEN-LAST:event_purchCompleteActionPerformed
 
     private void purchDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchDeleteItemActionPerformed
-//        try {
-//            tablemodel = (DefaultTableModel) purchProduct.getModel();
-//            tablemodel.removeRow(purchProduct.getSelectedRow());
-//            calPurchTotNoDiscount();
-//        } catch (ArrayIndexOutOfBoundsException e) {
-//        }
+        try {
+            tablemodel = (DefaultTableModel) purchProduct.getModel();
+            tablemodel.removeRow(purchProduct.getSelectedRow());
+            calPurchaseDetails();
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
     }//GEN-LAST:event_purchDeleteItemActionPerformed
 
     private void purchCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchCancelActionPerformed
-        //clearPurchPanel();
+        clearPurchPanel();
     }//GEN-LAST:event_purchCancelActionPerformed
 
     private void purchDiscountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchDiscountKeyReleased
-        //calPurchTotWithDiscount();
+        calPurchaseDetails();
     }//GEN-LAST:event_purchDiscountKeyReleased
 
     private void purchDisAmountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchDisAmountMouseClicked
-        //calPurchTotWithDiscount();
+        calPurchaseDetails();
     }//GEN-LAST:event_purchDisAmountMouseClicked
 
     private void purchDisPercentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchDisPercentMouseClicked
-        //calPurchTotWithDiscount();
+        calPurchaseDetails();
     }//GEN-LAST:event_purchDisPercentMouseClicked
 
     private void purchProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchProductMouseClicked
 
     }//GEN-LAST:event_purchProductMouseClicked
+
+    private void purchSupplierComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchSupplierComboActionPerformed
+        if (purchSupplierCombo.getSelectedIndex() > 0) {
+            supplierId = Integer.parseInt(purchSupplierCombo.getSelectedItem().toString().split(" - ")[0].trim());
+            String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId, category.Description as categoryName,"
+                    + " product.Description as description, product.TotalQuantity as totalQuantity, product.orderedQuantity as orderedQuantity"
+                    + " FROM (((product JOIN brand ON product.Brand_Id=brand.Id)"
+                    + " JOIN category ON product.Category_Id=category.Id)"
+                    + " JOIN SupplierProduct ON product.Id=SupplierProduct.Product_Id)"
+                    + " WHERE product.Status = 1 and SupplierProduct.Supplier_Id=" + supplierId;
+            fillPurchaseProdTable(query);
+            loadPurchaseOrderCombo();
+        }
+    }//GEN-LAST:event_purchSupplierComboActionPerformed
+
+    private void purchProdBarcodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchProdBarcodeKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String query2 = "SELECT batchesofproduct.Id as batchid,"
+                    + " batchesofproduct.Barcode as Barcode,"
+                    + " batchesofproduct.BatchNumber as BatchNumber,"
+                    + " batchesofproduct.QuantityByBatch as quantity,"
+                    + " batchesofproduct.PurchasePrice as purchPrice,"
+                    + " batchesofproduct.RetailPrice AS RetailPrice"
+                    + " FROM batchesofproduct "
+                    + " WHERE batchesofproduct.Status = 1 and batchesofproduct.barcode=" + purchProdBarcode.getText().toString();
+            fillPurchaseBatchTable(query2);
+        }
+    }//GEN-LAST:event_purchProdBarcodeKeyReleased
+
+    private void purchPurchaseOrderComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchPurchaseOrderComboActionPerformed
+        if (purchPurchaseOrderCombo.getSelectedIndex() > 0) {
+            purchaseOrderId = Integer.parseInt(purchPurchaseOrderCombo.getSelectedItem().toString().split(" - ")[0].trim());
+            String query = "SELECT product.Id as Id,"
+                    + " product.Brand_Id as brandId,"
+                    + " brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId,"
+                    + " category.Description as categoryName,"
+                    + " product.Description as description,"
+                    + " product.TotalQuantity as totalQuantity,"
+                    + " product.orderedQuantity as orderedQuantity"
+                    + " FROM (((orderedproducts JOIN product ON orderedproducts.Product_Id=product.Id)"
+                    + " JOIN brand ON product.Brand_Id=brand.Id)"
+                    + " join category ON product.Category_Id=category.Id)"
+                    + " WHERE orderedproducts.PurchaseOrder_Id=" + purchaseOrderId;
+            fillPurchaseProdTable(query);
+        }
+    }//GEN-LAST:event_purchPurchaseOrderComboActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -903,17 +1114,16 @@ public class Purchase extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JButton purchAddBatch;
-    private javax.swing.JButton purchAddProduct;
     private javax.swing.JButton purchAddToTable;
     private app.bolivia.swing.JCTextField purchBarcode;
-    private app.bolivia.swing.JCTextField purchBatchNumber;
+    private javax.swing.JLabel purchBatchId;
     private rojeru_san.complementos.RSTableMetro purchBatchTable;
     private javax.swing.JButton purchCancel;
     private javax.swing.JButton purchComplete;
     private javax.swing.JButton purchDeleteItem;
     private javax.swing.JLabel purchDescription;
     private javax.swing.JRadioButton purchDisAmount;
+    private javax.swing.ButtonGroup purchDisGroup;
     private javax.swing.JRadioButton purchDisPercent;
     private app.bolivia.swing.JCTextField purchDiscount;
     private javax.swing.JLabel purchExpireDate;
@@ -925,11 +1135,11 @@ public class Purchase extends javax.swing.JPanel {
     private rojeru_san.complementos.RSTableMetro purchProdTable;
     private rojeru_san.complementos.RSTableMetro purchProduct;
     private app.bolivia.swing.JCTextField purchProductId;
+    private javax.swing.JComboBox<String> purchPurchaseOrderCombo;
     private app.bolivia.swing.JCTextField purchPurchasePrice;
     private app.bolivia.swing.JCTextField purchQuantity;
     private javax.swing.JLabel purchSubTotal;
     private javax.swing.JComboBox<String> purchSupplierCombo;
-    private javax.swing.JComboBox<String> purchSupplierCombo1;
     private javax.swing.JLabel purchTotal;
     // End of variables declaration//GEN-END:variables
 }

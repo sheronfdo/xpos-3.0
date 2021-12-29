@@ -23,6 +23,7 @@ int supplierId;
      */
     public Supply() {
         initComponents();
+        fillSupTable(null);
     }
     
     public void clearSupPanel() {

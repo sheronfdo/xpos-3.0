@@ -525,8 +525,10 @@ public class PurchaseOrder extends javax.swing.JPanel {
                 String query = "INSERT INTO `orderedproducts`"
                         + "( `PurchaseOrder_Id`, `Product_Id`, `Quantity`)"
                         + " VALUES (" + currentPurchaseOrderId + "," + productId + "," + quantity + ")";
+                String query2 = "UPDATE `product` SET `OrderedQuantity`=product.OrderedQuantity+"+quantity+" WHERE product.Id="+productId;
                 try {
                     DbConnect.pushToDB(query);
+                    DbConnect.pushToDB(query2);
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(PurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
@@ -536,10 +538,10 @@ public class PurchaseOrder extends javax.swing.JPanel {
             clearPurchOrderPanel();
         } else {
             if (purchOrderTable.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(this, "No Items In the Purchased Product Table");
+                //JOptionPane.showMessageDialog(this, "No Items In the Purchased Product Table");
             }
             if (purchOrderSupplierCombo.getSelectedIndex() == 0) {
-                JOptionPane.showMessageDialog(this, "Please select Supplier");
+                //JOptionPane.showMessageDialog(this, "Please select Supplier");
             }
         }
     }//GEN-LAST:event_purchCompleteActionPerformed

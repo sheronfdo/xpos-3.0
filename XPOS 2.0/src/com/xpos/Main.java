@@ -61,6 +61,7 @@ public class Main extends javax.swing.JFrame {
         Category.setVisible(false);
         SupplierProduct.setVisible(false);
         PurchaseOrder.setVisible(false);
+        Return.setVisible(false);
     }
 
     /**
@@ -88,6 +89,7 @@ public class Main extends javax.swing.JFrame {
         category = new javax.swing.JButton();
         supplierProduct = new javax.swing.JButton();
         purchaseOrder = new javax.swing.JButton();
+        returnPanel = new javax.swing.JButton();
         Header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -117,6 +119,7 @@ public class Main extends javax.swing.JFrame {
         Category = new com.xpos.gui.Category();
         SupplierProduct = new com.xpos.gui.SupplierProduct();
         PurchaseOrder = new com.xpos.gui.PurchaseOrder();
+        Return = new com.xpos.gui.Return();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -293,6 +296,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        returnPanel.setBackground(new java.awt.Color(0, 60, 128));
+        returnPanel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        returnPanel.setForeground(new java.awt.Color(255, 255, 255));
+        returnPanel.setText("RETURN");
+        returnPanel.setBorder(null);
+        returnPanel.setFocusPainted(false);
+        returnPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnPanelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SideBar2Layout = new javax.swing.GroupLayout(SideBar2);
         SideBar2.setLayout(SideBar2Layout);
         SideBar2Layout.setHorizontalGroup(
@@ -313,7 +328,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(brand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(supplierProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                    .addComponent(purchaseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(purchaseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(returnPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         SideBar2Layout.setVerticalGroup(
@@ -347,6 +363,8 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(supplierProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(purchaseOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(returnPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -537,6 +555,7 @@ public class Main extends javax.swing.JFrame {
         MainPanel.add(Category, "card13");
         MainPanel.add(SupplierProduct, "card14");
         MainPanel.add(PurchaseOrder, "card15");
+        MainPanel.add(Return, "card16");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -663,6 +682,11 @@ public class Main extends javax.swing.JFrame {
         PurchaseOrder.setVisible(true);
     }//GEN-LAST:event_purchaseOrderActionPerformed
 
+    private void returnPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnPanelActionPerformed
+        setVisibleFalseAllPanels();
+        Return.setVisible(true);
+    }//GEN-LAST:event_returnPanelActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -713,6 +737,7 @@ public class Main extends javax.swing.JFrame {
     private com.xpos.gui.Product Product;
     private com.xpos.gui.Purchase Purchase;
     private com.xpos.gui.PurchaseOrder PurchaseOrder;
+    private com.xpos.gui.Return Return;
     private com.xpos.gui.Sale Sale;
     private javax.swing.JPanel SideBar2;
     private com.xpos.gui.SupplierProduct SupplierProduct;
@@ -735,6 +760,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton product;
     private javax.swing.JButton purchase;
     private javax.swing.JButton purchaseOrder;
+    private javax.swing.JButton returnPanel;
     private javax.swing.JButton sale;
     private com.xpos.gui.Supply supplier;
     private javax.swing.JButton supplierBut;

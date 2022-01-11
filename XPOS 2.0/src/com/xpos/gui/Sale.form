@@ -932,7 +932,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel34" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="saleProfit" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <Component id="saleProfit" min="-2" pref="135" max="-2" attributes="0"/>
                               </Group>
                               <Component id="saleDeleteItem" alignment="1" min="-2" pref="201" max="-2" attributes="0"/>
                           </Group>
@@ -1202,7 +1202,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Total "/>
+            <Property name="text" type="java.lang.String" value="Total:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="saleFinalTotal">
@@ -1328,7 +1328,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Final Total Discount"/>
+            <Property name="text" type="java.lang.String" value="Final Total Discount:"/>
           </Properties>
         </Component>
       </SubComponents>

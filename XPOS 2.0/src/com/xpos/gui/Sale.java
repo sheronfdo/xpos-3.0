@@ -781,7 +781,7 @@ public class Sale extends javax.swing.JPanel {
         });
 
         jLabel29.setFont(new java.awt.Font("Tahoma", 1, 17)); // NOI18N
-        jLabel29.setText("Total ");
+        jLabel29.setText("Total:");
 
         saleFinalTotal.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         saleFinalTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -834,7 +834,7 @@ public class Sale extends javax.swing.JPanel {
         saleFinalTotalDiscount.setText("0.00");
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 1, 17)); // NOI18N
-        jLabel25.setText("Final Total Discount");
+        jLabel25.setText("Final Total Discount:");
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
@@ -874,7 +874,7 @@ public class Sale extends javax.swing.JPanel {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel31Layout.createSequentialGroup()
                                 .addComponent(jLabel34)
                                 .addGap(18, 18, 18)
-                                .addComponent(saleProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(saleProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(saleDeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1084,9 +1084,11 @@ public class Sale extends javax.swing.JPanel {
     }//GEN-LAST:event_saleProdBarcodeKeyReleased
 
     private void saleProdDescKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdDescKeyReleased
-        String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-                + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` "
-                + "WHERE status=1 and Description like '%" + saleProdDesc.getText() + "%'";
+        String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId, category.Description as categoryName,"
+                    + " product.Description as description, product.TotalQuantity as totalQuantity"
+                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                    + " WHERE product.Status = 1 and product.Description like '%"+saleProdDesc.getText().toString()+"%'";
         fillSaleProdTable(query);
     }//GEN-LAST:event_saleProdDescKeyReleased
 
@@ -1094,8 +1096,8 @@ public class Sale extends javax.swing.JPanel {
         int selectedRow = saleBatchTable.getSelectedRow();
         saleBatchId.setText(saleBatchTable.getValueAt(selectedRow, 0).toString());
         saleBarcode.setText(saleBatchTable.getValueAt(selectedRow, 2).toString());
-        saleManufacDate.setText(saleBatchTable.getValueAt(selectedRow, 6).toString());
-        saleExpireDate.setText(saleBatchTable.getValueAt(selectedRow, 7).toString());
+        saleManufacDate.setText(saleBatchTable.getValueAt(selectedRow, 6) == null ? "" : saleBatchTable.getValueAt(selectedRow, 6).toString());
+        saleExpireDate.setText(saleBatchTable.getValueAt(selectedRow, 7) == null ? "" : saleBatchTable.getValueAt(selectedRow, 7).toString());
         salePurchasePrice.setText(saleBatchTable.getValueAt(selectedRow, 4).toString());
         saleRetailPrice.setText(saleBatchTable.getValueAt(selectedRow, 5).toString());
     }//GEN-LAST:event_saleBatchTableMouseClicked

@@ -10,10 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableModel;
+import com.xpos.validation.Validate;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,6 +32,13 @@ public class Brand extends javax.swing.JPanel {
     public Brand() {
         initComponents();
         clearBrandPanel();
+    }
+
+    private boolean validateForm() {
+        return Validate.isName(brandName.getText().toString())
+                && Validate.isName(brandCompanyName.getText().toString())
+                && Validate.isText(brandCompanyAddress.getText().toString())
+                && Validate.isText(brandCompanyRegNo.getText().toString());
     }
 
     public void clearBrandPanel() {
@@ -167,18 +174,33 @@ public class Brand extends javax.swing.JPanel {
         brandCompanyName.setPhColor(new java.awt.Color(0, 51, 255));
         brandCompanyName.setPlaceholder("Company Name");
         brandCompanyName.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandCompanyName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                brandCompanyNameKeyPressed(evt);
+            }
+        });
 
         brandCompanyAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Company Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         brandCompanyAddress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         brandCompanyAddress.setPhColor(new java.awt.Color(0, 51, 255));
         brandCompanyAddress.setPlaceholder("Company Address");
         brandCompanyAddress.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandCompanyAddress.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                brandCompanyAddressKeyPressed(evt);
+            }
+        });
 
         brandCompanyRegNo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Company Register NO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         brandCompanyRegNo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         brandCompanyRegNo.setPhColor(new java.awt.Color(0, 51, 255));
         brandCompanyRegNo.setPlaceholder("Company Register NO");
         brandCompanyRegNo.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandCompanyRegNo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                brandCompanyRegNoKeyPressed(evt);
+            }
+        });
 
         brandButInsert.setBackground(new java.awt.Color(0, 60, 128));
         brandButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -233,6 +255,14 @@ public class Brand extends javax.swing.JPanel {
         brandName.setPhColor(new java.awt.Color(0, 51, 255));
         brandName.setPlaceholder("Brand Name");
         brandName.setPreferredSize(new java.awt.Dimension(200, 30));
+        brandName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                brandNameKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                brandNameKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -323,38 +353,46 @@ public class Brand extends javax.swing.JPanel {
     }//GEN-LAST:event_brandSearchKeyReleased
 
     private void brandButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButInsertActionPerformed
-        String name = brandName.getText();
-        String companyName = brandCompanyName.getText();
-        String companyAddress = brandCompanyAddress.getText();
-        String companyRegNO = brandCompanyRegNo.getText();
+        if (validateForm()) {
+            String name = brandName.getText();
+            String companyName = brandCompanyName.getText();
+            String companyAddress = brandCompanyAddress.getText();
+            String companyRegNO = brandCompanyRegNo.getText();
 
-        String query = "INSERT INTO `brand`(`BrandName`, `CompanyName`, `CompanyAddress`, `CompanyRegNo`) "
-                + "VALUES ('" + name + "','" + companyName + "','" + companyAddress + "','" + companyRegNO + "')";
-        try {
-            DbConnect.pushToDB(query);
-            clearBrandPanel();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            String query = "INSERT INTO `brand`(`BrandName`, `CompanyName`, `CompanyAddress`, `CompanyRegNo`) "
+                    + "VALUES ('" + name + "','" + companyName + "','" + companyAddress + "','" + companyRegNO + "')";
+            try {
+                DbConnect.pushToDB(query);
+                clearBrandPanel();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_brandButInsertActionPerformed
 
     private void brandButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButEditActionPerformed
-        String name = brandName.getText();
-        String companyName = brandCompanyName.getText();
-        String companyAddress = brandCompanyAddress.getText();
-        String companyRegNO = brandCompanyRegNo.getText();
+        if (validateForm()) {
+            String name = brandName.getText();
+            String companyName = brandCompanyName.getText();
+            String companyAddress = brandCompanyAddress.getText();
+            String companyRegNO = brandCompanyRegNo.getText();
 
-        String query = "UPDATE `brand` SET `BrandName`='" + name + "',`CompanyName`='" + companyName + "',"
-                + "`CompanyAddress`='" + companyAddress + "',`CompanyRegNo`='" + companyRegNO + "' WHERE `Id`=" + brandId;
-        try {
-            DbConnect.pushToDB(query);
-            clearBrandPanel();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            String query = "UPDATE `brand` SET `BrandName`='" + name + "',`CompanyName`='" + companyName + "',"
+                    + "`CompanyAddress`='" + companyAddress + "',`CompanyRegNo`='" + companyRegNO + "' WHERE `Id`=" + brandId;
+            try {
+                DbConnect.pushToDB(query);
+                clearBrandPanel();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_brandButEditActionPerformed
 
@@ -373,6 +411,48 @@ public class Brand extends javax.swing.JPanel {
     private void brandButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButCancelActionPerformed
         clearBrandPanel();
     }//GEN-LAST:event_brandButCancelActionPerformed
+
+    private void brandNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandNameKeyReleased
+
+    }//GEN-LAST:event_brandNameKeyReleased
+
+    private void brandNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandNameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(brandName.getText().toString())) {
+                brandCompanyName.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }
+    }//GEN-LAST:event_brandNameKeyPressed
+
+    private void brandCompanyNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandCompanyNameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(brandCompanyName.getText().toString())) {
+                brandCompanyAddress.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }
+    }//GEN-LAST:event_brandCompanyNameKeyPressed
+
+    private void brandCompanyAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandCompanyAddressKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(brandCompanyAddress.getText().toString())) {
+                brandCompanyRegNo.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }
+    }//GEN-LAST:event_brandCompanyAddressKeyPressed
+
+    private void brandCompanyRegNoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandCompanyRegNoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!Validate.isText(brandCompanyRegNo.getText().toString())) {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }
+    }//GEN-LAST:event_brandCompanyRegNoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

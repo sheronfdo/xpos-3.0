@@ -83,10 +83,7 @@ public class Main extends javax.swing.JFrame {
         exIncome = new javax.swing.JButton();
         purchase = new javax.swing.JButton();
         sale = new javax.swing.JButton();
-        batch = new javax.swing.JButton();
         hrm = new javax.swing.JButton();
-        brand = new javax.swing.JButton();
-        category = new javax.swing.JButton();
         supplierProduct = new javax.swing.JButton();
         purchaseOrder = new javax.swing.JButton();
         returnPanel = new javax.swing.JButton();
@@ -98,14 +95,12 @@ public class Main extends javax.swing.JFrame {
         systemTime = new javax.swing.JLabel();
         MainPanel = new javax.swing.JPanel();
         dashboard = new javax.swing.JPanel();
-        Batch = new com.xpos.gui.ProductBatch();
         supplier = new com.xpos.gui.Supply();
         Sale = new com.xpos.gui.Sale();
         Purchase = new com.xpos.gui.Purchase();
         ExCost = new com.xpos.gui.ExCost();
         ExIncome = new com.xpos.gui.ExIncome();
         Customer = new com.xpos.gui.Customer();
-        Product = new com.xpos.gui.Product();
         HRM = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
@@ -115,11 +110,20 @@ public class Main extends javax.swing.JFrame {
         employee = new javax.swing.JButton();
         userProfile = new javax.swing.JButton();
         userPosition = new javax.swing.JButton();
-        Brand = new com.xpos.gui.Brand();
-        Category = new com.xpos.gui.Category();
         SupplierProduct = new com.xpos.gui.SupplierProduct();
         PurchaseOrder = new com.xpos.gui.PurchaseOrder();
         Return = new com.xpos.gui.Return();
+        ProductDetail = new javax.swing.JPanel();
+        jLabel46 = new javax.swing.JLabel();
+        jPanel36 = new javax.swing.JPanel();
+        Product = new com.xpos.gui.Product();
+        Batch = new com.xpos.gui.ProductBatch();
+        Brand = new com.xpos.gui.Brand();
+        Category = new com.xpos.gui.Category();
+        productBatchPanelBtn = new javax.swing.JButton();
+        categoryPanelBtn = new javax.swing.JButton();
+        brandPanelBtn = new javax.swing.JButton();
+        productPanelBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -155,7 +159,7 @@ public class Main extends javax.swing.JFrame {
         product.setBackground(new java.awt.Color(0, 60, 128));
         product.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         product.setForeground(new java.awt.Color(255, 255, 255));
-        product.setText("PRODUCT");
+        product.setText("PRODUCT DETAILS");
         product.setBorder(null);
         product.setFocusPainted(false);
         product.addActionListener(new java.awt.event.ActionListener() {
@@ -224,18 +228,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        batch.setBackground(new java.awt.Color(0, 60, 128));
-        batch.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        batch.setForeground(new java.awt.Color(255, 255, 255));
-        batch.setText("PRODUCT BATCH");
-        batch.setBorder(null);
-        batch.setFocusPainted(false);
-        batch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                batchActionPerformed(evt);
-            }
-        });
-
         hrm.setBackground(new java.awt.Color(0, 60, 128));
         hrm.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         hrm.setForeground(new java.awt.Color(255, 255, 255));
@@ -245,30 +237,6 @@ public class Main extends javax.swing.JFrame {
         hrm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hrmActionPerformed(evt);
-            }
-        });
-
-        brand.setBackground(new java.awt.Color(0, 60, 128));
-        brand.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        brand.setForeground(new java.awt.Color(255, 255, 255));
-        brand.setText("BRAND");
-        brand.setBorder(null);
-        brand.setFocusPainted(false);
-        brand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                brandActionPerformed(evt);
-            }
-        });
-
-        category.setBackground(new java.awt.Color(0, 60, 128));
-        category.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        category.setForeground(new java.awt.Color(255, 255, 255));
-        category.setText("CATEGORY");
-        category.setBorder(null);
-        category.setFocusPainted(false);
-        category.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryActionPerformed(evt);
             }
         });
 
@@ -323,10 +291,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(exCost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(purchase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(batch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(hrm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(brand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(supplierProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                     .addComponent(purchaseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(returnPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -353,12 +318,6 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(purchase, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sale, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(batch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(brand, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(supplierProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -455,14 +414,12 @@ public class Main extends javax.swing.JFrame {
         );
 
         MainPanel.add(dashboard, "card3");
-        MainPanel.add(Batch, "card11");
         MainPanel.add(supplier, "card2");
         MainPanel.add(Sale, "card4");
         MainPanel.add(Purchase, "card5");
         MainPanel.add(ExCost, "card6");
         MainPanel.add(ExIncome, "card7");
         MainPanel.add(Customer, "card8");
-        MainPanel.add(Product, "card5");
 
         HRM.setBackground(new java.awt.Color(255, 255, 255));
         HRM.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255), 0));
@@ -551,11 +508,113 @@ public class Main extends javax.swing.JFrame {
         );
 
         MainPanel.add(HRM, "card2");
-        MainPanel.add(Brand, "card12");
-        MainPanel.add(Category, "card13");
         MainPanel.add(SupplierProduct, "card14");
         MainPanel.add(PurchaseOrder, "card15");
         MainPanel.add(Return, "card16");
+
+        ProductDetail.setBackground(new java.awt.Color(255, 255, 255));
+        ProductDetail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255), 0));
+
+        jLabel46.setBackground(new java.awt.Color(26, 140, 255));
+        jLabel46.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel46.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel46.setText("PRODUCT DETAILS");
+        jLabel46.setOpaque(true);
+
+        jPanel36.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255), 2));
+        jPanel36.setLayout(new java.awt.CardLayout());
+        jPanel36.add(Product, "card5");
+        jPanel36.add(Batch, "card11");
+        jPanel36.add(Brand, "card12");
+        jPanel36.add(Category, "card13");
+
+        productBatchPanelBtn.setBackground(new java.awt.Color(0, 60, 128));
+        productBatchPanelBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        productBatchPanelBtn.setForeground(new java.awt.Color(255, 255, 255));
+        productBatchPanelBtn.setText("PRODUCT BATCH");
+        productBatchPanelBtn.setBorder(null);
+        productBatchPanelBtn.setFocusPainted(false);
+        productBatchPanelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productBatchPanelBtnActionPerformed(evt);
+            }
+        });
+
+        categoryPanelBtn.setBackground(new java.awt.Color(0, 60, 128));
+        categoryPanelBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        categoryPanelBtn.setForeground(new java.awt.Color(255, 255, 255));
+        categoryPanelBtn.setText("CATEGORY");
+        categoryPanelBtn.setBorder(null);
+        categoryPanelBtn.setFocusPainted(false);
+        categoryPanelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryPanelBtnActionPerformed(evt);
+            }
+        });
+
+        brandPanelBtn.setBackground(new java.awt.Color(0, 60, 128));
+        brandPanelBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        brandPanelBtn.setForeground(new java.awt.Color(255, 255, 255));
+        brandPanelBtn.setText("BRAND");
+        brandPanelBtn.setBorder(null);
+        brandPanelBtn.setFocusPainted(false);
+        brandPanelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                brandPanelBtnActionPerformed(evt);
+            }
+        });
+
+        productPanelBtn.setBackground(new java.awt.Color(0, 60, 128));
+        productPanelBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        productPanelBtn.setForeground(new java.awt.Color(255, 255, 255));
+        productPanelBtn.setText("PRODUCT");
+        productPanelBtn.setBorder(null);
+        productPanelBtn.setFocusPainted(false);
+        productPanelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productPanelBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ProductDetailLayout = new javax.swing.GroupLayout(ProductDetail);
+        ProductDetail.setLayout(ProductDetailLayout);
+        ProductDetailLayout.setHorizontalGroup(
+            ProductDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProductDetailLayout.createSequentialGroup()
+                .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(ProductDetailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ProductDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, 1624, Short.MAX_VALUE)
+                    .addGroup(ProductDetailLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(productPanelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(productBatchPanelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(brandPanelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(categoryPanelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        ProductDetailLayout.setVerticalGroup(
+            ProductDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProductDetailLayout.createSequentialGroup()
+                .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addGroup(ProductDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(productBatchPanelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(categoryPanelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brandPanelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productPanelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        MainPanel.add(ProductDetail, "card2");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -606,7 +665,7 @@ public class Main extends javax.swing.JFrame {
 
     private void productActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productActionPerformed
         setVisibleFalseAllPanels();
-        Product.setVisible(true);
+        ProductDetail.setVisible(true);
     }//GEN-LAST:event_productActionPerformed
 
     private void customerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerActionPerformed
@@ -634,11 +693,6 @@ public class Main extends javax.swing.JFrame {
         Sale.setVisible(true);
     }//GEN-LAST:event_saleActionPerformed
 
-    private void batchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchActionPerformed
-        setVisibleFalseAllPanels();
-        Batch.setVisible(true);
-    }//GEN-LAST:event_batchActionPerformed
-
     private void hrmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hrmActionPerformed
         setVisibleFalseAllPanels();
         HRM.setVisible(true);
@@ -662,16 +716,6 @@ public class Main extends javax.swing.JFrame {
         EmpPosition.setVisible(true);
     }//GEN-LAST:event_userPositionActionPerformed
 
-    private void brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandActionPerformed
-        setVisibleFalseAllPanels();
-        Brand.setVisible(true);
-    }//GEN-LAST:event_brandActionPerformed
-
-    private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
-        setVisibleFalseAllPanels();
-        Category.setVisible(true);
-    }//GEN-LAST:event_categoryActionPerformed
-
     private void supplierProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierProductActionPerformed
         setVisibleFalseAllPanels();
         SupplierProduct.setVisible(true);
@@ -686,6 +730,30 @@ public class Main extends javax.swing.JFrame {
         setVisibleFalseAllPanels();
         Return.setVisible(true);
     }//GEN-LAST:event_returnPanelActionPerformed
+
+    private void productBatchPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBatchPanelBtnActionPerformed
+        setVisibleFalseAllPanels();
+        ProductDetail.setVisible(true);
+        Batch.setVisible(true);
+    }//GEN-LAST:event_productBatchPanelBtnActionPerformed
+
+    private void categoryPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryPanelBtnActionPerformed
+        setVisibleFalseAllPanels();
+        ProductDetail.setVisible(true);
+        Category.setVisible(true);
+    }//GEN-LAST:event_categoryPanelBtnActionPerformed
+
+    private void brandPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandPanelBtnActionPerformed
+        setVisibleFalseAllPanels();
+        ProductDetail.setVisible(true);
+        Brand.setVisible(true);
+    }//GEN-LAST:event_brandPanelBtnActionPerformed
+
+    private void productPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productPanelBtnActionPerformed
+        setVisibleFalseAllPanels();
+        ProductDetail.setVisible(true);
+        Product.setVisible(true);
+    }//GEN-LAST:event_productPanelBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -735,6 +803,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel Header;
     private javax.swing.JPanel MainPanel;
     private com.xpos.gui.Product Product;
+    private javax.swing.JPanel ProductDetail;
     private com.xpos.gui.Purchase Purchase;
     private com.xpos.gui.PurchaseOrder PurchaseOrder;
     private com.xpos.gui.Return Return;
@@ -742,9 +811,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel SideBar2;
     private com.xpos.gui.SupplierProduct SupplierProduct;
     private com.xpos.gui.UserProfile UserProfile;
-    private javax.swing.JButton batch;
-    private javax.swing.JButton brand;
-    private javax.swing.JButton category;
+    private javax.swing.JButton brandPanelBtn;
+    private javax.swing.JButton categoryPanelBtn;
     private javax.swing.JButton customer;
     private javax.swing.JPanel dashboard;
     private javax.swing.JButton employee;
@@ -754,10 +822,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton hrm;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton product;
+    private javax.swing.JButton productBatchPanelBtn;
+    private javax.swing.JButton productPanelBtn;
     private javax.swing.JButton purchase;
     private javax.swing.JButton purchaseOrder;
     private javax.swing.JButton returnPanel;

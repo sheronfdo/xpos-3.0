@@ -62,6 +62,11 @@ public class Main extends javax.swing.JFrame {
         SupplierProduct.setVisible(false);
         PurchaseOrder.setVisible(false);
         Return.setVisible(false);
+        Invoices.setVisible(false);
+        SaleInvoice.setVisible(false);
+        PurchaseInvoice.setVisible(false);
+        ReturnInvoice.setVisible(false);
+        POInvoice.setVisible(false);
     }
 
     /**
@@ -87,6 +92,7 @@ public class Main extends javax.swing.JFrame {
         supplierProduct = new javax.swing.JButton();
         purchaseOrder = new javax.swing.JButton();
         returnPanel = new javax.swing.JButton();
+        invoiceBtn = new javax.swing.JButton();
         Header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -124,6 +130,17 @@ public class Main extends javax.swing.JFrame {
         categoryPanelBtn = new javax.swing.JButton();
         brandPanelBtn = new javax.swing.JButton();
         productPanelBtn = new javax.swing.JButton();
+        Invoices = new javax.swing.JPanel();
+        jLabel47 = new javax.swing.JLabel();
+        jPanel37 = new javax.swing.JPanel();
+        SaleInvoice = new com.xpos.gui.SaleInvoice();
+        PurchaseInvoice = new com.xpos.gui.PurchaseInvoice();
+        ReturnInvoice = new com.xpos.gui.ReturnInvoice();
+        POInvoice = new com.xpos.gui.POInvoice();
+        purchaseInvoiceBtn = new javax.swing.JButton();
+        purchaseOrderBtn = new javax.swing.JButton();
+        returnInvoiceBtn = new javax.swing.JButton();
+        saleInvoiceBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -276,6 +293,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        invoiceBtn.setBackground(new java.awt.Color(0, 60, 128));
+        invoiceBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        invoiceBtn.setForeground(new java.awt.Color(255, 255, 255));
+        invoiceBtn.setText("INVOICES");
+        invoiceBtn.setBorder(null);
+        invoiceBtn.setFocusPainted(false);
+        invoiceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invoiceBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SideBar2Layout = new javax.swing.GroupLayout(SideBar2);
         SideBar2.setLayout(SideBar2Layout);
         SideBar2Layout.setHorizontalGroup(
@@ -294,7 +323,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(hrm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(supplierProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                     .addComponent(purchaseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(returnPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(returnPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(invoiceBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         SideBar2Layout.setVerticalGroup(
@@ -324,6 +354,8 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(purchaseOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(returnPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(invoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -616,6 +648,110 @@ public class Main extends javax.swing.JFrame {
 
         MainPanel.add(ProductDetail, "card2");
 
+        Invoices.setBackground(new java.awt.Color(255, 255, 255));
+        Invoices.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255), 0));
+
+        jLabel47.setBackground(new java.awt.Color(26, 140, 255));
+        jLabel47.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel47.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel47.setText("PRODUCT DETAILS");
+        jLabel47.setOpaque(true);
+
+        jPanel37.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255), 2));
+        jPanel37.setLayout(new java.awt.CardLayout());
+        jPanel37.add(SaleInvoice, "card2");
+        jPanel37.add(PurchaseInvoice, "card3");
+        jPanel37.add(ReturnInvoice, "card4");
+        jPanel37.add(POInvoice, "card5");
+
+        purchaseInvoiceBtn.setBackground(new java.awt.Color(0, 60, 128));
+        purchaseInvoiceBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        purchaseInvoiceBtn.setForeground(new java.awt.Color(255, 255, 255));
+        purchaseInvoiceBtn.setText("PURCHASE INVOICE");
+        purchaseInvoiceBtn.setBorder(null);
+        purchaseInvoiceBtn.setFocusPainted(false);
+        purchaseInvoiceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchaseInvoiceBtnActionPerformed(evt);
+            }
+        });
+
+        purchaseOrderBtn.setBackground(new java.awt.Color(0, 60, 128));
+        purchaseOrderBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        purchaseOrderBtn.setForeground(new java.awt.Color(255, 255, 255));
+        purchaseOrderBtn.setText("PURCHASE ORDER");
+        purchaseOrderBtn.setBorder(null);
+        purchaseOrderBtn.setFocusPainted(false);
+        purchaseOrderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchaseOrderBtnActionPerformed(evt);
+            }
+        });
+
+        returnInvoiceBtn.setBackground(new java.awt.Color(0, 60, 128));
+        returnInvoiceBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        returnInvoiceBtn.setForeground(new java.awt.Color(255, 255, 255));
+        returnInvoiceBtn.setText("RETURN INVOICE");
+        returnInvoiceBtn.setBorder(null);
+        returnInvoiceBtn.setFocusPainted(false);
+        returnInvoiceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnInvoiceBtnActionPerformed(evt);
+            }
+        });
+
+        saleInvoiceBtn.setBackground(new java.awt.Color(0, 60, 128));
+        saleInvoiceBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        saleInvoiceBtn.setForeground(new java.awt.Color(255, 255, 255));
+        saleInvoiceBtn.setText("SALE INVOICE");
+        saleInvoiceBtn.setBorder(null);
+        saleInvoiceBtn.setFocusPainted(false);
+        saleInvoiceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saleInvoiceBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout InvoicesLayout = new javax.swing.GroupLayout(Invoices);
+        Invoices.setLayout(InvoicesLayout);
+        InvoicesLayout.setHorizontalGroup(
+            InvoicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InvoicesLayout.createSequentialGroup()
+                .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(InvoicesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(InvoicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, 1624, Short.MAX_VALUE)
+                    .addGroup(InvoicesLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(saleInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purchaseInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(returnInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purchaseOrderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        InvoicesLayout.setVerticalGroup(
+            InvoicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InvoicesLayout.createSequentialGroup()
+                .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addGroup(InvoicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(purchaseInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(purchaseOrderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(returnInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saleInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        MainPanel.add(Invoices, "card2");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -755,6 +891,35 @@ public class Main extends javax.swing.JFrame {
         Product.setVisible(true);
     }//GEN-LAST:event_productPanelBtnActionPerformed
 
+    private void purchaseInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseInvoiceBtnActionPerformed
+        setVisibleFalseAllPanels();
+        Invoices.setVisible(true);
+        PurchaseInvoice.setVisible(true);          // TODO add your handling code here:
+    }//GEN-LAST:event_purchaseInvoiceBtnActionPerformed
+
+    private void purchaseOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseOrderBtnActionPerformed
+        setVisibleFalseAllPanels();
+        Invoices.setVisible(true);
+        POInvoice.setVisible(true);          // TODO add your handling code here:
+    }//GEN-LAST:event_purchaseOrderBtnActionPerformed
+
+    private void returnInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnInvoiceBtnActionPerformed
+        setVisibleFalseAllPanels();
+        Invoices.setVisible(true);
+        ReturnInvoice.setVisible(true);          // TODO add your handling code here:
+    }//GEN-LAST:event_returnInvoiceBtnActionPerformed
+
+    private void saleInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleInvoiceBtnActionPerformed
+        setVisibleFalseAllPanels();
+        Invoices.setVisible(true);
+        SaleInvoice.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_saleInvoiceBtnActionPerformed
+
+    private void invoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceBtnActionPerformed
+        setVisibleFalseAllPanels();
+        Invoices.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_invoiceBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -801,13 +966,18 @@ public class Main extends javax.swing.JFrame {
     private com.xpos.gui.ExIncome ExIncome;
     private javax.swing.JPanel HRM;
     private javax.swing.JPanel Header;
+    private javax.swing.JPanel Invoices;
     private javax.swing.JPanel MainPanel;
+    private com.xpos.gui.POInvoice POInvoice;
     private com.xpos.gui.Product Product;
     private javax.swing.JPanel ProductDetail;
     private com.xpos.gui.Purchase Purchase;
+    private com.xpos.gui.PurchaseInvoice PurchaseInvoice;
     private com.xpos.gui.PurchaseOrder PurchaseOrder;
     private com.xpos.gui.Return Return;
+    private com.xpos.gui.ReturnInvoice ReturnInvoice;
     private com.xpos.gui.Sale Sale;
+    private com.xpos.gui.SaleInvoice SaleInvoice;
     private javax.swing.JPanel SideBar2;
     private com.xpos.gui.SupplierProduct SupplierProduct;
     private com.xpos.gui.UserProfile UserProfile;
@@ -820,20 +990,27 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton exIncome;
     private javax.swing.JButton homeBut2;
     private javax.swing.JButton hrm;
+    private javax.swing.JButton invoiceBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton product;
     private javax.swing.JButton productBatchPanelBtn;
     private javax.swing.JButton productPanelBtn;
     private javax.swing.JButton purchase;
+    private javax.swing.JButton purchaseInvoiceBtn;
     private javax.swing.JButton purchaseOrder;
+    private javax.swing.JButton purchaseOrderBtn;
+    private javax.swing.JButton returnInvoiceBtn;
     private javax.swing.JButton returnPanel;
     private javax.swing.JButton sale;
+    private javax.swing.JButton saleInvoiceBtn;
     private com.xpos.gui.Supply supplier;
     private javax.swing.JButton supplierBut;
     private javax.swing.JButton supplierProduct;

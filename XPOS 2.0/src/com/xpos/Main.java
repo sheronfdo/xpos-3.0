@@ -5,6 +5,7 @@
  */
 package com.xpos;
 
+import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -23,6 +24,8 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/xpos/images/icon.png")));
+        setTitle("XPOS 2.0");
         runDateTime();
         setVisibleFalseAllPanels();
     }
@@ -67,6 +70,7 @@ public class Main extends javax.swing.JFrame {
         PurchaseInvoice.setVisible(false);
         ReturnInvoice.setVisible(false);
         POInvoice.setVisible(false);
+        ProductDetail.setVisible(false);
     }
 
     /**
@@ -143,6 +147,7 @@ public class Main extends javax.swing.JFrame {
         saleInvoiceBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setName("XPOS 2.0"); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(1920, 996));

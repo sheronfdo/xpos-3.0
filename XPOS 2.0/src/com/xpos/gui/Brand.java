@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import com.xpos.validation.Validate;
+import com.xpos.commons.Validate;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 

@@ -5,11 +5,14 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +23,7 @@ public class Category extends javax.swing.JPanel {
 
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    
+
     int catId;
 
     /**
@@ -29,6 +32,10 @@ public class Category extends javax.swing.JPanel {
     public Category() {
         initComponents();
         clearCategoryPanel();
+    }
+
+    private boolean validateForm() {
+        return Validate.isText(catDescription.getText().toString());
     }
 
     public void clearCategoryPanel() {
@@ -159,6 +166,11 @@ public class Category extends javax.swing.JPanel {
         catDescription.setPhColor(new java.awt.Color(0, 51, 255));
         catDescription.setPlaceholder("Description");
         catDescription.setPreferredSize(new java.awt.Dimension(200, 30));
+        catDescription.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                catDescriptionKeyPressed(evt);
+            }
+        });
 
         catSpecNote.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Special Note", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         catSpecNote.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -292,34 +304,42 @@ public class Category extends javax.swing.JPanel {
     }//GEN-LAST:event_catSearchKeyReleased
 
     private void catButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButInsertActionPerformed
-        String description = catDescription.getText();
-        String note = catSpecNote.getText();
-        String query = "INSERT INTO `category`(`Description`, `Note`) VALUES ('" + description + "','" + note + "')";
-        try {
-            DbConnect.pushToDB(query);
-            clearCategoryPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (validateForm()) {
+            String description = catDescription.getText();
+            String note = catSpecNote.getText();
+            String query = "INSERT INTO `category`(`Description`, `Note`) VALUES ('" + description + "','" + note + "')";
+            try {
+                DbConnect.pushToDB(query);
+                clearCategoryPanel();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_catButInsertActionPerformed
 
     private void catButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButEditActionPerformed
-        String description = catDescription.getText();
-        String note = catSpecNote.getText();
-        String query = "UPDATE `category` SET `Description`='" + description + "',`Note`='" + note + "' WHERE Id=" + catId;
-        try {
-            DbConnect.pushToDB(query);
-            clearCategoryPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (validateForm()) {
+            String description = catDescription.getText();
+            String note = catSpecNote.getText();
+            String query = "UPDATE `category` SET `Description`='" + description + "',`Note`='" + note + "' WHERE Id=" + catId;
+            try {
+                DbConnect.pushToDB(query);
+                clearCategoryPanel();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_catButEditActionPerformed
 
@@ -340,6 +360,17 @@ public class Category extends javax.swing.JPanel {
     private void catButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButCancelActionPerformed
         clearCategoryPanel();
     }//GEN-LAST:event_catButCancelActionPerformed
+
+    private void catDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_catDescriptionKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(catDescription.getText().toString())) {
+                catSpecNote.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+        // TODO add your handling code here:
+    }//GEN-LAST:event_catDescriptionKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

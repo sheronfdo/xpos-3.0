@@ -49,7 +49,7 @@ public class Brand extends javax.swing.JPanel {
         fillBrandTable(null);
     }
 
-    public void fillBrandTable(String query) {
+    private void fillBrandTable(String query) {
         tablemodel = (DefaultTableModel) brandTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {

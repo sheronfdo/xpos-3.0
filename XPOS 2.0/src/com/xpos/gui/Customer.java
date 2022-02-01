@@ -5,7 +5,9 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,6 +37,16 @@ public class Customer extends javax.swing.JPanel {
         fillCustomerTable(null);
     }
 
+    private boolean validateForm() {
+        return Validate.isText(customerAddress.getText().toString())
+                && Validate.isTelephone(customerTeleNumber.getText().toString())
+                && Validate.isNIC(customerNIC.getText().toString())
+                && Validate.isName(customerName.getText().toString())
+                && Validate.isDate(customerDOB.getDate().toString())
+                && Validate.isDate(customerJoinedDate.getDate().toString())
+                && Validate.isEmail(customerEmail.getText().toString());
+    }
+
     public void clearCustomerPanel() {
         customerName.setText("");
         customerAddress.setText("");
@@ -47,7 +60,7 @@ public class Customer extends javax.swing.JPanel {
         fillCustomerTable(null);
     }
 
-    public void fillCustomerTable(String query) {
+    private void fillCustomerTable(String query) {
         tablemodel = (DefaultTableModel) customerTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
@@ -65,8 +78,8 @@ public class Customer extends javax.swing.JPanel {
                 v.add(rs.getDate("DOB"));
                 v.add(rs.getDate("JoinedDate"));
                 v.add(rs.getString("Email"));
-                v.add(rs.getString("Gender")!=null ? 
-                        (rs.getString("Gender").equals("M") ? "Male" : "Female") : (""));
+                v.add(rs.getString("Gender") != null
+                        ? (rs.getString("Gender").equals("M") ? "Male" : "Female") : (""));
 
                 tablemodel.addRow(v);
             }
@@ -174,40 +187,81 @@ public class Customer extends javax.swing.JPanel {
         customerName.setPhColor(new java.awt.Color(0, 51, 255));
         customerName.setPlaceholder("Name");
         customerName.setPreferredSize(new java.awt.Dimension(200, 30));
+        customerName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerNameKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                customerNameKeyReleased(evt);
+            }
+        });
 
         customerAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         customerAddress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         customerAddress.setPhColor(new java.awt.Color(0, 51, 255));
         customerAddress.setPlaceholder("Address");
         customerAddress.setPreferredSize(new java.awt.Dimension(200, 30));
+        customerAddress.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerAddressKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                customerAddressKeyReleased(evt);
+            }
+        });
 
         customerTeleNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Telephone Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         customerTeleNumber.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         customerTeleNumber.setPhColor(new java.awt.Color(0, 51, 255));
         customerTeleNumber.setPlaceholder("Telephone Number");
         customerTeleNumber.setPreferredSize(new java.awt.Dimension(200, 30));
+        customerTeleNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerTeleNumberKeyPressed(evt);
+            }
+        });
 
         customerNIC.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "NIC", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         customerNIC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         customerNIC.setPhColor(new java.awt.Color(0, 51, 255));
         customerNIC.setPlaceholder("NIC");
         customerNIC.setPreferredSize(new java.awt.Dimension(200, 30));
+        customerNIC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerNICKeyPressed(evt);
+            }
+        });
 
         customerDOB.setBackground(new java.awt.Color(255, 255, 255));
         customerDOB.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Date Of Birth", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         customerDOB.setDateFormatString("yyyy-MM-dd");
         customerDOB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        customerDOB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerDOBKeyPressed(evt);
+            }
+        });
 
         customerJoinedDate.setBackground(new java.awt.Color(255, 255, 255));
         customerJoinedDate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Joined Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         customerJoinedDate.setDateFormatString("yyyy-MM-dd");
         customerJoinedDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        customerJoinedDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerJoinedDateKeyPressed(evt);
+            }
+        });
 
         customerEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Email", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         customerEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         customerEmail.setPhColor(new java.awt.Color(0, 51, 255));
         customerEmail.setPlaceholder("Email");
         customerEmail.setPreferredSize(new java.awt.Dimension(200, 30));
+        customerEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerEmailKeyPressed(evt);
+            }
+        });
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Gender", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
@@ -218,12 +272,22 @@ public class Customer extends javax.swing.JPanel {
         customerGenMale.setForeground(new java.awt.Color(26, 140, 255));
         customerGenMale.setSelected(true);
         customerGenMale.setText("Male");
+        customerGenMale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerGenMaleKeyPressed(evt);
+            }
+        });
 
         customerGenFemale.setBackground(new java.awt.Color(255, 255, 255));
         gender.add(customerGenFemale);
         customerGenFemale.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         customerGenFemale.setForeground(new java.awt.Color(26, 140, 255));
         customerGenFemale.setText("Female");
+        customerGenFemale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerGenFemaleKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -466,6 +530,103 @@ public class Customer extends javax.swing.JPanel {
         String query = "SELECT * from customer WHERE Name LIKE '%" + customerSearch.getText().toString() + "%' and Status=1";
         fillCustomerTable(query);
     }//GEN-LAST:event_customerSearchKeyReleased
+
+    private void customerNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerNameKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_customerNameKeyReleased
+
+    private void customerAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerAddressKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(customerAddress.getText().toString())) {
+                customerTeleNumber.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_customerAddressKeyPressed
+
+    private void customerTeleNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerTeleNumberKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isTelephone(customerTeleNumber.getText().toString())) {
+                customerNIC.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }
+    }//GEN-LAST:event_customerTeleNumberKeyPressed
+
+    private void customerNICKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerNICKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isNIC(customerNIC.getText().toString())) {
+                customerDOB.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_customerNICKeyPressed
+
+    private void customerNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerNameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isName(customerName.getText().toString())) {
+                customerAddress.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }          // TODO add your handling code here:
+    }//GEN-LAST:event_customerNameKeyPressed
+
+    private void customerDOBKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerDOBKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDate(customerDOB.getDate().toString())) {
+                customerJoinedDate.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        } // TODO add your handling code here:
+    }//GEN-LAST:event_customerDOBKeyPressed
+
+    private void customerJoinedDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerJoinedDateKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDate(customerJoinedDate.getDate().toString())) {
+                customerEmail.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_customerJoinedDateKeyPressed
+
+    private void customerEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerEmailKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isEmail(customerEmail.getText().toString())) {
+                customerGenMale.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_customerEmailKeyPressed
+
+    private void customerGenMaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerGenMaleKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            customerButInsert.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            customerGenFemale.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_customerGenMaleKeyPressed
+
+    private void customerGenFemaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerGenFemaleKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            customerButInsert.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            customerGenMale.requestFocus();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_customerGenFemaleKeyPressed
+
+    private void customerAddressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerAddressKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_customerAddressKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

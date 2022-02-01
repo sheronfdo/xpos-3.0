@@ -45,7 +45,7 @@ public class Category extends javax.swing.JPanel {
         fillCategoryTable(null);
     }
 
-    public void fillCategoryTable(String query) {
+    private void fillCategoryTable(String query) {
         tablemodel = (DefaultTableModel) categoryTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {

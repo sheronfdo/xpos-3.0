@@ -244,6 +244,10 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerNameKeyPressed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerNameKeyReleased"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="customerAddress">
           <Properties>
@@ -271,6 +275,10 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerAddressKeyPressed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerAddressKeyReleased"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="customerTeleNumber">
           <Properties>
@@ -298,6 +306,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerTeleNumberKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="customerNIC">
           <Properties>
@@ -325,6 +336,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerNICKeyPressed"/>
+          </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="customerDOB">
           <Properties>
@@ -349,6 +363,9 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerDOBKeyPressed"/>
+          </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="customerJoinedDate">
           <Properties>
@@ -373,6 +390,9 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerJoinedDateKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="customerEmail">
           <Properties>
@@ -400,6 +420,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerEmailKeyPressed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel6">
           <Properties>
@@ -463,6 +486,9 @@
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Male"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerGenMaleKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="customerGenFemale">
               <Properties>
@@ -480,6 +506,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Female"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="customerGenFemaleKeyPressed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

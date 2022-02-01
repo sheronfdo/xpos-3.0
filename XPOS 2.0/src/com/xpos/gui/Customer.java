@@ -440,54 +440,62 @@ public class Customer extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void customerButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButInsertActionPerformed
-        String name = customerName.getText();
-        String address = customerAddress.getText();
-        String teleNumber = customerTeleNumber.getText();
-        String NIC = customerNIC.getText();
-        LocalDate DOB = customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate joinedDate = customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String email = customerEmail.getText();
-        String gender = (customerGenMale.isSelected()) ? "M" : "F";
+        if (validateForm()) {
+            String name = customerName.getText();
+            String address = customerAddress.getText();
+            String teleNumber = customerTeleNumber.getText();
+            String NIC = customerNIC.getText();
+            LocalDate DOB = customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate joinedDate = customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String email = customerEmail.getText();
+            String gender = (customerGenMale.isSelected()) ? "M" : "F";
 
-        String query = "INSERT INTO `customer`(`Name`, `Address`, `TelephoneNo`,"
-                + " `NIC`, `DOB`, `JoinedDate`, `Email`, `Gender`) VALUES ('" + name + "',"
-                + "'" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat) + "','"
-                + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "')";
-        try {
-            DbConnect.pushToDB(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            String query = "INSERT INTO `customer`(`Name`, `Address`, `TelephoneNo`,"
+                    + " `NIC`, `DOB`, `JoinedDate`, `Email`, `Gender`) VALUES ('" + name + "',"
+                    + "'" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat) + "','"
+                    + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "')";
+            try {
+                DbConnect.pushToDB(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            clearCustomerPanel();
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
-        clearCustomerPanel();
     }//GEN-LAST:event_customerButInsertActionPerformed
 
     private void customerButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButEditActionPerformed
-        String name = customerName.getText();
-        String address = customerAddress.getText();
-        String teleNumber = customerTeleNumber.getText();
-        String NIC = customerNIC.getText();
-        LocalDate DOB = customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate joinedDate = customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String email = customerEmail.getText();
-        String gender = (customerGenMale.isSelected()) ? "M" : "F";
+        if (validateForm()) {
+            String name = customerName.getText();
+            String address = customerAddress.getText();
+            String teleNumber = customerTeleNumber.getText();
+            String NIC = customerNIC.getText();
+            LocalDate DOB = customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate joinedDate = customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String email = customerEmail.getText();
+            String gender = (customerGenMale.isSelected()) ? "M" : "F";
 
-        String query = "UPDATE customer SET Name='" + name + "',Address='" + address + "',"
-                + "TelephoneNo='" + teleNumber + "',NIC='" + NIC + "',DOB='" + DOB.format(defaultDateFormat) + "',JoinedDate='" + joinedDate.format(defaultDateFormat) + "',"
-                + "Email='" + email + "',Gender='" + gender + "' WHERE Id=" + customerId;
-        try {
-            DbConnect.pushToDB(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            String query = "UPDATE customer SET Name='" + name + "',Address='" + address + "',"
+                    + "TelephoneNo='" + teleNumber + "',NIC='" + NIC + "',DOB='" + DOB.format(defaultDateFormat) + "',JoinedDate='" + joinedDate.format(defaultDateFormat) + "',"
+                    + "Email='" + email + "',Gender='" + gender + "' WHERE Id=" + customerId;
+            try {
+                DbConnect.pushToDB(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            clearCustomerPanel();
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
-        clearCustomerPanel();
     }//GEN-LAST:event_customerButEditActionPerformed
 
     private void customerButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButDeleteActionPerformed

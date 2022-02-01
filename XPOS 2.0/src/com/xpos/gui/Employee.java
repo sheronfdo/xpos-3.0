@@ -528,7 +528,7 @@ public class Employee extends javax.swing.JPanel {
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }//
         } else {
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }

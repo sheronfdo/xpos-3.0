@@ -5,7 +5,9 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -14,6 +16,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -48,6 +51,17 @@ public class Employee extends javax.swing.JPanel {
         empPositionCombo.setSelectedIndex(0);
         fillEmpTable(null);
         loadEmpPosCombo();
+    }
+
+    private boolean validateForm() {
+        return Validate.isText(empAddress.getText().toString())
+                && Validate.isTelephone(empTeleNumber.getText().toString())
+                && Validate.isNIC(empNIC.getText().toString())
+                && Validate.isName(empName.getText().toString())
+                && Validate.isDate(empDOB.getDate().toString())
+                && Validate.isDate(empJoinedDate.getDate().toString())
+                && Validate.isEmail(empEmail.getText().toString())
+                && empPositionCombo.getSelectedIndex() > 0;
     }
 
     public void loadEmpPosCombo() {
@@ -199,40 +213,75 @@ public class Employee extends javax.swing.JPanel {
         empName.setPhColor(new java.awt.Color(0, 51, 255));
         empName.setPlaceholder("Name");
         empName.setPreferredSize(new java.awt.Dimension(200, 30));
+        empName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empNameKeyPressed(evt);
+            }
+        });
 
         empAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         empAddress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         empAddress.setPhColor(new java.awt.Color(0, 51, 255));
         empAddress.setPlaceholder("Address");
         empAddress.setPreferredSize(new java.awt.Dimension(200, 30));
+        empAddress.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empAddressKeyPressed(evt);
+            }
+        });
 
         empTeleNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Telephone Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         empTeleNumber.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         empTeleNumber.setPhColor(new java.awt.Color(0, 51, 255));
         empTeleNumber.setPlaceholder("Telephone Number");
         empTeleNumber.setPreferredSize(new java.awt.Dimension(200, 30));
+        empTeleNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empTeleNumberKeyPressed(evt);
+            }
+        });
 
         empNIC.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "NIC", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         empNIC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         empNIC.setPhColor(new java.awt.Color(0, 51, 255));
         empNIC.setPlaceholder("NIC");
         empNIC.setPreferredSize(new java.awt.Dimension(200, 30));
+        empNIC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empNICKeyPressed(evt);
+            }
+        });
 
         empDOB.setBackground(new java.awt.Color(255, 255, 255));
         empDOB.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Date Of Birth", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         empDOB.setDateFormatString("yyyy-MM-dd");
         empDOB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        empDOB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empDOBKeyPressed(evt);
+            }
+        });
 
         empJoinedDate.setBackground(new java.awt.Color(255, 255, 255));
         empJoinedDate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Joined Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         empJoinedDate.setDateFormatString("yyyy-MM-dd");
         empJoinedDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        empJoinedDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empJoinedDateKeyPressed(evt);
+            }
+        });
 
         empEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Email", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         empEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         empEmail.setPhColor(new java.awt.Color(0, 51, 255));
         empEmail.setPlaceholder("Email");
         empEmail.setPreferredSize(new java.awt.Dimension(200, 30));
+        empEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empEmailKeyPressed(evt);
+            }
+        });
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
         jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Gender", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
@@ -243,12 +292,22 @@ public class Employee extends javax.swing.JPanel {
         empGenMale.setForeground(new java.awt.Color(26, 140, 255));
         empGenMale.setSelected(true);
         empGenMale.setText("Male");
+        empGenMale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empGenMaleKeyPressed(evt);
+            }
+        });
 
         empGenFemale.setBackground(new java.awt.Color(255, 255, 255));
         gender.add(empGenFemale);
         empGenFemale.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         empGenFemale.setForeground(new java.awt.Color(26, 140, 255));
         empGenFemale.setText("Female");
+        empGenFemale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empGenFemaleKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -274,6 +333,11 @@ public class Employee extends javax.swing.JPanel {
         empPositionCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Position" }));
         empPositionCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Select Position", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         empPositionCombo.setOpaque(false);
+        empPositionCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empPositionComboKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -409,56 +473,64 @@ public class Employee extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void empButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButInsertActionPerformed
-        String name = empName.getText();
-        String address = empAddress.getText();
-        String teleNumber = empTeleNumber.getText();
-        String NIC = empNIC.getText();
-        LocalDate DOB = empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate joinedDate = empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String email = empEmail.getText();
-        String gender = empGenMale.isSelected() ? "M" : "F";
-        int positionId = Integer.parseInt(empPositionCombo.getSelectedItem().toString().split(" - ")[0]);
+        if (validateForm()) {
+            String name = empName.getText();
+            String address = empAddress.getText();
+            String teleNumber = empTeleNumber.getText();
+            String NIC = empNIC.getText();
+            LocalDate DOB = empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate joinedDate = empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String email = empEmail.getText();
+            String gender = empGenMale.isSelected() ? "M" : "F";
+            int positionId = Integer.parseInt(empPositionCombo.getSelectedItem().toString().split(" - ")[0]);
 
-        String query = "INSERT INTO `employee`( `Name`, `Address`, `TelephoneNo`, `NIC`,"
-                + " `DOB`, `JoinedDate`, `Email`, `Gender`, `EmployeePosition_id`) VALUES "
-                + "('" + name + "','" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat)
-                + "','" + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "'," + positionId + ")";
+            String query = "INSERT INTO `employee`( `Name`, `Address`, `TelephoneNo`, `NIC`,"
+                    + " `DOB`, `JoinedDate`, `Email`, `Gender`, `EmployeePosition_id`) VALUES "
+                    + "('" + name + "','" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat)
+                    + "','" + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "'," + positionId + ")";
 
-        try {
-            DbConnect.pushToDB(query);
-            clearEmployePanel();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                DbConnect.pushToDB(query);
+                clearEmployePanel();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_empButInsertActionPerformed
 
     private void empButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButEditActionPerformed
-        String name = empName.getText();
-        String address = empAddress.getText();
-        String teleNumber = empTeleNumber.getText();
-        String NIC = empNIC.getText();
-        LocalDate DOB = empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate joinedDate = empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String email = empEmail.getText();
-        String gender = empGenMale.isSelected() ? "M" : "F";
-        int positionId = Integer.parseInt(empPositionCombo.getSelectedItem().toString().split(" - ")[0]);
+        if (validateForm()) {
+            String name = empName.getText();
+            String address = empAddress.getText();
+            String teleNumber = empTeleNumber.getText();
+            String NIC = empNIC.getText();
+            LocalDate DOB = empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate joinedDate = empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String email = empEmail.getText();
+            String gender = empGenMale.isSelected() ? "M" : "F";
+            int positionId = Integer.parseInt(empPositionCombo.getSelectedItem().toString().split(" - ")[0]);
 
-        String query = "UPDATE `employee` SET `Name`='" + name + "',`Address`='" + address + "',`TelephoneNo`='" + teleNumber
-                + "',`NIC`='" + NIC + "',`DOB`='" + DOB.format(defaultDateFormat) + "',`JoinedDate`='" + joinedDate.format(defaultDateFormat)
-                + "',`Email`='" + email + "',`Gender`='" + gender + "',`EmployeePosition_id`=" + positionId + " WHERE Id=" + employeeId;
-        try {
-            DbConnect.pushToDB(query);
-            clearEmployePanel();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            String query = "UPDATE `employee` SET `Name`='" + name + "',`Address`='" + address + "',`TelephoneNo`='" + teleNumber
+                    + "',`NIC`='" + NIC + "',`DOB`='" + DOB.format(defaultDateFormat) + "',`JoinedDate`='" + joinedDate.format(defaultDateFormat)
+                    + "',`Email`='" + email + "',`Gender`='" + gender + "',`EmployeePosition_id`=" + positionId + " WHERE Id=" + employeeId;
+            try {
+                DbConnect.pushToDB(query);
+                clearEmployePanel();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_empButEditActionPerformed
 
@@ -506,6 +578,106 @@ public class Employee extends javax.swing.JPanel {
                 + "where employee.status=1 and employee.name like '%" + empSearch.getText() + "%'";
         fillEmpTable(query);
     }//GEN-LAST:event_empSearchKeyReleased
+
+    private void empNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empNameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isName(empName.getText())) {
+                empAddress.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }    // TODO add your handling code here:
+    }//GEN-LAST:event_empNameKeyPressed
+
+    private void empAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empAddressKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(empAddress.getText().toString())) {
+                empTeleNumber.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empAddressKeyPressed
+
+    private void empTeleNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empTeleNumberKeyPressed
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isTelephone(empTeleNumber.getText().toString())) {
+                empNIC.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empTeleNumberKeyPressed
+
+    private void empNICKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empNICKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isNIC(empNIC.getText().toString())) {
+                empDOB.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empNICKeyPressed
+
+    private void empDOBKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empDOBKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDate(empDOB.getDate().toString())) {
+                empJoinedDate.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empDOBKeyPressed
+
+    private void empJoinedDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empJoinedDateKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDate(empJoinedDate.getDate().toString())) {
+                empEmail.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empJoinedDateKeyPressed
+
+    private void empEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empEmailKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isEmail(empEmail.getText().toString())) {
+                empGenMale.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empEmailKeyPressed
+
+    private void empGenMaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empGenMaleKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            empPositionCombo.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            empGenFemale.requestFocus();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empGenMaleKeyPressed
+
+    private void empGenFemaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empGenFemaleKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            empPositionCombo.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            empGenMale.requestFocus();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empGenFemaleKeyPressed
+
+    private void empPositionComboKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empPositionComboKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (empPositionCombo.getSelectedIndex() > 0) {
+                empButInsert.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Position not selected", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_empPositionComboKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

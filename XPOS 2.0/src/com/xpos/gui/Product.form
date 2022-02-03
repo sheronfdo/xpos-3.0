@@ -303,6 +303,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="prodDescriptionKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="prodReOrderLevel">
           <Properties>
@@ -330,6 +333,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="prodReOrderLevelKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="prodOrderedQuantity">
           <Properties>
@@ -357,6 +363,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="prodOrderedQuantityKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="prodQuantity">
           <Properties>
@@ -384,6 +393,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="prodQuantityKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="prodButInsert">
           <Properties>
@@ -494,6 +506,9 @@
             </Property>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="prodBrandComboKeyPressed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -523,6 +538,9 @@
             </Property>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="prodCategoryComboKeyPressed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

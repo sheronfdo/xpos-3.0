@@ -5,12 +5,15 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -132,24 +135,44 @@ public class Product extends javax.swing.JPanel {
         prodDescription.setPhColor(new java.awt.Color(0, 51, 255));
         prodDescription.setPlaceholder("Description");
         prodDescription.setPreferredSize(new java.awt.Dimension(200, 30));
+        prodDescription.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                prodDescriptionKeyPressed(evt);
+            }
+        });
 
         prodReOrderLevel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Re-Order Level", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         prodReOrderLevel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         prodReOrderLevel.setPhColor(new java.awt.Color(0, 51, 255));
         prodReOrderLevel.setPlaceholder("Re-Order Level");
         prodReOrderLevel.setPreferredSize(new java.awt.Dimension(200, 30));
+        prodReOrderLevel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                prodReOrderLevelKeyPressed(evt);
+            }
+        });
 
         prodOrderedQuantity.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Ordered Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         prodOrderedQuantity.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         prodOrderedQuantity.setPhColor(new java.awt.Color(0, 51, 255));
         prodOrderedQuantity.setPlaceholder("Ordered Quantity");
         prodOrderedQuantity.setPreferredSize(new java.awt.Dimension(200, 30));
+        prodOrderedQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                prodOrderedQuantityKeyPressed(evt);
+            }
+        });
 
         prodQuantity.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         prodQuantity.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         prodQuantity.setPhColor(new java.awt.Color(0, 51, 255));
         prodQuantity.setPlaceholder("Quantity (In Stock)");
         prodQuantity.setPreferredSize(new java.awt.Dimension(200, 30));
+        prodQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                prodQuantityKeyPressed(evt);
+            }
+        });
 
         prodButInsert.setBackground(new java.awt.Color(0, 60, 128));
         prodButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -203,11 +226,21 @@ public class Product extends javax.swing.JPanel {
         prodBrandCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Brand" }));
         prodBrandCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Brand", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         prodBrandCombo.setOpaque(false);
+        prodBrandCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                prodBrandComboKeyPressed(evt);
+            }
+        });
 
         prodCategoryCombo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         prodCategoryCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category" }));
         prodCategoryCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         prodCategoryCombo.setOpaque(false);
+        prodCategoryCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                prodCategoryComboKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -282,6 +315,15 @@ public class Product extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private boolean validateForm() {
+        return Validate.isText(prodDescription.getText())
+                && (prodBrandCombo.getSelectedIndex() > 0)
+                && (prodCategoryCombo.getSelectedIndex() > 0)
+                && (Validate.isNumber(prodReOrderLevel.getText().toString()))
+                && Validate.isNumber(prodOrderedQuantity.getText().toString())
+                && Validate.isNumber(prodQuantity.getText().toString());
+    }
 
     public void loadProdBrandCombo() {
         try {
@@ -383,57 +425,65 @@ public class Product extends javax.swing.JPanel {
 
     private void prodSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodSearchKeyReleased
         String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
-                    + " product.Category_Id as categoryId, category.Description as categoryName,"
-                    + " product.Description as description, product.TotalQuantity as totalQuantity,"
-                    + " product.OrderedQuantity as orderedQuantity, product.ReOrderLevel as reOrderLevel"
-                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
-                    + " where product.Description like '%" + prodSearch.getText() + "%' and product.Status=1";
+                + " product.Category_Id as categoryId, category.Description as categoryName,"
+                + " product.Description as description, product.TotalQuantity as totalQuantity,"
+                + " product.OrderedQuantity as orderedQuantity, product.ReOrderLevel as reOrderLevel"
+                + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                + " where product.Description like '%" + prodSearch.getText() + "%' and product.Status=1";
         fillProductTable(query);
     }//GEN-LAST:event_prodSearchKeyReleased
 
     private void prodButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButInsertActionPerformed
-        String description = prodDescription.getText();
-        int brandId = Integer.parseInt(prodBrandCombo.getSelectedItem().toString().trim().split(" - ")[0]);
-        int categoryId = Integer.parseInt(prodCategoryCombo.getSelectedItem().toString().trim().split(" - ")[0]);
-        int reOrderLevel = Integer.parseInt(prodReOrderLevel.getText());
-        int orderedQuantity = Integer.parseInt(prodOrderedQuantity.getText());
-        int quantity = Integer.parseInt(prodQuantity.getText());
+        if (validateForm()) {
+            String description = prodDescription.getText();
+            int brandId = Integer.parseInt(prodBrandCombo.getSelectedItem().toString().trim().split(" - ")[0]);
+            int categoryId = Integer.parseInt(prodCategoryCombo.getSelectedItem().toString().trim().split(" - ")[0]);
+            int reOrderLevel = Integer.parseInt(prodReOrderLevel.getText());
+            int orderedQuantity = Integer.parseInt(prodOrderedQuantity.getText());
+            int quantity = Integer.parseInt(prodQuantity.getText());
 
-        String query = "INSERT INTO `product`(`Brand_Id`, `Category_Id`, `Description`,"
-                + " `TotalQuantity`, `OrderedQuantity`, `ReOrderLevel`)"
-                + " VALUES ('" + brandId + "','" + categoryId + "','" + description + "','" + quantity + "','" + orderedQuantity + "','" + reOrderLevel + "')";
+            String query = "INSERT INTO `product`(`Brand_Id`, `Category_Id`, `Description`,"
+                    + " `TotalQuantity`, `OrderedQuantity`, `ReOrderLevel`)"
+                    + " VALUES ('" + brandId + "','" + categoryId + "','" + description + "','" + quantity + "','" + orderedQuantity + "','" + reOrderLevel + "')";
 
-        try {
-            DbConnect.pushToDB(query);
-            clearProductPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                DbConnect.pushToDB(query);
+                clearProductPanel();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_prodButInsertActionPerformed
 
     private void prodButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButEditActionPerformed
-        String description = prodDescription.getText();
-        int brandId = Integer.parseInt(prodBrandCombo.getSelectedItem().toString().trim().split(" - ")[0]);
-        int categoryId = Integer.parseInt(prodCategoryCombo.getSelectedItem().toString().trim().split(" - ")[0]);
-        int reOrderLevel = Integer.parseInt(prodReOrderLevel.getText());
-        int orderedQuantity = Integer.parseInt(prodOrderedQuantity.getText());
-        int quantity = Integer.parseInt(prodQuantity.getText());
-        String query = "UPDATE `product` SET `Brand_Id`='"+brandId+"',`Category_Id`='"+categoryId+"'"
-                + ",`Description`='"+description+"',`TotalQuantity`='"+quantity+"',`OrderedQuantity`='"+orderedQuantity+"'"
-                + ",`ReOrderLevel`='"+reOrderLevel+"' WHERE Id=" + productId;
-        try {
-            DbConnect.pushToDB(query);
-            clearProductPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (validateForm()) {
+            String description = prodDescription.getText();
+            int brandId = Integer.parseInt(prodBrandCombo.getSelectedItem().toString().trim().split(" - ")[0]);
+            int categoryId = Integer.parseInt(prodCategoryCombo.getSelectedItem().toString().trim().split(" - ")[0]);
+            int reOrderLevel = Integer.parseInt(prodReOrderLevel.getText());
+            int orderedQuantity = Integer.parseInt(prodOrderedQuantity.getText());
+            int quantity = Integer.parseInt(prodQuantity.getText());
+            String query = "UPDATE `product` SET `Brand_Id`='" + brandId + "',`Category_Id`='" + categoryId + "'"
+                    + ",`Description`='" + description + "',`TotalQuantity`='" + quantity + "',`OrderedQuantity`='" + orderedQuantity + "'"
+                    + ",`ReOrderLevel`='" + reOrderLevel + "' WHERE Id=" + productId;
+            try {
+                DbConnect.pushToDB(query);
+                clearProductPanel();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_prodButEditActionPerformed
 
@@ -454,6 +504,66 @@ public class Product extends javax.swing.JPanel {
     private void prodButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButCancelActionPerformed
         clearProductPanel();
     }//GEN-LAST:event_prodButCancelActionPerformed
+
+    private void prodDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodDescriptionKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(prodDescription.getText())) {
+                prodBrandCombo.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_prodDescriptionKeyPressed
+
+    private void prodBrandComboKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodBrandComboKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (prodBrandCombo.getSelectedIndex() > 0) {
+                prodCategoryCombo.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Brand not selected", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_prodBrandComboKeyPressed
+
+    private void prodCategoryComboKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodCategoryComboKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (prodCategoryCombo.getSelectedIndex() > 0) {
+                prodReOrderLevel.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Category not selected", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_prodCategoryComboKeyPressed
+
+    private void prodReOrderLevelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodReOrderLevelKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isNumber(prodReOrderLevel.getText().toString())) {
+                prodOrderedQuantity.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_prodReOrderLevelKeyPressed
+
+    private void prodOrderedQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodOrderedQuantityKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isNumber(prodOrderedQuantity.getText().toString())) {
+                prodQuantity.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_prodOrderedQuantityKeyPressed
+
+    private void prodQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodQuantityKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isNumber(prodQuantity.getText().toString())) {
+                prodButInsert.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }         // TODO add your handling code here:
+    }//GEN-LAST:event_prodQuantityKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

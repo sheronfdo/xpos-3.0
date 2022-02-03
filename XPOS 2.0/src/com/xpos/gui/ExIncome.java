@@ -5,7 +5,9 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Jamit
  */
 public class ExIncome extends javax.swing.JPanel {
-    
+
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -32,6 +35,12 @@ public class ExIncome extends javax.swing.JPanel {
     public ExIncome() {
         initComponents();
         fillExIncomeTable(null);
+    }
+
+    private boolean validateForm() {
+        return Validate.isDate(xIncomeDate.getDate().toString())
+                && Validate.isText(xIncomeDescription.getText().toString())
+                && Validate.isDoubleNumber(xIncomeAmount.getText().toString());
     }
 
     public void clearExIncomePanel() {
@@ -155,17 +164,32 @@ public class ExIncome extends javax.swing.JPanel {
         xIncomeDescription.setPhColor(new java.awt.Color(0, 51, 255));
         xIncomeDescription.setPlaceholder("Description");
         xIncomeDescription.setPreferredSize(new java.awt.Dimension(200, 30));
+        xIncomeDescription.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                xIncomeDescriptionKeyPressed(evt);
+            }
+        });
 
         xIncomeAmount.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Amount", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         xIncomeAmount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         xIncomeAmount.setPhColor(new java.awt.Color(0, 51, 255));
         xIncomeAmount.setPlaceholder("Income Amount");
         xIncomeAmount.setPreferredSize(new java.awt.Dimension(200, 30));
+        xIncomeAmount.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                xIncomeAmountKeyPressed(evt);
+            }
+        });
 
         xIncomeDate.setBackground(new java.awt.Color(255, 255, 255));
         xIncomeDate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         xIncomeDate.setDateFormatString("yyyy-MM-dd");
         xIncomeDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        xIncomeDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                xIncomeDateKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
@@ -283,37 +307,45 @@ public class ExIncome extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void xIncomeButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButInsertActionPerformed
-        LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String desc = xIncomeDescription.getText().toString();
-        double amount = Double.valueOf(xIncomeAmount.getText().toString());
-        String query = "INSERT INTO `exincome`(`Date`, `Description`, `IncomeAmount`) VALUES ('" + date.format(defaultDateFormat)
-                + "','" + desc + "'," + amount + ")";
-        try {
-            DbConnect.pushToDB(query);
-            clearExIncomePanel();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (validateForm()) {
+            LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String desc = xIncomeDescription.getText().toString();
+            double amount = Double.valueOf(xIncomeAmount.getText().toString());
+            String query = "INSERT INTO `exincome`(`Date`, `Description`, `IncomeAmount`) VALUES ('" + date.format(defaultDateFormat)
+                    + "','" + desc + "'," + amount + ")";
+            try {
+                DbConnect.pushToDB(query);
+                clearExIncomePanel();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_xIncomeButInsertActionPerformed
 
     private void xIncomeButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButEditActionPerformed
-        LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String desc = xIncomeDescription.getText().toString();
-        double amount = Double.valueOf(xIncomeAmount.getText().toString());
-        String query = "update exincome set Date='" + date + "',Description='" + desc + "',IncomeAmount=" + amount + " where Id=" + xIncomeId;
-        try {
-            DbConnect.pushToDB(query);
-            clearExIncomePanel();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (validateForm()) {
+            LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String desc = xIncomeDescription.getText().toString();
+            double amount = Double.valueOf(xIncomeAmount.getText().toString());
+            String query = "update exincome set Date='" + date + "',Description='" + desc + "',IncomeAmount=" + amount + " where Id=" + xIncomeId;
+            try {
+                DbConnect.pushToDB(query);
+                clearExIncomePanel();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_xIncomeButEditActionPerformed
 
@@ -351,6 +383,36 @@ public class ExIncome extends javax.swing.JPanel {
         String query = "select * from exincome where Description like '%" + xIncomeSearch.getText().toString() + "%' and status=1";
         fillExIncomeTable(query);
     }//GEN-LAST:event_xIncomeSearchKeyReleased
+
+    private void xIncomeDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeDateKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDate(xIncomeDate.getDate().toString())) {
+                xIncomeDescription.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }         // TODO add your handling code here:
+    }//GEN-LAST:event_xIncomeDateKeyPressed
+
+    private void xIncomeDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeDescriptionKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(xIncomeDescription.getText().toString())) {
+                xIncomeAmount.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_xIncomeDescriptionKeyPressed
+
+    private void xIncomeAmountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeAmountKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDoubleNumber(xIncomeAmount.getText().toString())) {
+                xIncomeButInsert.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_xIncomeAmountKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -225,6 +225,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="xIncomeDescriptionKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="xIncomeAmount">
           <Properties>
@@ -252,6 +255,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="xIncomeAmountKeyPressed"/>
+          </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="xIncomeDate">
           <Properties>
@@ -276,6 +282,9 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="xIncomeDateKeyPressed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

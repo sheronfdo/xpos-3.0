@@ -5,7 +5,9 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,12 +28,19 @@ public class ExCost extends javax.swing.JPanel {
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     int xCostId;
+
     /**
      * Creates new form ExCost
      */
     public ExCost() {
         initComponents();
         fillExCostTable(null);
+    }
+
+    private boolean validateForm() {
+        return Validate.isDate(xCostDate.getDate().toString())
+                && Validate.isText(xCostDescription.getText().toString())
+                && Validate.isDoubleNumber(xCostAmount.getText().toString());
     }
 
     public void clearExCostPanel() {
@@ -41,7 +51,7 @@ public class ExCost extends javax.swing.JPanel {
         fillExCostTable(null);
     }
 
-    public void fillExCostTable(String query) {
+    private void fillExCostTable(String query) {
         tablemodel = (DefaultTableModel) xCostTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
@@ -153,17 +163,32 @@ public class ExCost extends javax.swing.JPanel {
         xCostDescription.setPhColor(new java.awt.Color(0, 51, 255));
         xCostDescription.setPlaceholder("Description");
         xCostDescription.setPreferredSize(new java.awt.Dimension(200, 30));
+        xCostDescription.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                xCostDescriptionKeyPressed(evt);
+            }
+        });
 
         xCostAmount.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Amount", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         xCostAmount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         xCostAmount.setPhColor(new java.awt.Color(0, 51, 255));
         xCostAmount.setPlaceholder("Cost Amount");
         xCostAmount.setPreferredSize(new java.awt.Dimension(200, 30));
+        xCostAmount.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                xCostAmountKeyPressed(evt);
+            }
+        });
 
         xCostDate.setBackground(new java.awt.Color(255, 255, 255));
         xCostDate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         xCostDate.setDateFormatString("yyyy-MM-dd");
         xCostDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        xCostDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                xCostDateKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
@@ -281,37 +306,45 @@ public class ExCost extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void xCostButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButInsertActionPerformed
-        LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String desc = xCostDescription.getText().toString();
-        double amount = Double.valueOf(xCostAmount.getText().toString());
-        String query = "INSERT INTO `excost`(`Date`, `Description`, `CostAmount`) VALUES ('" + date.format(defaultDateFormat)
-                + "','" + desc + "'," + amount + ")";
-        try {
-            DbConnect.pushToDB(query);
-            clearExCostPanel();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (validateForm()) {
+            LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String desc = xCostDescription.getText().toString();
+            double amount = Double.valueOf(xCostAmount.getText().toString());
+            String query = "INSERT INTO `excost`(`Date`, `Description`, `CostAmount`) VALUES ('" + date.format(defaultDateFormat)
+                    + "','" + desc + "'," + amount + ")";
+            try {
+                DbConnect.pushToDB(query);
+                clearExCostPanel();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_xCostButInsertActionPerformed
 
     private void xCostButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButEditActionPerformed
-        LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String desc = xCostDescription.getText().toString();
-        double amount = Double.valueOf(xCostAmount.getText().toString());
-        String query = "update excost set Date='" + date + "',Description='" + desc + "',CostAmount=" + amount + " where Id=" + xCostId;
-        try {
-            DbConnect.pushToDB(query);
-            clearExCostPanel();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (validateForm()) {
+            LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String desc = xCostDescription.getText().toString();
+            double amount = Double.valueOf(xCostAmount.getText().toString());
+            String query = "update excost set Date='" + date + "',Description='" + desc + "',CostAmount=" + amount + " where Id=" + xCostId;
+            try {
+                DbConnect.pushToDB(query);
+                clearExCostPanel();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_xCostButEditActionPerformed
 
@@ -350,6 +383,35 @@ public class ExCost extends javax.swing.JPanel {
         fillExCostTable(query);
     }//GEN-LAST:event_xCostSearchKeyReleased
 
+    private void xCostDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostDateKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDate(xCostDate.getDate().toString())) {
+                xCostDescription.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_xCostDateKeyPressed
+
+    private void xCostDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostDescriptionKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(xCostDescription.getText().toString())) {
+                xCostAmount.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }   // TODO add your handling code here:
+    }//GEN-LAST:event_xCostDescriptionKeyPressed
+
+    private void xCostAmountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostAmountKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDoubleNumber(xCostAmount.getText().toString())) {
+                xCostButInsert.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }         // TODO add your handling code here:
+    }//GEN-LAST:event_xCostAmountKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel11;

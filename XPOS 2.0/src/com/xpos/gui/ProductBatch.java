@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
@@ -19,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.table.DefaultTableModel;
 
@@ -340,12 +342,22 @@ public class ProductBatch extends javax.swing.JPanel {
         batchNumber.setPhColor(new java.awt.Color(0, 51, 255));
         batchNumber.setPlaceholder("Batch Number");
         batchNumber.setPreferredSize(new java.awt.Dimension(200, 30));
+        batchNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                batchNumberKeyPressed(evt);
+            }
+        });
 
         batchQuantity.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         batchQuantity.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         batchQuantity.setPhColor(new java.awt.Color(0, 51, 255));
         batchQuantity.setPlaceholder("Quantity");
         batchQuantity.setPreferredSize(new java.awt.Dimension(200, 30));
+        batchQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                batchQuantityKeyPressed(evt);
+            }
+        });
 
         batchButInsert.setBackground(new java.awt.Color(0, 60, 128));
         batchButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -424,23 +436,43 @@ public class ProductBatch extends javax.swing.JPanel {
         batchManufacDate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Manufacture Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         batchManufacDate.setDateFormatString("yyyy-MM-dd");
         batchManufacDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        batchManufacDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                batchManufacDateKeyPressed(evt);
+            }
+        });
 
         batchExpireDate.setBackground(new java.awt.Color(255, 255, 255));
         batchExpireDate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Expire Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         batchExpireDate.setDateFormatString("yyyy-MM-dd");
         batchExpireDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        batchExpireDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                batchExpireDateKeyPressed(evt);
+            }
+        });
 
         batchPurchPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Purchase Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         batchPurchPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         batchPurchPrice.setPhColor(new java.awt.Color(0, 51, 255));
         batchPurchPrice.setPlaceholder("Purchase Price");
         batchPurchPrice.setPreferredSize(new java.awt.Dimension(200, 30));
+        batchPurchPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                batchPurchPriceKeyPressed(evt);
+            }
+        });
 
         batchRetailPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Retail Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         batchRetailPrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         batchRetailPrice.setPhColor(new java.awt.Color(0, 51, 255));
         batchRetailPrice.setPlaceholder("Retail Price");
         batchRetailPrice.setPreferredSize(new java.awt.Dimension(200, 30));
+        batchRetailPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                batchRetailPriceKeyPressed(evt);
+            }
+        });
 
         batchDateEnable.setBackground(new java.awt.Color(255, 255, 255));
         batchDateEnable.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -545,6 +577,82 @@ public class ProductBatch extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean validateForm() {
+        return batchDateEnable.isSelected()
+                ? (Validate.isNumber(batchProductId.getText())
+                && Validate.isNumber(batchNumber.getText())
+                && Validate.isNumber(batchQuantity.getText())
+                && Validate.isDoubleNumber(batchPurchPrice.getText())
+                && Validate.isDoubleNumber(batchRetailPrice.getText())
+                && Validate.isDate(batchManufacDate.getDate().toString())
+                && Validate.isDate(batchExpireDate.getDate().toString()))
+                : (Validate.isNumber(batchProductId.getText())
+                && Validate.isNumber(batchNumber.getText())
+                && Validate.isNumber(batchQuantity.getText())
+                && Validate.isDoubleNumber(batchPurchPrice.getText())
+                && Validate.isDoubleNumber(batchRetailPrice.getText()));
+    }
+
+    private void batchNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_batchNumberKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isNumber(batchNumber.getText())) {
+                batchQuantity.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_batchNumberKeyPressed
+
+    private void batchQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_batchQuantityKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isNumber(batchQuantity.getText())) {
+                batchPurchPrice.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_batchQuantityKeyPressed
+
+    private void batchPurchPriceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_batchPurchPriceKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDoubleNumber(batchPurchPrice.getText())) {
+                batchRetailPrice.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        } // TODO add your handling code here:
+    }//GEN-LAST:event_batchPurchPriceKeyPressed
+
+    private void batchRetailPriceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_batchRetailPriceKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDoubleNumber(batchRetailPrice.getText())) {
+                batchDateEnable.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_batchRetailPriceKeyPressed
+
+    private void batchManufacDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_batchManufacDateKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDate(batchManufacDate.getDate().toString())) {
+                batchExpireDate.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }    // TODO add your handling code here:
+    }//GEN-LAST:event_batchManufacDateKeyPressed
+
+    private void batchExpireDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_batchExpireDateKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isDate(batchExpireDate.getDate().toString())) {
+                batchButInsert.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }         // TODO add your handling code here:
+    }//GEN-LAST:event_batchExpireDateKeyPressed
+
     private void batchTableMouseClicked(java.awt.event.MouseEvent evt) {
         int selectedRow = batchTable.getSelectedRow();
         batchId = Integer.parseInt(batchTable.getValueAt(selectedRow, 0).toString());
@@ -599,118 +707,122 @@ public class ProductBatch extends javax.swing.JPanel {
     }
 
     private void batchButInsertActionPerformed(java.awt.event.ActionEvent evt) {
-        int productId = Integer.parseInt(batchProductId.getText());
-        int barcode = Integer.parseInt(batchBarcode.getText());
-        int batchNum = Integer.parseInt(batchNumber.getText());
-        int quantity = Integer.parseInt(batchQuantity.getText());
-        double purchPrice = Double.valueOf(batchPurchPrice.getText());
-        double retailPrice = Double.valueOf(batchRetailPrice.getText());
+        if (validateForm()) {
+            int productId = Integer.parseInt(batchProductId.getText());
+            int barcode = Integer.parseInt(batchBarcode.getText());
+            int batchNum = Integer.parseInt(batchNumber.getText());
+            int quantity = Integer.parseInt(batchQuantity.getText());
+            double purchPrice = Double.valueOf(batchPurchPrice.getText());
+            double retailPrice = Double.valueOf(batchRetailPrice.getText());
 
-        String query = "INSERT INTO `batchesofproduct`(`Product_Id`, `BatchNumber`,"
-                + " `Barcode`, `RetailPrice`, `PurchasePrice`, `QuantityByBatch`) VALUES"
-                + " (" + productId + "," + batchNum + "," + barcode + ","
-                + retailPrice + "," + purchPrice + "," + quantity + ")";
-        try {
+            String query = "INSERT INTO `batchesofproduct`(`Product_Id`, `BatchNumber`,"
+                    + " `Barcode`, `RetailPrice`, `PurchasePrice`, `QuantityByBatch`) VALUES"
+                    + " (" + productId + "," + batchNum + "," + barcode + ","
+                    + retailPrice + "," + purchPrice + "," + quantity + ")";
+            try {
 
-            PreparedStatement stmt = DbConnect.getDBConnection().prepareStatement(query,
-                    PreparedStatement.RETURN_GENERATED_KEYS);
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            int batchId = rs.getInt(1);
-            if (batchDateEnable.isSelected()) {
-                LocalDate manuDate = batchManufacDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                LocalDate expDate = batchExpireDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                PreparedStatement stmt = DbConnect.getDBConnection().prepareStatement(query,
+                        PreparedStatement.RETURN_GENERATED_KEYS);
+                stmt.executeUpdate();
+                ResultSet rs = stmt.getGeneratedKeys();
+                rs.next();
+                int batchId = rs.getInt(1);
+                if (batchDateEnable.isSelected()) {
+                    LocalDate manuDate = batchManufacDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    LocalDate expDate = batchExpireDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                query = "INSERT INTO `datesofbatch`(`BatchesOfProduct_Id`, `ManufactureDate`, `ExpireDate`) VALUES ('"
-                        + batchId + "','"
-                        + defaultDateFormat.format(manuDate) + "','" + defaultDateFormat.format(expDate) + "')";
-                DbConnect.pushToDB(query);
+                    query = "INSERT INTO `datesofbatch`(`BatchesOfProduct_Id`, `ManufactureDate`, `ExpireDate`) VALUES ('"
+                            + batchId + "','"
+                            + defaultDateFormat.format(manuDate) + "','" + defaultDateFormat.format(expDate) + "')";
+                    DbConnect.pushToDB(query);
+                }
+                clearBatchPanel();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            clearBatchPanel();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
     private void batchButEditActionPerformed(java.awt.event.ActionEvent evt) {
-        int productId = Integer.parseInt(batchProductId.getText());
-        int barcode = Integer.parseInt(batchBarcode.getText());
-        int batchNum = Integer.parseInt(batchNumber.getText());
-        int quantity = Integer.parseInt(batchQuantity.getText());
-        double purchPrice = Double.valueOf(batchPurchPrice.getText());
-        double retailPrice = Double.valueOf(batchRetailPrice.getText());
+        if (validateForm()) {
+            int productId = Integer.parseInt(batchProductId.getText());
+            int barcode = Integer.parseInt(batchBarcode.getText());
+            int batchNum = Integer.parseInt(batchNumber.getText());
+            int quantity = Integer.parseInt(batchQuantity.getText());
+            double purchPrice = Double.valueOf(batchPurchPrice.getText());
+            double retailPrice = Double.valueOf(batchRetailPrice.getText());
 
-        String query = "UPDATE `batchesofproduct` SET "
-                + "`Product_Id`='" + productId + "',"
-                + "`BatchNumber`='" + batchNum + "',"
-                + "`Barcode`='" + barcode + "',"
-                + "`RetailPrice`='" + retailPrice + "',"
-                + "`PurchasePrice`='" + purchPrice + "',"
-                + "`QuantityByBatch`='" + quantity + "'"
-                + "WHERE Id=" + batchId;
-        try {
-            DbConnect.pushToDB(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        boolean dateCheckBox = batchDateEnable.isSelected();
-        boolean hasManufacDate = !(batchTable.getValueAt(batchTable.getSelectedRow(), 7) == null);
-        boolean hasExpireDate = !(batchTable.getValueAt(batchTable.getSelectedRow(), 8) == null);
-
-        System.out.println(dateCheckBox);
-        System.out.println(hasManufacDate);
-        System.out.println(hasExpireDate);
-
-        if ((dateCheckBox) && (hasManufacDate && hasExpireDate)) {
-            String manuDate = defaultDateFormat.format(batchManufacDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            String expDate = defaultDateFormat.format(batchExpireDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            String query2 = "UPDATE `datesofbatch` SET `ManufactureDate`='" + manuDate + "',"
-                    + "`ExpireDate`='" + expDate + "' WHERE `BatchesOfProduct_Id`=" + batchId;
-            try {
-                DbConnect.pushToDB(query2);
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            System.out.println("(dateCheckBox) && (hasManufacDate && hasExpireDate)");
-        } else if ((dateCheckBox == false) && (hasManufacDate && hasExpireDate)) {
-            String query2 = "DELETE from `datesofbatch` WHERE `BatchesOfProduct_Id`=" + batchId;
-            try {
-                DbConnect.pushToDB(query2);
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            System.out.println("(dateCheckBox == false) && (hasManufacDate && hasExpireDate)");
-        } else if ((dateCheckBox) && ((hasManufacDate && hasExpireDate) == false)) {
-            LocalDate manuDate = batchManufacDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate expDate = batchExpireDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            query = "INSERT INTO `datesofbatch`(`BatchesOfProduct_Id`, `ManufactureDate`, `ExpireDate`) VALUES ('"
-                    + batchId + "','"
-                    + defaultDateFormat.format(manuDate) + "','"
-                    + defaultDateFormat.format(expDate) + "')";
+            String query = "UPDATE `batchesofproduct` SET "
+                    + "`Product_Id`='" + productId + "',"
+                    + "`BatchNumber`='" + batchNum + "',"
+                    + "`Barcode`='" + barcode + "',"
+                    + "`RetailPrice`='" + retailPrice + "',"
+                    + "`PurchasePrice`='" + purchPrice + "',"
+                    + "`QuantityByBatch`='" + quantity + "'"
+                    + "WHERE Id=" + batchId;
             try {
                 DbConnect.pushToDB(query);
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            System.out.println("(dateCheckBox) && ((hasManufacDate && hasExpireDate) == false)");
+
+            boolean dateCheckBox = batchDateEnable.isSelected();
+            boolean hasManufacDate = !(batchTable.getValueAt(batchTable.getSelectedRow(), 7) == null);
+            boolean hasExpireDate = !(batchTable.getValueAt(batchTable.getSelectedRow(), 8) == null);
+
+            System.out.println(dateCheckBox);
+            System.out.println(hasManufacDate);
+            System.out.println(hasExpireDate);
+
+            if ((dateCheckBox) && (hasManufacDate && hasExpireDate)) {
+                String manuDate = defaultDateFormat.format(batchManufacDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                String expDate = defaultDateFormat.format(batchExpireDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                String query2 = "UPDATE `datesofbatch` SET `ManufactureDate`='" + manuDate + "',"
+                        + "`ExpireDate`='" + expDate + "' WHERE `BatchesOfProduct_Id`=" + batchId;
+                try {
+                    DbConnect.pushToDB(query2);
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println("(dateCheckBox) && (hasManufacDate && hasExpireDate)");
+            } else if ((dateCheckBox == false) && (hasManufacDate && hasExpireDate)) {
+                String query2 = "DELETE from `datesofbatch` WHERE `BatchesOfProduct_Id`=" + batchId;
+                try {
+                    DbConnect.pushToDB(query2);
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println("(dateCheckBox == false) && (hasManufacDate && hasExpireDate)");
+            } else if ((dateCheckBox) && ((hasManufacDate && hasExpireDate) == false)) {
+                LocalDate manuDate = batchManufacDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate expDate = batchExpireDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                query = "INSERT INTO `datesofbatch`(`BatchesOfProduct_Id`, `ManufactureDate`, `ExpireDate`) VALUES ('"
+                        + batchId + "','"
+                        + defaultDateFormat.format(manuDate) + "','"
+                        + defaultDateFormat.format(expDate) + "')";
+                try {
+                    DbConnect.pushToDB(query);
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println("(dateCheckBox) && ((hasManufacDate && hasExpireDate) == false)");
+            }
+            clearBatchPanel();
         }
-        clearBatchPanel();
     }
 
     private void batchButDeleteActionPerformed(java.awt.event.ActionEvent evt) {
@@ -732,45 +844,53 @@ public class ProductBatch extends javax.swing.JPanel {
     }
 
     private void batchBarcodeKeyReleased(java.awt.event.KeyEvent evt) {
-
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (batchBarcode.getText().toString().length() > 0) {
+                batchNumber.requestFocus();
+            }
+        }
     }
-//654645
 
     private void batchProductIdKeyReleased(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String prodId = batchProductId.getText();
-            String query = "select Description from product where Id='" + prodId + "' and status=1";
-            try {
-                ResultSet rs = DbConnect.getFromDB(query);
-                while (rs.next()) {
-                    batchDescription.setText(rs.getString("Description"));
+            if (Validate.isNumber(prodId)) {
+                String query = "select Description from product where Id='" + prodId + "' and status=1";
+                try {
+                    ResultSet rs = DbConnect.getFromDB(query);
+                    while (rs.next()) {
+                        batchDescription.setText(rs.getString("Description"));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                String query2 = "SELECT batchesofproduct.Id as batchid,"
+                        + " batchesofproduct.Barcode as Barcode,"
+                        + " product.Id as Product_Id,"
+                        + " product.Description as productDescription,"
+                        + " batchesofproduct.BatchNumber as BatchNumber,"
+                        + " batchesofproduct.QuantityByBatch as quantity,"
+                        + " batchesofproduct.PurchasePrice as purchPrice,"
+                        + " batchesofproduct.RetailPrice AS RetailPrice"
+                        + " FROM batchesofproduct inner join product"
+                        + " on batchesofproduct.Product_Id=product.Id"
+                        + " WHERE product.Id=" + prodId + " AND batchesofproduct.Status = 1";
+                fillBatchTable(query2);
+                String query3 = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                        + " product.Category_Id as categoryId, category.Description as categoryName,"
+                        + " product.Description as description, product.TotalQuantity as totalQuantity,"
+                        + " product.OrderedQuantity as orderedQuantity, product.ReOrderLevel as reOrderLevel"
+                        + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                        + " WHERE product.Status = 1 and product.id=" + prodId;
+                fillProductTable(query3);
+                batchBarcode.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
-            String query2 = "SELECT batchesofproduct.Id as batchid,"
-                    + " batchesofproduct.Barcode as Barcode,"
-                    + " product.Id as Product_Id,"
-                    + " product.Description as productDescription,"
-                    + " batchesofproduct.BatchNumber as BatchNumber,"
-                    + " batchesofproduct.QuantityByBatch as quantity,"
-                    + " batchesofproduct.PurchasePrice as purchPrice,"
-                    + " batchesofproduct.RetailPrice AS RetailPrice"
-                    + " FROM batchesofproduct inner join product"
-                    + " on batchesofproduct.Product_Id=product.Id"
-                    + " WHERE product.Id=" + prodId + " AND batchesofproduct.Status = 1";
-            fillBatchTable(query2);
-            String query3 = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
-                    + " product.Category_Id as categoryId, category.Description as categoryName,"
-                    + " product.Description as description, product.TotalQuantity as totalQuantity,"
-                    + " product.OrderedQuantity as orderedQuantity, product.ReOrderLevel as reOrderLevel"
-                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
-                    + " WHERE product.Status = 1 and product.id=" + prodId;
-            fillProductTable(query3);
         }
     }
 

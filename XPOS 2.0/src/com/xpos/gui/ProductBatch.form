@@ -482,6 +482,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="batchNumberKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="batchQuantity">
           <Properties>
@@ -509,6 +512,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="batchQuantityKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="batchButInsert">
           <Properties>
@@ -697,6 +703,9 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="batchManufacDateKeyPressed"/>
+          </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="batchExpireDate">
           <Properties>
@@ -721,6 +730,9 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="batchExpireDateKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="batchPurchPrice">
           <Properties>
@@ -748,6 +760,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="batchPurchPriceKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="batchRetailPrice">
           <Properties>
@@ -775,6 +790,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="batchRetailPriceKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="batchDateEnable">
           <Properties>

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import com.xpos.validation.Validate;
+import com.xpos.commons.Validate;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -279,19 +279,23 @@ public class POInvoice extends javax.swing.JPanel {
     private void POSearchByInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_POSearchByInvoiceKeyReleased
         String query = null;
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            int POId = Integer.parseInt(POSearchByInvoice.getText().toString().equals("") ? "0" : POSearchByInvoice.getText().toString());
-            if (POId != 0) {
-                query = "SELECT purchaseorder.`Id` as POId,"
-                        + " purchaseorder.`Supplier_Id` as supplierId,"
-                        + " purchaseorder.`Date` as PODate,"
-                        + " purchaseorder.`IsSupplied` as isSupplied,"
-                        + " supplier.Name as supplierName"
-                        + " FROM `purchaseorder`"
-                        + " JOIN supplier on purchaseorder.Supplier_Id=supplier.Id"
-                        + " WHERE purchaseorder.id=" + POId;
+            if (Validate.isNumber(POSearchByInvoice.getText().toString()) || POSearchByInvoice.getText().toString().equals("")) {
+                int POId = Integer.parseInt(POSearchByInvoice.getText().toString().equals("") ? "0" : POSearchByInvoice.getText().toString());
+                if (POId != 0) {
+                    query = "SELECT purchaseorder.`Id` as POId,"
+                            + " purchaseorder.`Supplier_Id` as supplierId,"
+                            + " purchaseorder.`Date` as PODate,"
+                            + " purchaseorder.`IsSupplied` as isSupplied,"
+                            + " supplier.Name as supplierName"
+                            + " FROM `purchaseorder`"
+                            + " JOIN supplier on purchaseorder.Supplier_Id=supplier.Id"
+                            + " WHERE purchaseorder.id=" + POId;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
+            fillPOInvoiceTable(query);
         }
-        fillPOInvoiceTable(query);
     }//GEN-LAST:event_POSearchByInvoiceKeyReleased
 
     private void POItemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_POItemTableMouseClicked
@@ -304,13 +308,13 @@ public class POInvoice extends javax.swing.JPanel {
 
     private void POSearchBySupplierKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_POSearchBySupplierKeyReleased
         String query = "SELECT purchaseorder.`Id` as POId,"
-                        + " purchaseorder.`Supplier_Id` as supplierId,"
-                        + " purchaseorder.`Date` as PODate,"
-                        + " purchaseorder.`IsSupplied` as isSupplied,"
-                        + " supplier.Name as supplierName"
-                        + " FROM `purchaseorder`"
-                        + " JOIN supplier on purchaseorder.Supplier_Id=supplier.Id"
-                        + " WHERE purchaseorder.`Status` = 1 and supplier.Name like '%" + POSearchBySupplier.getText() + "%'";
+                + " purchaseorder.`Supplier_Id` as supplierId,"
+                + " purchaseorder.`Date` as PODate,"
+                + " purchaseorder.`IsSupplied` as isSupplied,"
+                + " supplier.Name as supplierName"
+                + " FROM `purchaseorder`"
+                + " JOIN supplier on purchaseorder.Supplier_Id=supplier.Id"
+                + " WHERE purchaseorder.`Status` = 1 and supplier.Name like '%" + POSearchBySupplier.getText() + "%'";
         fillPOInvoiceTable(query);
     }//GEN-LAST:event_POSearchBySupplierKeyReleased
 

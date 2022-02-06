@@ -28,6 +28,8 @@ public class Sale extends javax.swing.JPanel {
 
     DefaultTableModel tablemodel;
     boolean cusSelectPanel = false;
+    
+    SelectCustPopup selectCustPopup = new SelectCustPopup();
 
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
@@ -325,7 +327,6 @@ public class Sale extends javax.swing.JPanel {
         saleItemDiscount = new javax.swing.ButtonGroup();
         finalItemDiscount = new javax.swing.ButtonGroup();
         customerPopup = new javax.swing.JPopupMenu();
-        selectCustPopup = new com.xpos.gui.SelectCustPopup();
         jLabel19 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
         jScrollPane12 = new javax.swing.JScrollPane();
@@ -1391,7 +1392,6 @@ public class Sale extends javax.swing.JPanel {
     private javax.swing.JRadioButton saleTotDisPercent;
     private app.bolivia.swing.JCTextField saleTotDiscount;
     private javax.swing.JLabel saleTotalDiscount;
-    private com.xpos.gui.SelectCustPopup selectCustPopup;
     private javax.swing.JButton selectCustomer;
     // End of variables declaration//GEN-END:variables
 }

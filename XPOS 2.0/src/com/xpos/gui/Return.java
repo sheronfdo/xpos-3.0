@@ -34,6 +34,8 @@ public class Return extends javax.swing.JPanel {
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
     boolean invoiceSelectPanel = false;
+    
+    SelectInvoicePopup selectInvoicePopup = new SelectInvoicePopup();
 
     //return data
     private double totalRefundAmount = 0.0;
@@ -289,7 +291,6 @@ public class Return extends javax.swing.JPanel {
     private void initComponents() {
 
         invoicePopup = new javax.swing.JPopupMenu();
-        selectInvoicePopup = new com.xpos.gui.SelectInvoicePopup();
         returnType = new javax.swing.ButtonGroup();
         returnCondition = new javax.swing.ButtonGroup();
         jLabel13 = new javax.swing.JLabel();
@@ -1153,7 +1154,6 @@ public class Return extends javax.swing.JPanel {
     private javax.swing.JRadioButton returnTypeReplacement;
     private javax.swing.JLabel saleInvoiceLabel;
     private javax.swing.JButton selectInvoice;
-    private com.xpos.gui.SelectInvoicePopup selectInvoicePopup;
     private javax.swing.JLabel totalRefundAmountLabel;
     // End of variables declaration//GEN-END:variables
 }

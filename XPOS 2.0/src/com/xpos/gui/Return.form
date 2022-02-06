@@ -8,8 +8,6 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
     </Container>
-    <Component class="com.xpos.gui.SelectInvoicePopup" name="selectInvoicePopup">
-    </Component>
     <Component class="javax.swing.ButtonGroup" name="returnType">
     </Component>
     <Component class="javax.swing.ButtonGroup" name="returnCondition">

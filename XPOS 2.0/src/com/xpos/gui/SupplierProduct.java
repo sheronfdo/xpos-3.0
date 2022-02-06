@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -257,6 +259,11 @@ public class SupplierProduct extends javax.swing.JPanel {
         itemCode.setPhColor(new java.awt.Color(0, 51, 255));
         itemCode.setPlaceholder("Item Code");
         itemCode.setPreferredSize(new java.awt.Dimension(200, 30));
+        itemCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                itemCodeKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -591,10 +598,10 @@ public class SupplierProduct extends javax.swing.JPanel {
         supplierId.setText(supProdSupplierTable.getValueAt(selRow, 0).toString());
         supplierName.setText(supProdSupplierTable.getValueAt(selRow, 1).toString());
         String query = "SELECT supplierproduct.`Supplier_Id` as SupplierId, supplierproduct.`Product_Id` as ProductId,"
-                    + " supplierproduct. `ItemCode` as ItemCode,supplier.Name as supplierName, product.Description as productName"
-                    + " FROM ((`supplierproduct` JOIN supplier on supplierproduct.Supplier_Id=supplier.Id)"
-                    + " JOIN product on supplierproduct.Product_Id=product.Id) WHERE supplierproduct.Status=1 and supplierproduct.Supplier_Id="
-                    + supProdSupplierTable.getValueAt(selRow, 0).toString();
+                + " supplierproduct. `ItemCode` as ItemCode,supplier.Name as supplierName, product.Description as productName"
+                + " FROM ((`supplierproduct` JOIN supplier on supplierproduct.Supplier_Id=supplier.Id)"
+                + " JOIN product on supplierproduct.Product_Id=product.Id) WHERE supplierproduct.Status=1 and supplierproduct.Supplier_Id="
+                + supProdSupplierTable.getValueAt(selRow, 0).toString();
         fillSupplierProductTable(query);
     }//GEN-LAST:event_supProdSupplierTableMouseClicked
 
@@ -626,11 +633,12 @@ public class SupplierProduct extends javax.swing.JPanel {
     private void supplierIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supplierIdKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             int supId = Integer.parseInt(supplierId.getText().toString());
-            String query = "SELECT supplier.Name FROM `supplier` WHERE id="+supId;
+            String query = "SELECT supplier.Name FROM `supplier` WHERE id=" + supId;
             try {
-                ResultSet rs =  DbConnect.getFromDB(query);
+                ResultSet rs = DbConnect.getFromDB(query);
                 if (rs.next()) {
                     supplierName.setText(rs.getString("supplier.Name"));
+                    productId.requestFocus();
                 }
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(SupplierProduct.class.getName()).log(Level.SEVERE, null, ex);
@@ -641,13 +649,14 @@ public class SupplierProduct extends javax.swing.JPanel {
     }//GEN-LAST:event_supplierIdKeyReleased
 
     private void productIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productIdKeyReleased
-if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             int prodId = Integer.parseInt(productId.getText().toString());
-            String query = "SELECT product.description FROM `product` WHERE id="+prodId;
+            String query = "SELECT product.description FROM `product` WHERE id=" + prodId;
             try {
-                ResultSet rs =  DbConnect.getFromDB(query);
+                ResultSet rs = DbConnect.getFromDB(query);
                 if (rs.next()) {
                     productName.setText(rs.getString("product.description"));
+                    itemCode.requestFocus();
                 }
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(SupplierProduct.class.getName()).log(Level.SEVERE, null, ex);
@@ -656,6 +665,16 @@ if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             }
         }
     }//GEN-LAST:event_productIdKeyReleased
+
+    private void itemCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_itemCodeKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(itemCode.getText().toString())) {
+                supProdInsert.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_itemCodeKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private app.bolivia.swing.JCTextField itemCode;

@@ -150,6 +150,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="supNameKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="supAddress">
           <Properties>
@@ -177,6 +180,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="supAddressKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="supTeleNumber">
           <Properties>
@@ -204,6 +210,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="supTeleNumberKeyPressed"/>
+          </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="supRegisterNumber">
           <Properties>
@@ -231,6 +240,9 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="supRegisterNumberKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="supButInsert">
           <Properties>

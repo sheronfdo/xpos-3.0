@@ -5,10 +5,13 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,8 +19,10 @@ import javax.swing.table.DefaultTableModel;
  * @author Jamit
  */
 public class Supply extends javax.swing.JPanel {
-DefaultTableModel tablemodel;
-int supplierId;
+
+    DefaultTableModel tablemodel;
+    int supplierId;
+
     /**
      * Creates new form Supply
      */
@@ -25,7 +30,14 @@ int supplierId;
         initComponents();
         fillSupTable(null);
     }
-    
+
+    private boolean validateForm() {
+        return Validate.isName(supName.getText().toString())
+                && Validate.isText(supAddress.getText().toString())
+                && Validate.isTelephone(supTeleNumber.getText().toString())
+                && Validate.isText(supRegisterNumber.getText().toString());
+    }
+
     public void clearSupPanel() {
         supName.setText("");
         supAddress.setText("");
@@ -34,7 +46,7 @@ int supplierId;
         supSearch.setText("");
         fillSupTable(null);
     }
-    
+
     public void fillSupTable(String query) {
         tablemodel = (DefaultTableModel) supplierTable.getModel();
         tablemodel.setRowCount(0);
@@ -102,24 +114,44 @@ int supplierId;
         supName.setPhColor(new java.awt.Color(0, 51, 255));
         supName.setPlaceholder("Name");
         supName.setPreferredSize(new java.awt.Dimension(200, 30));
+        supName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                supNameKeyPressed(evt);
+            }
+        });
 
         supAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         supAddress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         supAddress.setPhColor(new java.awt.Color(0, 51, 255));
         supAddress.setPlaceholder("Address");
         supAddress.setPreferredSize(new java.awt.Dimension(200, 30));
+        supAddress.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                supAddressKeyPressed(evt);
+            }
+        });
 
         supTeleNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Telephone Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         supTeleNumber.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         supTeleNumber.setPhColor(new java.awt.Color(0, 51, 255));
         supTeleNumber.setPlaceholder("Telephone Number");
         supTeleNumber.setPreferredSize(new java.awt.Dimension(200, 30));
+        supTeleNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                supTeleNumberKeyPressed(evt);
+            }
+        });
 
         supRegisterNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Register Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         supRegisterNumber.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         supRegisterNumber.setPhColor(new java.awt.Color(0, 51, 255));
         supRegisterNumber.setPlaceholder("Register Number");
         supRegisterNumber.setPreferredSize(new java.awt.Dimension(200, 30));
+        supRegisterNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                supRegisterNumberKeyPressed(evt);
+            }
+        });
 
         supButInsert.setBackground(new java.awt.Color(0, 60, 128));
         supButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -291,41 +323,49 @@ int supplierId;
     }// </editor-fold>//GEN-END:initComponents
 
     private void supButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supButInsertActionPerformed
-        String name = supName.getText();
-        String address = supAddress.getText();
-        String teleNumber = supTeleNumber.getText();
-        String regNumber = supRegisterNumber.getText();
+        if (validateForm()) {
+            String name = supName.getText();
+            String address = supAddress.getText();
+            String teleNumber = supTeleNumber.getText();
+            String regNumber = supRegisterNumber.getText();
 
-        String query = "INSERT INTO supplier(Name,Address,TelephoneNo,RegisterNo) VALUES('" + name + "','" + address + "','" + teleNumber + "'," + regNumber + ")";
-        try {
-            DbConnect.pushToDB(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            String query = "INSERT INTO supplier(Name,Address,TelephoneNo,RegisterNo) VALUES('" + name + "','" + address + "','" + teleNumber + "'," + regNumber + ")";
+            try {
+                DbConnect.pushToDB(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            clearSupPanel();
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
-        clearSupPanel();
     }//GEN-LAST:event_supButInsertActionPerformed
 
     private void supButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supButEditActionPerformed
-        String name = supName.getText();
-        String address = supAddress.getText();
-        String teleNumber = supTeleNumber.getText();
-        String regNumber = supRegisterNumber.getText();
+        if (validateForm()) {
+            String name = supName.getText();
+            String address = supAddress.getText();
+            String teleNumber = supTeleNumber.getText();
+            String regNumber = supRegisterNumber.getText();
 
-        String query = "UPDATE supplier set Name='" + name + "', Address='" + address + "',TelephoneNo='" + teleNumber + "',RegisterNo=" + regNumber + " WHERE Id=" + supplierId;
-        try {
-            DbConnect.pushToDB(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            String query = "UPDATE supplier set Name='" + name + "', Address='" + address + "',TelephoneNo='" + teleNumber + "',RegisterNo=" + regNumber + " WHERE Id=" + supplierId;
+            try {
+                DbConnect.pushToDB(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            clearSupPanel();
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
-        clearSupPanel();
     }//GEN-LAST:event_supButEditActionPerformed
 
     private void supButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supButDeleteActionPerformed
@@ -360,6 +400,46 @@ int supplierId;
         String query = "SELECT * from supplier WHERE Name LIKE '%" + supSearch.getText().toString() + "%' and Status=1";
         fillSupTable(query);
     }//GEN-LAST:event_supSearchKeyReleased
+
+    private void supNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supNameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(supName.getText().toString())) {
+                supAddress.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }         // TODO add your handling code here:
+    }//GEN-LAST:event_supNameKeyPressed
+
+    private void supAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supAddressKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(supAddress.getText().toString())) {
+                supTeleNumber.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_supAddressKeyPressed
+
+    private void supTeleNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supTeleNumberKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isTelephone(supTeleNumber.getText().toString())) {
+                supRegisterNumber.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_supTeleNumberKeyPressed
+
+    private void supRegisterNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supRegisterNumberKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Validate.isText(supRegisterNumber.getText().toString())) {
+                supButInsert.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
+            }
+        }         // TODO add your handling code here:
+    }//GEN-LAST:event_supRegisterNumberKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

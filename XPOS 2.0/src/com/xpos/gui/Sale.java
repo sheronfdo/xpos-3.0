@@ -331,7 +331,6 @@ public class Sale extends javax.swing.JPanel {
         jPanel28 = new javax.swing.JPanel();
         jScrollPane12 = new javax.swing.JScrollPane();
         saleProdTable = new rojeru_san.complementos.RSTableMetro();
-        saleProdBarcode = new app.bolivia.swing.JCTextField();
         saleProdDesc = new app.bolivia.swing.JCTextField();
         jPanel29 = new javax.swing.JPanel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -424,17 +423,6 @@ public class Sale extends javax.swing.JPanel {
         });
         jScrollPane12.setViewportView(saleProdTable);
 
-        saleProdBarcode.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Barcode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        saleProdBarcode.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        saleProdBarcode.setPhColor(new java.awt.Color(0, 51, 255));
-        saleProdBarcode.setPlaceholder("Search Barcode");
-        saleProdBarcode.setPreferredSize(new java.awt.Dimension(200, 30));
-        saleProdBarcode.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                saleProdBarcodeKeyReleased(evt);
-            }
-        });
-
         saleProdDesc.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         saleProdDesc.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         saleProdDesc.setPhColor(new java.awt.Color(0, 51, 255));
@@ -450,19 +438,15 @@ public class Sale extends javax.swing.JPanel {
         jPanel28.setLayout(jPanel28Layout);
         jPanel28Layout.setHorizontalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane12)
             .addGroup(jPanel28Layout.createSequentialGroup()
-                .addComponent(saleProdBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saleProdDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane12)
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel28Layout.createSequentialGroup()
-                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saleProdBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saleProdDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(saleProdDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
         );
@@ -1075,15 +1059,6 @@ public class Sale extends javax.swing.JPanel {
         selectProduct();
     }//GEN-LAST:event_saleProdTableMouseClicked
 
-    private void saleProdBarcodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdBarcodeKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String query = "SELECT `Id`, `Barcode`, `Description`, `PurchasePrice`, "
-                    + "`RetailPrice`, `TotalQuantity`, `Status` FROM `product` WHERE status=1 and Barcode="
-                    + saleProdBarcode.getText();
-            fillSaleProdTable(query);
-        }
-    }//GEN-LAST:event_saleProdBarcodeKeyReleased
-
     private void saleProdDescKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdDescKeyReleased
         String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
                     + " product.Category_Id as categoryId, category.Description as categoryName,"
@@ -1375,7 +1350,6 @@ public class Sale extends javax.swing.JPanel {
     private javax.swing.ButtonGroup saleItemDiscount;
     private javax.swing.JLabel saleItemTotal;
     private javax.swing.JLabel saleManufacDate;
-    private app.bolivia.swing.JCTextField saleProdBarcode;
     private app.bolivia.swing.JCTextField saleProdBatchNumber;
     private app.bolivia.swing.JCTextField saleProdDesc;
     private app.bolivia.swing.JCTextField saleProdId;

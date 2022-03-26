@@ -71,6 +71,7 @@ public class Main extends javax.swing.JFrame {
         ReturnInvoice.setVisible(false);
         POInvoice.setVisible(false);
         ProductDetail.setVisible(false);
+        reqForQuate.setVisible(false);
     }
 
     /**
@@ -97,6 +98,7 @@ public class Main extends javax.swing.JFrame {
         purchaseOrder = new javax.swing.JButton();
         returnPanel = new javax.swing.JButton();
         invoiceBtn = new javax.swing.JButton();
+        invoiceBtn1 = new javax.swing.JButton();
         Header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -145,6 +147,7 @@ public class Main extends javax.swing.JFrame {
         purchaseOrderBtn = new javax.swing.JButton();
         returnInvoiceBtn = new javax.swing.JButton();
         saleInvoiceBtn = new javax.swing.JButton();
+        reqForQuate = new com.xpos.gui.ReqForQuate();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("XPOS 2.0"); // NOI18N
@@ -310,6 +313,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        invoiceBtn1.setBackground(new java.awt.Color(0, 60, 128));
+        invoiceBtn1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        invoiceBtn1.setForeground(new java.awt.Color(255, 255, 255));
+        invoiceBtn1.setText("REQUEST FOR QUATE");
+        invoiceBtn1.setBorder(null);
+        invoiceBtn1.setFocusPainted(false);
+        invoiceBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invoiceBtn1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SideBar2Layout = new javax.swing.GroupLayout(SideBar2);
         SideBar2.setLayout(SideBar2Layout);
         SideBar2Layout.setHorizontalGroup(
@@ -329,7 +344,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(supplierProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                     .addComponent(purchaseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(returnPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(invoiceBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(invoiceBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(invoiceBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         SideBar2Layout.setVerticalGroup(
@@ -361,6 +377,8 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(returnPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(invoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(invoiceBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -756,6 +774,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         MainPanel.add(Invoices, "card2");
+        MainPanel.add(reqForQuate, "card15");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -925,6 +944,11 @@ public class Main extends javax.swing.JFrame {
         Invoices.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_invoiceBtnActionPerformed
 
+    private void invoiceBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceBtn1ActionPerformed
+        setVisibleFalseAllPanels();
+        reqForQuate.setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_invoiceBtn1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -996,6 +1020,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton homeBut2;
     private javax.swing.JButton hrm;
     private javax.swing.JButton invoiceBtn;
+    private javax.swing.JButton invoiceBtn1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
@@ -1012,6 +1037,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton purchaseInvoiceBtn;
     private javax.swing.JButton purchaseOrder;
     private javax.swing.JButton purchaseOrderBtn;
+    private com.xpos.gui.ReqForQuate reqForQuate;
     private javax.swing.JButton returnInvoiceBtn;
     private javax.swing.JButton returnPanel;
     private javax.swing.JButton sale;

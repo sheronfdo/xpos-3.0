@@ -24,7 +24,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jLabel13" min="-2" pref="200" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="purchOrderSupplierCombo" min="-2" pref="300" max="-2" attributes="0"/>
+              <Component id="RFQSupplierCombo" min="-2" pref="300" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -53,7 +53,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel13" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="purchOrderSupplierCombo" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="RFQSupplierCombo" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" pref="105" max="-2" attributes="0"/>
@@ -110,14 +110,14 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jScrollPane9" pref="1410" max="32767" attributes="0"/>
-              <Component id="purchProdDescription" alignment="0" max="32767" attributes="0"/>
+              <Component id="RFQProdDescriptionSearch" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="purchProdDescription" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="RFQProdDescriptionSearch" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane9" pref="161" max="32767" attributes="0"/>
               </Group>
@@ -132,7 +132,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="rojeru_san.complementos.RSTableMetro" name="purchOrderSupplierProduct">
+            <Component class="rojeru_san.complementos.RSTableMetro" name="RFQSupplierProduct">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="7" rowCount="0">
@@ -200,12 +200,12 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="purchOrderSupplierProductMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="RFQSupplierProductMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="app.bolivia.swing.JCTextField" name="purchProdDescription">
+        <Component class="app.bolivia.swing.JCTextField" name="RFQProdDescriptionSearch">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -232,7 +232,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="purchProdDescriptionKeyReleased"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="RFQProdDescriptionSearchKeyReleased"/>
           </Events>
         </Component>
       </SubComponents>
@@ -249,24 +249,24 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="purchOrderId" pref="177" max="32767" attributes="0"/>
+                  <Component id="RFQProductId" pref="177" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="purchOrderBrand" pref="177" max="32767" attributes="0"/>
-                      <Component id="purchOrderDescription" max="32767" attributes="0"/>
+                      <Component id="RFQBrand" pref="177" max="32767" attributes="0"/>
+                      <Component id="RFQDescription" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="purchOrderOrderedQty" alignment="0" max="32767" attributes="0"/>
-                      <Component id="purchOrderStock" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
+                      <Component id="RFQOrderedQty" alignment="0" max="32767" attributes="0"/>
+                      <Component id="RFQStock" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="purchOrderQuantity" min="-2" pref="177" max="-2" attributes="0"/>
-                      <Component id="purchOrderItemCode" min="-2" pref="177" max="-2" attributes="0"/>
+                      <Component id="RFQQuantity" min="-2" pref="177" max="-2" attributes="0"/>
+                      <Component id="RFQItemCode" min="-2" pref="177" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="purchOrderAddToTable" min="-2" pref="230" max="-2" attributes="0"/>
+                  <Component id="RFQAddToTable" min="-2" pref="230" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -275,21 +275,21 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="purchOrderAddToTable" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="RFQAddToTable" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="purchOrderItemCode" alignment="0" max="32767" attributes="0"/>
-                          <Component id="purchOrderStock" alignment="0" max="32767" attributes="0"/>
-                          <Component id="purchOrderBrand" alignment="0" max="32767" attributes="0"/>
-                          <Component id="purchOrderId" alignment="0" pref="45" max="32767" attributes="0"/>
+                          <Component id="RFQItemCode" alignment="0" max="32767" attributes="0"/>
+                          <Component id="RFQStock" alignment="0" max="32767" attributes="0"/>
+                          <Component id="RFQBrand" alignment="0" max="32767" attributes="0"/>
+                          <Component id="RFQProductId" alignment="0" pref="45" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="purchOrderOrderedQty" alignment="0" max="32767" attributes="0"/>
-                          <Component id="purchOrderQuantity" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
+                          <Component id="RFQOrderedQty" alignment="0" max="32767" attributes="0"/>
+                          <Component id="RFQQuantity" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="purchOrderDescription" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
+                      <Component id="RFQDescription" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -297,7 +297,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="purchOrderDescription">
+        <Component class="javax.swing.JLabel" name="RFQDescription">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="1"/>
@@ -317,7 +317,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="purchOrderStock">
+        <Component class="javax.swing.JLabel" name="RFQStock">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="1"/>
@@ -337,7 +337,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="purchOrderOrderedQty">
+        <Component class="javax.swing.JLabel" name="RFQOrderedQty">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="1"/>
@@ -357,7 +357,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="purchOrderQuantity">
+        <Component class="app.bolivia.swing.JCTextField" name="RFQQuantity">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -384,10 +384,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="purchOrderQuantityKeyReleased"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="RFQQuantityKeyReleased"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="purchOrderAddToTable">
+        <Component class="javax.swing.JButton" name="RFQAddToTable">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -405,10 +405,10 @@
             <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="purchOrderAddToTableActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RFQAddToTableActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="purchOrderBrand">
+        <Component class="javax.swing.JLabel" name="RFQBrand">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="1"/>
@@ -428,7 +428,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="purchOrderItemCode">
+        <Component class="javax.swing.JLabel" name="RFQItemCode">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="1"/>
@@ -448,7 +448,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="purchOrderId">
+        <Component class="javax.swing.JLabel" name="RFQProductId">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="1"/>
@@ -496,9 +496,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="purchCancel" alignment="0" max="32767" attributes="0"/>
-                      <Component id="purchComplete" alignment="0" pref="306" max="32767" attributes="0"/>
-                      <Component id="purchDeleteItem" alignment="1" max="32767" attributes="0"/>
+                      <Component id="RFQCancel" alignment="0" max="32767" attributes="0"/>
+                      <Component id="RFQComplete" alignment="0" pref="306" max="32767" attributes="0"/>
+                      <Component id="RFQDeleteItem" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -508,17 +508,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="214" max="32767" attributes="0"/>
-                  <Component id="purchDeleteItem" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="RFQDeleteItem" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="purchCancel" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="RFQCancel" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="purchComplete" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="RFQComplete" min="-2" pref="52" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="purchComplete">
+        <Component class="javax.swing.JButton" name="RFQComplete">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -536,10 +536,10 @@
             <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="purchCompleteActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RFQCompleteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="purchDeleteItem">
+        <Component class="javax.swing.JButton" name="RFQDeleteItem">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -557,10 +557,10 @@
             <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="purchDeleteItemActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RFQDeleteItemActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="purchCancel">
+        <Component class="javax.swing.JButton" name="RFQCancel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -578,7 +578,7 @@
             <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="purchCancelActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RFQCancelActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -626,7 +626,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="rojeru_san.complementos.RSTableMetro" name="purchOrderTable">
+            <Component class="rojeru_san.complementos.RSTableMetro" name="RFQTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="5" rowCount="0">
@@ -682,14 +682,14 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="purchOrderTableMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="RFQTableMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JComboBox" name="purchOrderSupplierCombo">
+    <Component class="javax.swing.JComboBox" name="RFQSupplierCombo">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="8c" red="1a" type="rgb"/>
@@ -715,7 +715,7 @@
         <Property name="opaque" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="purchOrderSupplierComboActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RFQSupplierComboActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

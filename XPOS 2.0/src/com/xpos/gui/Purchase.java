@@ -973,7 +973,8 @@ public class Purchase extends javax.swing.JPanel {
                 String itemTotal = purchProduct.getValueAt(i, 5).toString();
 
                 try {
-                    String purchPriceAndQuantity = "select PurchasePrice,QuantityByBatch as TotalQuantity from batchesofproduct where Id=" + batchId;
+                    String purchPriceAndQuantity = "select PurchasePrice,QuantityByBatch as TotalQuantity from batchesofproduct"
+                            + " where Id=" + batchId;
                     ResultSet rs = DbConnect.getFromDB(purchPriceAndQuantity);
                     double prePurchPrice = 0.0;
                     int preQuantity = 0;
@@ -994,7 +995,7 @@ public class Purchase extends javax.swing.JPanel {
                             + quantity + "," + itemTotal + "," + batchId + ")";
 
                     String updateProduct = "UPDATE product SET TotalQuantity=TotalQuantity+"
-                            + quantity + " WHERE Id=" + proId;
+                            + quantity + ", OrderedQuantity=OrderedQuantity-" + quantity + " WHERE Id=" + proId;
 
                     String purchaseOrderQuery = "UPDATE `purchaseorder` SET `IsSupplied`=1 WHERE `Id`=" + purchaseOrderId;
 
@@ -1091,10 +1092,10 @@ public class Purchase extends javax.swing.JPanel {
                     + " product.Description as description,"
                     + " product.TotalQuantity as totalQuantity,"
                     + " product.orderedQuantity as orderedQuantity"
-                    + " FROM (((orderedproducts JOIN product ON orderedproducts.Product_Id=product.Id)"
+                    + " FROM (((purchaseorderitem JOIN product ON purchaseorderitem.Product_Id=product.Id)"
                     + " JOIN brand ON product.Brand_Id=brand.Id)"
                     + " join category ON product.Category_Id=category.Id)"
-                    + " WHERE orderedproducts.PurchaseOrder_Id=" + purchaseOrderId;
+                    + " WHERE purchaseorderitem.PurchaseOrder_Id=" + purchaseOrderId;
             fillPurchaseProdTable(query);
         }
     }//GEN-LAST:event_purchPurchaseOrderComboActionPerformed

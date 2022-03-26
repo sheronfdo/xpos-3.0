@@ -28,7 +28,7 @@ public class POInvoice extends javax.swing.JPanel {
      */
     public POInvoice() {
         initComponents();
-        fillPOInvoiceTable(null);
+        fillPOInvoiceTable(null); 
     }
 
     private void fillPOInvoiceTable(String query) {
@@ -41,7 +41,7 @@ public class POInvoice extends javax.swing.JPanel {
                 query = "SELECT purchaseorder.`Id` as POId,"
                         + " purchaseorder.`Supplier_Id` as supplierId,"
                         + " purchaseorder.`Date` as PODate,"
-                        + " purchaseorder.`IsSupplied` as isSupplied,"
+                        + " isSupplied as isSupplied,"
                         + " supplier.Name as supplierName"
                         + " FROM `purchaseorder`"
                         + " JOIN supplier on purchaseorder.Supplier_Id=supplier.Id"
@@ -53,7 +53,7 @@ public class POInvoice extends javax.swing.JPanel {
                 v.add(rs.getInt("POId"));
                 v.add(rs.getInt("supplierId") + " - " + rs.getString("supplierName"));
                 v.add(rs.getDate("PODate"));
-                v.add(rs.getBoolean("isSupplied"));
+                v.add(rs.getString("isSupplied"));
                 tableModel.addRow(v);
             }
         } catch (ClassNotFoundException ex) {

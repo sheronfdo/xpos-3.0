@@ -33,29 +33,17 @@ public class PurchaseOrder extends javax.swing.JPanel {
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
 
+    Double totalWithNoDiscount = 0.0;
+    Double discount = 0.0;
+    Double finalTotal = 0.0;
+    int purchaseOrderId = 0;
+
     /**
      * Creates new form Purchase
      */
     public PurchaseOrder() {
         initComponents();
         loadPurchaseOrderSupplierCombo();
-    }
-
-    private void clearPurchOrderPanel() {
-        purchOrderId.setText("");
-        purchOrderBrand.setText("");
-        purchOrderDescription.setText("");
-        purchOrderItemCode.setText("");
-        purchOrderQuantity.setText("");
-        purchOrderStock.setText("");
-        purchOrderOrderedQty.setText("");
-
-        loadPurchaseOrderSupplierCombo();
-
-        tablemodel = (DefaultTableModel) purchOrderSupplierProduct.getModel();
-        tablemodel.setRowCount(0);
-        tablemodel = (DefaultTableModel) purchOrderTable.getModel();
-        tablemodel.setRowCount(0);
     }
 
     private void loadPurchaseOrderSupplierCombo() {
@@ -77,36 +65,37 @@ public class PurchaseOrder extends javax.swing.JPanel {
         }
     }
 
-    private void fillSupplierProductTable(String query) {
-        tablemodel = (DefaultTableModel) purchOrderSupplierProduct.getModel();
+    private void fillPurchaseOrderProdTable(String query) {
+        tablemodel = (DefaultTableModel) purchOrderProdTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
-            query = "select product.Id as productId, brand.BrandName as brand,"
-                    + " product.Description as description,"
-                    + " category.Description as category,"
-                    + " product.TotalQuantity as quantity,"
+            query = "SELECT product.Id as productid,"
+                    + " product.Description as productname,"
+                    + " product.TotalQuantity as productstock,"
                     + " product.ReOrderLevel as reorderlevel,"
                     + " product.OrderedQuantity as orderedquantity,"
-                    + " supplierproduct.ItemCode as itemcode"
+                    + " category.Description as category,"
+                    + " brand.BrandName as brand,"
+                    + " supplierproduct.ItemCode"
                     + " FROM (((product"
-                    + " JOIN brand on product.Brand_Id=brand.Id)"
-                    + " JOIN category ON product.Category_Id=category.Id)"
-                    + " JOIN supplierproduct ON product.Id=supplierproduct.Product_Id)"
-                    + " WHERE supplierproduct.Supplier_Id=" + supplierId + " and product.Status=1";
+                    + " INNER JOIN category ON category.Id=product.Category_Id)"
+                    + " INNER JOIN brand ON brand.Id=product.Brand_Id)"
+                    + " INNER JOIN supplierproduct ON supplierproduct.Product_Id=product.Id)"
+                    + " WHERE product.Status=1 and"
+                    + " supplierproduct.Supplier_Id=" + supplierId;
         }
         try {
             ResultSet rs = DbConnect.getFromDB(query);
             while (rs.next()) {
                 Vector v = new Vector();
-                v.add(rs.getInt("productId"));
-                v.add(rs.getString("brand"));
-                v.add(rs.getString("description"));
+                v.add(rs.getInt("productid"));
                 v.add(rs.getString("category"));
-                v.add(rs.getInt("quantity"));
+                v.add(rs.getString("brand"));
+                v.add(rs.getString("productname"));
+                v.add(rs.getInt("productstock"));
                 v.add(rs.getInt("reorderlevel"));
                 v.add(rs.getInt("orderedquantity"));
-                v.add(rs.getString("itemcode"));
-
+                v.add(rs.getString("ItemCode"));
                 tablemodel.addRow(v);
             }
         } catch (ClassNotFoundException e) {
@@ -118,6 +107,47 @@ public class PurchaseOrder extends javax.swing.JPanel {
         }
     }
 
+    public void calPurchaseOrderDetails() {
+        int rows = purchOrderProduct.getRowCount();
+        totalWithNoDiscount = 0.0;
+        discount = 0.0;
+        finalTotal = 0.0;
+        for (int i = 0; i < rows; i++) {
+            totalWithNoDiscount = totalWithNoDiscount + Double.parseDouble(purchOrderProduct.getValueAt(i, 6).toString());
+        }
+        if (purchOrderDisAmount.isSelected()) {
+            discount = Double.parseDouble(purchOrderDiscount.getText().toString());
+        } else if (purchOrderDisPercent.isSelected()) {
+            discount = totalWithNoDiscount
+                    * Double.parseDouble(purchOrderDiscount.getText().toString().equals("") ? "0" : purchOrderDiscount.getText().toString()) / 100;
+        }
+        finalTotal = totalWithNoDiscount - discount;
+        purchOrderSubTotal.setText(totalWithNoDiscount.toString());
+        purchOrderFinalDiscount.setText(discount.toString());
+        purchOrderTotal.setText(finalTotal.toString());
+    }
+
+    private void clearPurchOrderPanel() {
+        purchOrderSupplierCombo.setSelectedIndex(0);
+        ((DefaultTableModel) purchOrderProduct.getModel()).setRowCount(0);
+        ((DefaultTableModel) purchOrderProdTable.getModel()).setRowCount(0);
+
+        purchOrderProductId.setText("");
+        purchOrderBrand.setText("");
+        purchOrderDescription.setText("");
+        purchOrderStockQuantity.setText("");
+        purchOrderPurchasePrice.setText("");
+        purchOrderQuantity.setText("");
+        purchOrderItemCode.setText("");
+        purchOrderProductTotal.setText("");
+
+        purchOrderSubTotal.setText("0.0");
+        purchOrderDiscount.setText("0");
+        purchOrderDisAmount.setSelected(true);
+        purchOrderTotal.setText("0.00");
+        fillPurchaseOrderProdTable(null);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,28 +157,40 @@ public class PurchaseOrder extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel13 = new javax.swing.JLabel();
-        jPanel26 = new javax.swing.JPanel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        purchOrderSupplierProduct = new rojeru_san.complementos.RSTableMetro();
-        purchProdDescription = new app.bolivia.swing.JCTextField();
+        purchOrderSupplierCombo = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
+        purchOrderProductId = new app.bolivia.swing.JCTextField();
         purchOrderDescription = new javax.swing.JLabel();
-        purchOrderStock = new javax.swing.JLabel();
-        purchOrderOrderedQty = new javax.swing.JLabel();
+        purchOrderStockQuantity = new javax.swing.JLabel();
         purchOrderQuantity = new app.bolivia.swing.JCTextField();
         purchOrderAddToTable = new javax.swing.JButton();
         purchOrderBrand = new javax.swing.JLabel();
         purchOrderItemCode = new javax.swing.JLabel();
-        purchOrderId = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        purchComplete = new javax.swing.JButton();
-        purchDeleteItem = new javax.swing.JButton();
-        purchCancel = new javax.swing.JButton();
+        purchOrderProductTotal = new javax.swing.JLabel();
+        purchOrderPurchasePrice = new app.bolivia.swing.JCTextField();
         jPanel25 = new javax.swing.JPanel();
         jScrollPane11 = new javax.swing.JScrollPane();
-        purchOrderTable = new rojeru_san.complementos.RSTableMetro();
-        purchOrderSupplierCombo = new javax.swing.JComboBox<>();
+        purchOrderProduct = new rojeru_san.complementos.RSTableMetro();
+        jPanel5 = new javax.swing.JPanel();
+        purchOrderComplete = new javax.swing.JButton();
+        purchOrderDeleteItem = new javax.swing.JButton();
+        purchOrderCancel = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        purchOrderSubTotal = new javax.swing.JLabel();
+        purchOrderDiscount = new app.bolivia.swing.JCTextField();
+        purchOrderDisAmount = new javax.swing.JRadioButton();
+        purchOrderDisPercent = new javax.swing.JRadioButton();
+        jLabel40 = new javax.swing.JLabel();
+        purchOrderTotal = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        purchOrderFinalDiscount = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jPanel26 = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        purchOrderProdTable = new rojeru_san.complementos.RSTableMetro();
+        purchOrderProdDescription = new app.bolivia.swing.JCTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -159,66 +201,34 @@ public class PurchaseOrder extends javax.swing.JPanel {
         jLabel13.setText("PURCHASE ORDER");
         jLabel13.setOpaque(true);
 
-        jPanel26.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel26.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Products Details & Supplier Products", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(26, 140, 255))); // NOI18N
-
-        purchOrderSupplierProduct.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Brand", "Description", "Category", "Quantity (In Stock)", "Re-Order Level", "Ordered Quantity", "Item Code"
-            }
-        ));
-        purchOrderSupplierProduct.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        purchOrderSupplierProduct.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchOrderSupplierProduct.setRowHeight(25);
-        purchOrderSupplierProduct.setRowMargin(0);
-        purchOrderSupplierProduct.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        purchOrderSupplierProduct.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                purchOrderSupplierProductMouseClicked(evt);
+        purchOrderSupplierCombo.setForeground(new java.awt.Color(26, 140, 255));
+        purchOrderSupplierCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Supplier" }));
+        purchOrderSupplierCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Supplier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        purchOrderSupplierCombo.setOpaque(false);
+        purchOrderSupplierCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchOrderSupplierComboActionPerformed(evt);
             }
         });
-        jScrollPane9.setViewportView(purchOrderSupplierProduct);
-
-        purchProdDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        purchProdDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchProdDescription.setPhColor(new java.awt.Color(0, 51, 255));
-        purchProdDescription.setPlaceholder("Search by Description");
-        purchProdDescription.setPreferredSize(new java.awt.Dimension(200, 30));
-        purchProdDescription.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                purchProdDescriptionKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
-        jPanel26.setLayout(jPanel26Layout);
-        jPanel26Layout.setHorizontalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1410, Short.MAX_VALUE)
-            .addComponent(purchProdDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel26Layout.setVerticalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(purchProdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
-        );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        purchOrderProductId.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Product Id", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        purchOrderProductId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderProductId.setPhColor(new java.awt.Color(0, 51, 255));
+        purchOrderProductId.setPlaceholder("Search by Product Id");
+        purchOrderProductId.setPreferredSize(new java.awt.Dimension(200, 30));
+        purchOrderProductId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                purchOrderProductIdKeyReleased(evt);
+            }
+        });
 
         purchOrderDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         purchOrderDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
-        purchOrderStock.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchOrderStock.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "In-Stock Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-
-        purchOrderOrderedQty.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchOrderOrderedQty.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Ordered Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        purchOrderStockQuantity.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderStockQuantity.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "In-Stock Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
         purchOrderQuantity.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Quantity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
         purchOrderQuantity.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -249,8 +259,19 @@ public class PurchaseOrder extends javax.swing.JPanel {
         purchOrderItemCode.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         purchOrderItemCode.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Item Code", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
-        purchOrderId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchOrderId.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Product ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        purchOrderProductTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderProductTotal.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Total", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+
+        purchOrderPurchasePrice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Purchase Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        purchOrderPurchasePrice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderPurchasePrice.setPhColor(new java.awt.Color(0, 51, 255));
+        purchOrderPurchasePrice.setPlaceholder("Enter purchase Price");
+        purchOrderPurchasePrice.setPreferredSize(new java.awt.Dimension(200, 30));
+        purchOrderPurchasePrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                purchOrderPurchasePriceKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -258,19 +279,21 @@ public class PurchaseOrder extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(purchOrderId, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(purchOrderBrand, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                    .addComponent(purchOrderDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(purchOrderBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(purchOrderProductId, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(purchOrderOrderedQty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(purchOrderStock, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(purchOrderDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(purchOrderPurchasePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(purchOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(purchOrderItemCode, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(purchOrderStockQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(purchOrderItemCode, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                    .addComponent(purchOrderProductTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(purchOrderAddToTable, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -281,103 +304,43 @@ public class PurchaseOrder extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(purchOrderAddToTable, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(purchOrderDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(purchOrderProductId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                         .addComponent(purchOrderItemCode, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(purchOrderStock, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(purchOrderBrand, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(purchOrderId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)))
+                        .addComponent(purchOrderStockQuantity, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(purchOrderOrderedQty, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(purchOrderQuantity, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(purchOrderDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(purchOrderQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                            .addComponent(purchOrderPurchasePrice, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                        .addComponent(purchOrderBrand, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(purchOrderProductTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Purchase Actions", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(26, 140, 255))); // NOI18N
-
-        purchComplete.setBackground(new java.awt.Color(0, 60, 128));
-        purchComplete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        purchComplete.setForeground(new java.awt.Color(255, 255, 255));
-        purchComplete.setText("COMPLETE PURCHASE ORDER");
-        purchComplete.setBorder(null);
-        purchComplete.setFocusPainted(false);
-        purchComplete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                purchCompleteActionPerformed(evt);
-            }
-        });
-
-        purchDeleteItem.setBackground(new java.awt.Color(0, 60, 128));
-        purchDeleteItem.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        purchDeleteItem.setForeground(new java.awt.Color(255, 255, 255));
-        purchDeleteItem.setText("DELETE ITEM");
-        purchDeleteItem.setBorder(null);
-        purchDeleteItem.setFocusPainted(false);
-        purchDeleteItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                purchDeleteItemActionPerformed(evt);
-            }
-        });
-
-        purchCancel.setBackground(new java.awt.Color(0, 60, 128));
-        purchCancel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        purchCancel.setForeground(new java.awt.Color(255, 255, 255));
-        purchCancel.setText("CANCEL ORDER");
-        purchCancel.setBorder(null);
-        purchCancel.setFocusPainted(false);
-        purchCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                purchCancelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(purchCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(purchComplete, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .addComponent(purchDeleteItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(214, Short.MAX_VALUE)
-                .addComponent(purchDeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(purchCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(purchComplete, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
         jPanel25.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Current Ordering Products", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(26, 140, 255))); // NOI18N
+        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Purchased Products", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(26, 140, 255))); // NOI18N
 
-        purchOrderTable.setModel(new javax.swing.table.DefaultTableModel(
+        purchOrderProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Brand", "Description", "Item Code", "Quantity"
+                "ID", "Brand", "Description", "Item Code", "Purchase Price", "Quantity", "Total"
             }
         ));
-        purchOrderTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        purchOrderTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchOrderTable.setRowHeight(25);
-        purchOrderTable.setRowMargin(0);
-        purchOrderTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        purchOrderTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        purchOrderProduct.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        purchOrderProduct.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderProduct.setRowHeight(25);
+        purchOrderProduct.setRowMargin(0);
+        purchOrderProduct.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        purchOrderProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                purchOrderTableMouseClicked(evt);
+                purchOrderProductMouseClicked(evt);
             }
         });
-        jScrollPane11.setViewportView(purchOrderTable);
+        jScrollPane11.setViewportView(purchOrderProduct);
 
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
@@ -392,15 +355,221 @@ public class PurchaseOrder extends javax.swing.JPanel {
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
-        purchOrderSupplierCombo.setForeground(new java.awt.Color(26, 140, 255));
-        purchOrderSupplierCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Supplier" }));
-        purchOrderSupplierCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Supplier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        purchOrderSupplierCombo.setOpaque(false);
-        purchOrderSupplierCombo.addActionListener(new java.awt.event.ActionListener() {
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Purchase Actions", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(26, 140, 255))); // NOI18N
+
+        purchOrderComplete.setBackground(new java.awt.Color(0, 60, 128));
+        purchOrderComplete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        purchOrderComplete.setForeground(new java.awt.Color(255, 255, 255));
+        purchOrderComplete.setText("COMPLETE PURCHASE");
+        purchOrderComplete.setBorder(null);
+        purchOrderComplete.setFocusPainted(false);
+        purchOrderComplete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                purchOrderSupplierComboActionPerformed(evt);
+                purchOrderCompleteActionPerformed(evt);
             }
         });
+
+        purchOrderDeleteItem.setBackground(new java.awt.Color(0, 60, 128));
+        purchOrderDeleteItem.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        purchOrderDeleteItem.setForeground(new java.awt.Color(255, 255, 255));
+        purchOrderDeleteItem.setText("DELETE ITEM");
+        purchOrderDeleteItem.setBorder(null);
+        purchOrderDeleteItem.setFocusPainted(false);
+        purchOrderDeleteItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchOrderDeleteItemActionPerformed(evt);
+            }
+        });
+
+        purchOrderCancel.setBackground(new java.awt.Color(0, 60, 128));
+        purchOrderCancel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        purchOrderCancel.setForeground(new java.awt.Color(255, 255, 255));
+        purchOrderCancel.setText("CANCEL PURCHASE");
+        purchOrderCancel.setBorder(null);
+        purchOrderCancel.setFocusPainted(false);
+        purchOrderCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchOrderCancelActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel14.setText("Total Price : ");
+
+        purchOrderSubTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderSubTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        purchOrderSubTotal.setText("0.0");
+
+        purchOrderDiscount.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)));
+        purchOrderDiscount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        purchOrderDiscount.setText("0");
+        purchOrderDiscount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderDiscount.setPhColor(new java.awt.Color(0, 51, 255));
+        purchOrderDiscount.setPlaceholder("Discount");
+        purchOrderDiscount.setPreferredSize(new java.awt.Dimension(200, 30));
+        purchOrderDiscount.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                purchOrderDiscountKeyReleased(evt);
+            }
+        });
+
+        purchOrderDisAmount.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(purchOrderDisAmount);
+        purchOrderDisAmount.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        purchOrderDisAmount.setSelected(true);
+        purchOrderDisAmount.setText("Amount");
+        purchOrderDisAmount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchOrderDisAmountMouseClicked(evt);
+            }
+        });
+
+        purchOrderDisPercent.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(purchOrderDisPercent);
+        purchOrderDisPercent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        purchOrderDisPercent.setText("Percent (%)");
+        purchOrderDisPercent.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchOrderDisPercentMouseClicked(evt);
+            }
+        });
+
+        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel40.setText("Discount Amount :");
+
+        purchOrderTotal.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        purchOrderTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        purchOrderTotal.setText("0.00");
+
+        jLabel42.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel42.setText("Total :");
+
+        purchOrderFinalDiscount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderFinalDiscount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        purchOrderFinalDiscount.setText("0.0");
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel41.setText("Discount :");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(purchOrderCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(purchOrderComplete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purchOrderSubTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(purchOrderDeleteItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purchOrderTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel41)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(purchOrderDisAmount)))
+                        .addGap(18, 18, 18)
+                        .addComponent(purchOrderDisPercent))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel40)
+                        .addGap(0, 16, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(purchOrderFinalDiscount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(purchOrderDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(purchOrderSubTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(purchOrderDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(purchOrderDisPercent, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(purchOrderDisAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(purchOrderFinalDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(purchOrderTotal)
+                        .addGap(18, 18, 18)
+                        .addComponent(purchOrderDeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purchOrderCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purchOrderComplete, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel42)))
+        );
+
+        jPanel26.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel26.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Products", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(26, 140, 255))); // NOI18N
+
+        purchOrderProdTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Category", "Brand", "Description", "Quantity (In Stock)", "Re-Order Level", "Ordered Quantoty", "Item Code"
+            }
+        ));
+        purchOrderProdTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        purchOrderProdTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderProdTable.setRowHeight(25);
+        purchOrderProdTable.setRowMargin(0);
+        purchOrderProdTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        purchOrderProdTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchOrderProdTableMouseClicked(evt);
+            }
+        });
+        jScrollPane9.setViewportView(purchOrderProdTable);
+
+        purchOrderProdDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        purchOrderProdDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        purchOrderProdDescription.setPhColor(new java.awt.Color(0, 51, 255));
+        purchOrderProdDescription.setPlaceholder("Search by Description");
+        purchOrderProdDescription.setPreferredSize(new java.awt.Dimension(200, 30));
+        purchOrderProdDescription.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                purchOrderProdDescriptionKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane9)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addComponent(purchOrderProdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(purchOrderProdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -414,97 +583,148 @@ public class PurchaseOrder extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 436, Short.MAX_VALUE))
+                        .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 426, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(purchOrderSupplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(purchOrderSupplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void purchOrderSupplierProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchOrderSupplierProductMouseClicked
-        int selectedRow = purchOrderSupplierProduct.getSelectedRow();
-        purchOrderId.setText(purchOrderSupplierProduct.getValueAt(selectedRow, 0).toString());
-        purchOrderBrand.setText(purchOrderSupplierProduct.getValueAt(selectedRow, 1).toString());
-        purchOrderDescription.setText(purchOrderSupplierProduct.getValueAt(selectedRow, 2).toString());
-        purchOrderStock.setText(purchOrderSupplierProduct.getValueAt(selectedRow, 4).toString());
-        purchOrderOrderedQty.setText(purchOrderSupplierProduct.getValueAt(selectedRow, 6).toString());
-        purchOrderItemCode.setText(purchOrderSupplierProduct.getValueAt(selectedRow, 7).toString());
-    }//GEN-LAST:event_purchOrderSupplierProductMouseClicked
+    private void purchOrderSupplierComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchOrderSupplierComboActionPerformed
+        if (purchOrderSupplierCombo.getSelectedIndex() > 0) {
+            supplierId = Integer.parseInt(purchOrderSupplierCombo.getSelectedItem().toString().split(" - ")[0].trim());
+            String query = "SELECT product.Id as productid,"
+                    + " product.Description as productname,"
+                    + " product.TotalQuantity as productstock,"
+                    + " product.ReOrderLevel as reorderlevel,"
+                    + " product.OrderedQuantity as orderedquantity,"
+                    + " category.Description as category,"
+                    + " brand.BrandName as brand,"
+                    + " supplierproduct.ItemCode"
+                    + " FROM (((product"
+                    + " INNER JOIN category ON category.Id=product.Category_Id)"
+                    + " INNER JOIN brand ON brand.Id=product.Brand_Id)"
+                    + " INNER JOIN supplierproduct ON supplierproduct.Product_Id=product.Id)"
+                    + " WHERE product.Status=1 and"
+                    + " supplierproduct.Supplier_Id=" + supplierId;
+            fillPurchaseOrderProdTable(query);
+        }
+    }//GEN-LAST:event_purchOrderSupplierComboActionPerformed
 
-    private void purchProdDescriptionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchProdDescriptionKeyReleased
-        String query = "select product.Id as productId, brand.BrandName as brand,"
-                + " product.Description as description,"
-                + " category.Description as category,"
-                + " product.TotalQuantity as quantity,"
-                + " product.ReOrderLevel as reorderlevel,"
-                + " product.OrderedQuantity as orderedquantity,"
-                + " supplierproduct.ItemCode as itemcode"
-                + " FROM (((product"
-                + " JOIN brand on product.Brand_Id=brand.Id)"
-                + " JOIN category ON product.Category_Id=category.Id)"
-                + " JOIN supplierproduct ON product.Id=supplierproduct.Product_Id)"
-                + " WHERE supplierproduct.Supplier_Id=" + supplierId 
-                + " and product.Description like '%" + purchProdDescription.getText().toString() + "%' and product.Status=1";
-        fillSupplierProductTable(query);
-    }//GEN-LAST:event_purchProdDescriptionKeyReleased
+    private void purchOrderProductIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchOrderProductIdKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String query = "SELECT `Id`, `Description` FROM `product` WHERE status=1 and Id="
+                    + purchOrderProductId.getText();
+            try {
+                ResultSet rs = DbConnect.getFromDB(query);
+                if (rs.next()) {
+                    purchOrderDescription.setText(rs.getString("Description").toString());
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //purchBarcode.setText("");
+            purchOrderStockQuantity.setText("");
+            //purchOrderOrderedQuantity.setText("");
+            //purchPurchasePrice.setText("");
+            purchOrderQuantity.setText("");
+            purchOrderBrand.setText("");
+
+            String query1 = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                    + " product.Category_Id as categoryId, category.Description as categoryName,"
+                    + " product.Description as description, product.TotalQuantity as totalQuantity, product.orderedQuantity as orderedQuantity"
+                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                    + " WHERE product.Status = 1 and product.Id=" + purchOrderProductId.getText();
+            fillPurchaseOrderProdTable(query1);
+            String query2 = "SELECT batchesofproduct.Id as batchid,"
+                    + " batchesofproduct.Barcode as Barcode,"
+                    + " batchesofproduct.BatchNumber as BatchNumber,"
+                    + " batchesofproduct.QuantityByBatch as quantity,"
+                    + " batchesofproduct.PurchasePrice as purchPrice,"
+                    + " batchesofproduct.RetailPrice AS RetailPrice"
+                    + " FROM batchesofproduct "
+                    + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id=" + purchOrderProductId.getText();
+            //fillPurchaseBatchTable(query2);
+        }
+    }//GEN-LAST:event_purchOrderProductIdKeyReleased
 
     private void purchOrderQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchOrderQuantityKeyReleased
-        // TODO add your handling code here:
+        double purchPrice = Double.parseDouble(purchOrderPurchasePrice.getText().toString());
+        int quantity = Integer.parseInt(purchOrderQuantity.getText().toString());
+        double total = purchPrice * quantity;
+        purchOrderProductTotal.setText(Double.toString(total));
     }//GEN-LAST:event_purchOrderQuantityKeyReleased
 
     private void purchOrderAddToTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchOrderAddToTableActionPerformed
         Vector v = new Vector();
-        v.add(purchOrderId.getText());
+        v.add(purchOrderProductId.getText());
         v.add(purchOrderBrand.getText());
         v.add(purchOrderDescription.getText());
         v.add(purchOrderItemCode.getText());
+        v.add(purchOrderPurchasePrice.getText());
         v.add(purchOrderQuantity.getText());
+        v.add(purchOrderProductTotal.getText());
 
-        tablemodel = (DefaultTableModel) purchOrderTable.getModel();
+        tablemodel = (DefaultTableModel) purchOrderProduct.getModel();
         tablemodel.addRow(v);
 
-        purchOrderId.setText("");
+        purchOrderProductId.setText("");
         purchOrderBrand.setText("");
         purchOrderDescription.setText("");
-        purchOrderItemCode.setText("");
+        purchOrderStockQuantity.setText("");
+        purchOrderPurchasePrice.setText("");
         purchOrderQuantity.setText("");
-        purchOrderStock.setText("");
-        purchOrderOrderedQty.setText("");
+        purchOrderItemCode.setText("");
+        purchOrderProductTotal.setText("");
+
+        calPurchaseOrderDetails();
     }//GEN-LAST:event_purchOrderAddToTableActionPerformed
 
-    private void purchCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchCompleteActionPerformed
-        if ((purchOrderTable.getRowCount() > 0) && (purchOrderSupplierCombo.getSelectedIndex() > 0)) {
+    private void purchOrderProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchOrderProductMouseClicked
+
+    }//GEN-LAST:event_purchOrderProductMouseClicked
+
+    private void purchOrderCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchOrderCompleteActionPerformed
+        if ((purchOrderProduct.getRowCount() > 0) && (purchOrderSupplierCombo.getSelectedIndex() > 0)) {
             String date = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(defaultDateFormat);
 
-            String supplier = Integer.toString(supplierId);
+            calPurchaseOrderDetails();
 
+            int userProId = SystemUser.userId;
             int currentPurchaseOrderId = 0;
-            String purchOrderQuery = "INSERT INTO `purchaseorder`(`Supplier_Id`, `Date`, `IsSupplied`)"
-                    + " VALUES (" + supplier + ",'" + date + "',false)";
+
+            String purchQuery = "INSERT INTO `purchaseorder`(`Supplier_Id`, `Date`, `SubTotal`,"
+                    + " `Discount`, `FinalTotal`, `UserProfile_Id`) VALUES (?,?,?,?,?,?)";
             try {
-                PreparedStatement pst = DbConnect.getDBConnection().prepareStatement(purchOrderQuery, Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement pst = DbConnect.getDBConnection().prepareStatement(purchQuery, Statement.RETURN_GENERATED_KEYS);
+                pst.setInt(1, supplierId);
+                pst.setString(2, date);
+                pst.setDouble(3, totalWithNoDiscount);
+                pst.setDouble(4, discount);
+                pst.setDouble(5, finalTotal);
+                pst.setInt(6, SystemUser.userId);
                 pst.executeUpdate();
                 ResultSet rs = pst.getGeneratedKeys();
                 if (rs.next()) {
@@ -518,78 +738,144 @@ public class PurchaseOrder extends javax.swing.JPanel {
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < purchOrderTable.getRowCount(); i++) {
-                int productId = Integer.parseInt(purchOrderTable.getValueAt(i, 0).toString());
-                int quantity = Integer.parseInt(purchOrderTable.getValueAt(i, 4).toString());
+            for (int i = 0; i < purchOrderProduct.getRowCount(); i++) {
+                String proId = purchOrderProduct.getValueAt(i, 0).toString();
+                //String batchId = purchOrderProduct.getValueAt(i, 2).toString();
+                String purchPrice = purchOrderProduct.getValueAt(i, 4).toString();
+                String quantity = purchOrderProduct.getValueAt(i, 5).toString();
+                String itemTotal = purchOrderProduct.getValueAt(i, 6).toString();
 
-                String query = "INSERT INTO `orderedproducts`"
-                        + "( `PurchaseOrder_Id`, `Product_Id`, `Quantity`)"
-                        + " VALUES (" + currentPurchaseOrderId + "," + productId + "," + quantity + ")";
-                String query2 = "UPDATE `product` SET `OrderedQuantity`=product.OrderedQuantity+"+quantity+" WHERE product.Id="+productId;
                 try {
-                    DbConnect.pushToDB(query);
-                    DbConnect.pushToDB(query2);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(PurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
+                    String itemQuery = "INSERT INTO `purchaseorderitem`(`PurchaseOrder_Id`,"
+                            + " `Product_Id`, `ItemPrice`, `Quantity`, `TotalPrice`)"
+                            + " VALUES ("+currentPurchaseOrderId+","+proId+","+purchPrice+","+quantity+","+itemTotal+")";
+
+                    String updateProduct = "UPDATE product SET TotalQuantity=TotalQuantity+"
+                            + quantity + ", OrderedQuantity=OrderedQuantity+" + quantity + " WHERE Id=" + proId;
+
+                    DbConnect.pushToDB(itemQuery);
+                    DbConnect.pushToDB(updateProduct);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
             clearPurchOrderPanel();
+            calPurchaseOrderDetails();
         } else {
-            if (purchOrderTable.getRowCount() == 0) {
-                //JOptionPane.showMessageDialog(this, "No Items In the Purchased Product Table");
+            if (purchOrderProduct.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No Items In the Purchased Product Table");
             }
             if (purchOrderSupplierCombo.getSelectedIndex() == 0) {
-                //JOptionPane.showMessageDialog(this, "Please select Supplier");
+                JOptionPane.showMessageDialog(this, "Please select Supplier");
             }
         }
-    }//GEN-LAST:event_purchCompleteActionPerformed
+    }//GEN-LAST:event_purchOrderCompleteActionPerformed
 
-    private void purchDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchDeleteItemActionPerformed
+    private void purchOrderDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchOrderDeleteItemActionPerformed
         try {
-            tablemodel = (DefaultTableModel) purchOrderTable.getModel();
-            tablemodel.removeRow(purchOrderTable.getSelectedRow());
+            tablemodel = (DefaultTableModel) purchOrderProduct.getModel();
+            tablemodel.removeRow(purchOrderProduct.getSelectedRow());
+            calPurchaseOrderDetails();
         } catch (ArrayIndexOutOfBoundsException e) {
         }
-    }//GEN-LAST:event_purchDeleteItemActionPerformed
+    }//GEN-LAST:event_purchOrderDeleteItemActionPerformed
 
-    private void purchCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchCancelActionPerformed
+    private void purchOrderCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchOrderCancelActionPerformed
         clearPurchOrderPanel();
-    }//GEN-LAST:event_purchCancelActionPerformed
+    }//GEN-LAST:event_purchOrderCancelActionPerformed
 
-    private void purchOrderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchOrderTableMouseClicked
+    private void purchOrderDiscountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchOrderDiscountKeyReleased
+        if (purchOrderDiscount.getText().toString().equals("")) {
+            purchOrderDiscount.setText("0");
+        }
+        calPurchaseOrderDetails();
+    }//GEN-LAST:event_purchOrderDiscountKeyReleased
 
-    }//GEN-LAST:event_purchOrderTableMouseClicked
+    private void purchOrderDisAmountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchOrderDisAmountMouseClicked
+        calPurchaseOrderDetails();
+    }//GEN-LAST:event_purchOrderDisAmountMouseClicked
 
-    private void purchOrderSupplierComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchOrderSupplierComboActionPerformed
-        supplierId = Integer.parseInt(purchOrderSupplierCombo.getSelectedItem().toString().trim().split(" - ")[0]);
-        fillSupplierProductTable(null);
-    }//GEN-LAST:event_purchOrderSupplierComboActionPerformed
+    private void purchOrderDisPercentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchOrderDisPercentMouseClicked
+        calPurchaseOrderDetails();
+    }//GEN-LAST:event_purchOrderDisPercentMouseClicked
+
+    private void purchOrderProdTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchOrderProdTableMouseClicked
+        int selectedRow = purchOrderProdTable.getSelectedRow();
+        purchOrderProductId.setText(purchOrderProdTable.getValueAt(selectedRow, 0).toString());
+        purchOrderDescription.setText(purchOrderProdTable.getValueAt(selectedRow, 3).toString());
+        purchOrderItemCode.setText(purchOrderProdTable.getValueAt(selectedRow, 7).toString());
+        purchOrderStockQuantity.setText(purchOrderProdTable.getValueAt(selectedRow, 4).toString());
+        purchOrderPurchasePrice.setText("");
+        purchOrderProductTotal.setText("");
+        purchOrderQuantity.setText("");
+        purchOrderBrand.setText(purchOrderProdTable.getValueAt(selectedRow, 2).toString());
+        purchOrderPurchasePrice.requestFocus();
+    }//GEN-LAST:event_purchOrderProdTableMouseClicked
+
+    private void purchOrderProdDescriptionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchOrderProdDescriptionKeyReleased
+        String query = "SELECT product.Id as productid,"
+                + " product.Description as productname,"
+                + " product.TotalQuantity as productstock,"
+                + " product.ReOrderLevel as reorderlevel,"
+                + " product.OrderedQuantity as orderedquantity,"
+                + " category.Description as category,"
+                + " brand.BrandName as brand,"
+                + " supplierproduct.ItemCode"
+                + " FROM (((product"
+                + " INNER JOIN category ON category.Id=product.Category_Id)"
+                + " INNER JOIN brand ON brand.Id=product.Brand_Id)"
+                + " INNER JOIN supplierproduct ON supplierproduct.Product_Id=product.Id)"
+                + " WHERE product.Status=1 and"
+                + " supplierproduct.Supplier_Id=" + supplierId
+                + " and product.Description like '%" + purchOrderProdDescription.getText().toString() + "%'";
+        fillPurchaseOrderProdTable(query);
+    }//GEN-LAST:event_purchOrderProdDescriptionKeyReleased
+
+    private void purchOrderPurchasePriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchOrderPurchasePriceKeyReleased
+        if ((evt.getKeyCode() == KeyEvent.VK_ENTER) && (purchOrderPurchasePrice.getText().length() > 0)) {
+            purchOrderQuantity.requestFocus();
+        }
+    }//GEN-LAST:event_purchOrderPurchasePriceKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JButton purchCancel;
-    private javax.swing.JButton purchComplete;
-    private javax.swing.JButton purchDeleteItem;
     private javax.swing.JButton purchOrderAddToTable;
     private javax.swing.JLabel purchOrderBrand;
+    private javax.swing.JButton purchOrderCancel;
+    private javax.swing.JButton purchOrderComplete;
+    private javax.swing.JButton purchOrderDeleteItem;
     private javax.swing.JLabel purchOrderDescription;
-    private javax.swing.JLabel purchOrderId;
+    private javax.swing.JRadioButton purchOrderDisAmount;
+    private javax.swing.JRadioButton purchOrderDisPercent;
+    private app.bolivia.swing.JCTextField purchOrderDiscount;
+    private javax.swing.JLabel purchOrderFinalDiscount;
     private javax.swing.JLabel purchOrderItemCode;
-    private javax.swing.JLabel purchOrderOrderedQty;
+    private app.bolivia.swing.JCTextField purchOrderProdDescription;
+    private rojeru_san.complementos.RSTableMetro purchOrderProdTable;
+    private rojeru_san.complementos.RSTableMetro purchOrderProduct;
+    private app.bolivia.swing.JCTextField purchOrderProductId;
+    private javax.swing.JLabel purchOrderProductTotal;
+    private app.bolivia.swing.JCTextField purchOrderPurchasePrice;
     private app.bolivia.swing.JCTextField purchOrderQuantity;
-    private javax.swing.JLabel purchOrderStock;
+    private javax.swing.JLabel purchOrderStockQuantity;
+    private javax.swing.JLabel purchOrderSubTotal;
     private javax.swing.JComboBox<String> purchOrderSupplierCombo;
-    private rojeru_san.complementos.RSTableMetro purchOrderSupplierProduct;
-    private rojeru_san.complementos.RSTableMetro purchOrderTable;
-    private app.bolivia.swing.JCTextField purchProdDescription;
+    private javax.swing.JLabel purchOrderTotal;
     // End of variables declaration//GEN-END:variables
 }

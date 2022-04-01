@@ -72,9 +72,12 @@ public class Dashpanel extends javax.swing.JPanel {
         compoNameLabel.setOpaque(true);
 
         compoImageLabel.setBackground(new java.awt.Color(255, 255, 255));
+        compoImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         compoImageLabel.setOpaque(true);
 
         compoValueLabel.setBackground(new java.awt.Color(255, 255, 255));
+        compoValueLabel.setFont(new java.awt.Font("Tahoma", 0, 60)); // NOI18N
+        compoValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         compoValueLabel.setOpaque(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

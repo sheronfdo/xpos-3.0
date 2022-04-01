@@ -5,6 +5,7 @@
  */
 package com.xpos;
 
+import com.xpos.commons.CommonVariables;
 import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,7 +48,7 @@ public class Main extends javax.swing.JFrame {
         myTimer.scheduleAtFixedRate(task, 0, 500);
     }
 
-    public void setDashboardComponent(){
+    public void setDashboardComponent() {
         dailyCustomerCount.setCompoName(" Today Customers");
         dailySaleCount.setCompoName(" Today Sales");
         dailyPurchaseCount.setCompoName(" Today Purchases");
@@ -60,8 +61,32 @@ public class Main extends javax.swing.JFrame {
         ongoingQuates.setCompoName(" Ongoing quates");
         categoryCount.setCompoName(" Categories");
         stockItemCount.setCompoName(" Stock Items");
+        dailyCustomerCount.setCompoValue("00");
+        dailySaleCount.setCompoValue("00");
+        dailyPurchaseCount.setCompoValue("00");
+        dailyReturnCount.setCompoValue("00");
+        productCount.setCompoValue("00");
+        remProductCount.setCompoValue("00");
+        employeeCount.setCompoValue("00");
+        ongoingPOs.setCompoValue("00");
+        supplierCount.setCompoValue("00");
+        ongoingQuates.setCompoValue("00");
+        categoryCount.setCompoValue("00");
+        stockItemCount.setCompoValue("00");
+        dailyCustomerCount.setCompoImage(CommonVariables.imagesPath + "customer.png");
+        dailySaleCount.setCompoImage(CommonVariables.imagesPath + "sales.png");
+        dailyPurchaseCount.setCompoImage(CommonVariables.imagesPath + "delivery.png");
+        dailyReturnCount.setCompoImage(CommonVariables.imagesPath + "return-box.png");
+        productCount.setCompoImage(CommonVariables.imagesPath + "box.png");
+        remProductCount.setCompoImage(CommonVariables.imagesPath + "product-return.png");
+        employeeCount.setCompoImage(CommonVariables.imagesPath + "employee.png");
+        ongoingPOs.setCompoImage(CommonVariables.imagesPath + "order.png");
+        supplierCount.setCompoImage(CommonVariables.imagesPath + "distribution.png");
+        ongoingQuates.setCompoImage(CommonVariables.imagesPath + "payment.png");
+        categoryCount.setCompoImage(CommonVariables.imagesPath + "menu.png");
+        stockItemCount.setCompoImage(CommonVariables.imagesPath + "stock.png");
     }
-    
+
     public void setVisibleFalseAllPanels() {
         dashboard.setVisible(false);
         supplier.setVisible(false);

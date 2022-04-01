@@ -48,7 +48,18 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void setDashboardComponent(){
-        dailyCustomerCount.setCompoName("Today Customers");
+        dailyCustomerCount.setCompoName(" Today Customers");
+        dailySaleCount.setCompoName(" Today Sales");
+        dailyPurchaseCount.setCompoName(" Today Purchases");
+        dailyReturnCount.setCompoName(" Today Returns");
+        productCount.setCompoName(" Products");
+        remProductCount.setCompoName(" Removed Products");
+        employeeCount.setCompoName(" Employees");
+        ongoingPOs.setCompoName(" Ongoing Purchases");
+        supplierCount.setCompoName(" Suppliers");
+        ongoingQuates.setCompoName(" Ongoing quates");
+        categoryCount.setCompoName(" Categories");
+        stockItemCount.setCompoName(" Stock Items");
     }
     
     public void setVisibleFalseAllPanels() {

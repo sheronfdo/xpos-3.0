@@ -577,6 +577,11 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
           <SubComponents>
             <Container class="javax.swing.JPanel" name="dashboard">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
                   <CardConstraints cardName="card3"/>
@@ -586,15 +591,108 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="1644" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="productCount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="supplierCount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="remProductCount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="ongoingQuates" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="employeeCount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="categoryCount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="ongoingPOs" min="-2" max="-2" attributes="0"/>
+                                      <Component id="stockItemCount" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="dailyCustomerCount" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="dailySaleCount" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="dailyPurchaseCount" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="dailyReturnCount" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="966" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="dailyReturnCount" min="-2" max="-2" attributes="0"/>
+                              <Component id="dailyPurchaseCount" min="-2" max="-2" attributes="0"/>
+                              <Component id="dailySaleCount" min="-2" max="-2" attributes="0"/>
+                              <Component id="dailyCustomerCount" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="productCount" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="supplierCount" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="remProductCount" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="ongoingQuates" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="employeeCount" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="categoryCount" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="ongoingPOs" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="stockItemCount" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
+              <SubComponents>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="dailyCustomerCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="dailySaleCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="dailyPurchaseCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="dailyReturnCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="productCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="supplierCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="remProductCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="ongoingQuates">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="employeeCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="categoryCount">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="ongoingPOs">
+                </Component>
+                <Component class="com.xpos.dashboard.component.Dashpanel" name="stockItemCount">
+                </Component>
+              </SubComponents>
             </Container>
             <Component class="com.xpos.gui.Supply" name="supplier">
               <Constraints>

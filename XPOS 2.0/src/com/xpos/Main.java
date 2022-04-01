@@ -28,6 +28,7 @@ public class Main extends javax.swing.JFrame {
         setTitle("XPOS 2.0");
         runDateTime();
         setVisibleFalseAllPanels();
+        setDashboardComponent();
     }
 
     Timer myTimer = new Timer();
@@ -46,6 +47,10 @@ public class Main extends javax.swing.JFrame {
         myTimer.scheduleAtFixedRate(task, 0, 500);
     }
 
+    public void setDashboardComponent(){
+        dailyCustomerCount.setCompoName("Today Customers");
+    }
+    
     public void setVisibleFalseAllPanels() {
         dashboard.setVisible(false);
         supplier.setVisible(false);
@@ -107,6 +112,18 @@ public class Main extends javax.swing.JFrame {
         systemTime = new javax.swing.JLabel();
         MainPanel = new javax.swing.JPanel();
         dashboard = new javax.swing.JPanel();
+        dailyCustomerCount = new com.xpos.dashboard.component.Dashpanel();
+        dailySaleCount = new com.xpos.dashboard.component.Dashpanel();
+        dailyPurchaseCount = new com.xpos.dashboard.component.Dashpanel();
+        dailyReturnCount = new com.xpos.dashboard.component.Dashpanel();
+        productCount = new com.xpos.dashboard.component.Dashpanel();
+        supplierCount = new com.xpos.dashboard.component.Dashpanel();
+        remProductCount = new com.xpos.dashboard.component.Dashpanel();
+        ongoingQuates = new com.xpos.dashboard.component.Dashpanel();
+        employeeCount = new com.xpos.dashboard.component.Dashpanel();
+        categoryCount = new com.xpos.dashboard.component.Dashpanel();
+        ongoingPOs = new com.xpos.dashboard.component.Dashpanel();
+        stockItemCount = new com.xpos.dashboard.component.Dashpanel();
         supplier = new com.xpos.gui.Supply();
         Sale = new com.xpos.gui.Sale();
         Purchase = new com.xpos.gui.Purchase();
@@ -457,15 +474,69 @@ public class Main extends javax.swing.JFrame {
         MainPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255), 3));
         MainPanel.setLayout(new java.awt.CardLayout());
 
+        dashboard.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout dashboardLayout = new javax.swing.GroupLayout(dashboard);
         dashboard.setLayout(dashboardLayout);
         dashboardLayout.setHorizontalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1644, Short.MAX_VALUE)
+            .addGroup(dashboardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dashboardLayout.createSequentialGroup()
+                        .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(productCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(supplierCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(remProductCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ongoingQuates, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(employeeCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(categoryCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ongoingPOs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stockItemCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(dashboardLayout.createSequentialGroup()
+                        .addComponent(dailyCustomerCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dailySaleCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dailyPurchaseCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dailyReturnCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dashboardLayout.setVerticalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 966, Short.MAX_VALUE)
+            .addGroup(dashboardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dailyReturnCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dailyPurchaseCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dailySaleCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dailyCustomerCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dashboardLayout.createSequentialGroup()
+                        .addComponent(productCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(supplierCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dashboardLayout.createSequentialGroup()
+                        .addComponent(remProductCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ongoingQuates, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dashboardLayout.createSequentialGroup()
+                        .addComponent(employeeCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(categoryCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dashboardLayout.createSequentialGroup()
+                        .addComponent(ongoingPOs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(stockItemCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         MainPanel.add(dashboard, "card3");
@@ -1011,10 +1082,16 @@ public class Main extends javax.swing.JFrame {
     private com.xpos.gui.SupplierProduct SupplierProduct;
     private com.xpos.gui.UserProfile UserProfile;
     private javax.swing.JButton brandPanelBtn;
+    private com.xpos.dashboard.component.Dashpanel categoryCount;
     private javax.swing.JButton categoryPanelBtn;
     private javax.swing.JButton customer;
+    private com.xpos.dashboard.component.Dashpanel dailyCustomerCount;
+    private com.xpos.dashboard.component.Dashpanel dailyPurchaseCount;
+    private com.xpos.dashboard.component.Dashpanel dailyReturnCount;
+    private com.xpos.dashboard.component.Dashpanel dailySaleCount;
     private javax.swing.JPanel dashboard;
     private javax.swing.JButton employee;
+    private com.xpos.dashboard.component.Dashpanel employeeCount;
     private javax.swing.JButton exCost;
     private javax.swing.JButton exIncome;
     private javax.swing.JButton homeBut2;
@@ -1030,20 +1107,26 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel4;
+    private com.xpos.dashboard.component.Dashpanel ongoingPOs;
+    private com.xpos.dashboard.component.Dashpanel ongoingQuates;
     private javax.swing.JButton product;
     private javax.swing.JButton productBatchPanelBtn;
+    private com.xpos.dashboard.component.Dashpanel productCount;
     private javax.swing.JButton productPanelBtn;
     private javax.swing.JButton purchase;
     private javax.swing.JButton purchaseInvoiceBtn;
     private javax.swing.JButton purchaseOrder;
     private javax.swing.JButton purchaseOrderBtn;
+    private com.xpos.dashboard.component.Dashpanel remProductCount;
     private com.xpos.gui.ReqForQuate reqForQuate;
     private javax.swing.JButton returnInvoiceBtn;
     private javax.swing.JButton returnPanel;
     private javax.swing.JButton sale;
     private javax.swing.JButton saleInvoiceBtn;
+    private com.xpos.dashboard.component.Dashpanel stockItemCount;
     private com.xpos.gui.Supply supplier;
     private javax.swing.JButton supplierBut;
+    private com.xpos.dashboard.component.Dashpanel supplierCount;
     private javax.swing.JButton supplierProduct;
     private javax.swing.JLabel systemDate;
     private javax.swing.JLabel systemTime;

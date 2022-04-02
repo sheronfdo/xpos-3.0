@@ -32,6 +32,7 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/xpos/images/icon.png")));
+        systemUserName.setText(SystemUser.username.toUpperCase());
         setTitle("XPOS 2.0");
         runDateTime();
         setVisibleFalseAllPanels();

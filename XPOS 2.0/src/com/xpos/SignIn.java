@@ -165,6 +165,7 @@ public class SignIn extends javax.swing.JFrame {
             ResultSet rs = DbConnect.getFromDB(query);
             if (rs.next()) {
                 SystemUser.userId = rs.getInt("Id");
+                SystemUser.username = insertedUsername;
                 new Main().setVisible(true);
                 this.dispose();
             } else {

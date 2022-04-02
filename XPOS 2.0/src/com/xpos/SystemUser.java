@@ -11,4 +11,5 @@ package com.xpos;
  */
 public class SystemUser {
     public static int userId = 1;
+    public static String username = "jamith";
 }

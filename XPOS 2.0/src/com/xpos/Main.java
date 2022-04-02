@@ -5,12 +5,18 @@
  */
 package com.xpos;
 
+import com.mysql.cj.protocol.Resultset;
 import com.xpos.commons.CommonVariables;
+import com.xpos.database.DbConnect;
 import java.awt.Toolkit;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -41,6 +47,7 @@ public class Main extends javax.swing.JFrame {
             systemTime.setText(s.format(d));
             SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
             systemDate.setText(k.format(d));
+            updateDashboard();
         }
     };
 
@@ -85,6 +92,78 @@ public class Main extends javax.swing.JFrame {
         ongoingQuates.setCompoImage(CommonVariables.imagesPath + "payment.png");
         categoryCount.setCompoImage(CommonVariables.imagesPath + "menu.png");
         stockItemCount.setCompoImage(CommonVariables.imagesPath + "stock.png");
+    }
+
+    public void updateDashboard() {
+        String query = null;
+        ResultSet rs = null;
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString();
+        try {
+            query = "SELECT COUNT(DISTINCT Customer_Id) FROM `sale` WHERE date='" + date + "'";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                dailyCustomerCount.setCompoValue(Integer.toString(rs.getInt("COUNT(DISTINCT Customer_Id)")));
+            }
+            query = "SELECT COUNT(*) FROM `sale` WHERE Date='" + date + "'";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                dailySaleCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `purchase` WHERE PurchaseDate='" + date + "'";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                dailyPurchaseCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `return` WHERE date='" + date + "'";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                dailyReturnCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `product` WHERE Status=1";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                productCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `removedproduct` WHERE Quantity>0";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                remProductCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `employee` WHERE Status=1";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                employeeCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `purchaseorder` WHERE IsSupplied=0";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                ongoingPOs.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `supplier` WHERE Status=1";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                supplierCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `reqforquate` WHERE IsResponses=0";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                ongoingQuates.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `category` WHERE Status=1";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                categoryCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            query = "SELECT COUNT(*) FROM `batchesofproduct` WHERE QuantityByBatch>0";
+            rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                stockItemCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void setVisibleFalseAllPanels() {

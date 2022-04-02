@@ -10,15 +10,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -87,23 +78,7 @@ public class testFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            HashMap m = new HashMap();
-            m.put("SaleId", 6);
-
-            InputStream file = getClass().getResourceAsStream("/com/xpos/report/Invoice.jrxml");
-            JasperDesign design = JRXmlLoader.load(file);
-            JasperReport jreport = JasperCompileManager.compileReport(design);
-            JasperPrint jprint = JasperFillManager.fillReport(jreport, m, DbConnect.getDBConnection());
-
-            JasperViewer.viewReport(jprint, false);
-
-            //JasperPrintManager.printReport(jprint, false);
-        } catch (JRException ex) {
-            Logger.getLogger(testFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(testFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

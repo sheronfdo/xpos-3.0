@@ -5,7 +5,6 @@
  */
 package com.xpos;
 
-import com.mysql.cj.protocol.Resultset;
 import com.xpos.commons.CommonVariables;
 import com.xpos.database.DbConnect;
 import java.awt.Toolkit;

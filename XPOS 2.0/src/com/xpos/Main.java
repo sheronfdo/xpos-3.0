@@ -532,6 +532,11 @@ public class Main extends javax.swing.JFrame {
         systemUserName.setAlignmentX(1.0F);
         systemUserName.setAlignmentY(1.0F);
         systemUserName.setOpaque(true);
+        systemUserName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                systemUserNameMouseClicked(evt);
+            }
+        });
 
         systemDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         systemDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1135,6 +1140,10 @@ public class Main extends javax.swing.JFrame {
         setVisibleFalseAllPanels();
         reqForQuate.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_invoiceBtn1ActionPerformed
+
+    private void systemUserNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_systemUserNameMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_systemUserNameMouseClicked
 
     /**
      * @param args the command line arguments

@@ -5,7 +5,6 @@
  */
 package com.xpos;
 
-
 import com.xpos.database.DbConnect;
 import com.xpos.encrypt.MD5;
 import java.awt.Toolkit;

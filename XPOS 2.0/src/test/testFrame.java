@@ -5,11 +5,7 @@
  */
 package test;
 
-import com.xpos.database.DbConnect;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *

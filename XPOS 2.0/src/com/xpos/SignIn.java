@@ -5,7 +5,14 @@
  */
 package com.xpos;
 
+import com.xpos.database.DbConnect;
+import com.xpos.encrypt.MD5;
 import java.awt.Toolkit;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,10 +41,10 @@ public class SignIn extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        purchProductId = new app.bolivia.swing.JCTextField();
-        jCPasswordField1 = new com.xpos.custom.JCPasswordField();
+        username = new app.bolivia.swing.JCTextField();
+        password = new com.xpos.custom.JCPasswordField();
         jLabel1 = new javax.swing.JLabel();
-        btnSignIn = new javax.swing.JButton();
+        login = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -47,21 +54,21 @@ public class SignIn extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(26, 140, 255));
 
-        purchProductId.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "USERNAME", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        purchProductId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        purchProductId.setPhColor(new java.awt.Color(0, 51, 255));
-        purchProductId.setPlaceholder("Enter Your Username");
-        purchProductId.setPreferredSize(new java.awt.Dimension(200, 30));
-        purchProductId.addKeyListener(new java.awt.event.KeyAdapter() {
+        username.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "USERNAME", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        username.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        username.setPhColor(new java.awt.Color(0, 51, 255));
+        username.setPlaceholder("Enter Your Username");
+        username.setPreferredSize(new java.awt.Dimension(200, 30));
+        username.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                purchProductIdKeyReleased(evt);
+                usernameKeyReleased(evt);
             }
         });
 
-        jCPasswordField1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "PASSWORD", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        jCPasswordField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jCPasswordField1.setPhColor(new java.awt.Color(26, 140, 255));
-        jCPasswordField1.setPlaceholder("Enter Your Password");
+        password.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "PASSWORD", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        password.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        password.setPhColor(new java.awt.Color(26, 140, 255));
+        password.setPlaceholder("Enter Your Password");
 
         jLabel1.setBackground(new java.awt.Color(26, 140, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 42)); // NOI18N
@@ -70,15 +77,15 @@ public class SignIn extends javax.swing.JFrame {
         jLabel1.setText("SIGN IN");
         jLabel1.setOpaque(true);
 
-        btnSignIn.setBackground(new java.awt.Color(0, 60, 128));
-        btnSignIn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnSignIn.setForeground(new java.awt.Color(255, 255, 255));
-        btnSignIn.setText("SIGN IN");
-        btnSignIn.setBorder(null);
-        btnSignIn.setFocusPainted(false);
-        btnSignIn.addActionListener(new java.awt.event.ActionListener() {
+        login.setBackground(new java.awt.Color(0, 60, 128));
+        login.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        login.setForeground(new java.awt.Color(255, 255, 255));
+        login.setText("SIGN IN");
+        login.setBorder(null);
+        login.setFocusPainted(false);
+        login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSignInActionPerformed(evt);
+                loginActionPerformed(evt);
             }
         });
 
@@ -89,10 +96,10 @@ public class SignIn extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(purchProductId, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addComponent(jCPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(username, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(password, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSignIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -101,11 +108,11 @@ public class SignIn extends javax.swing.JFrame {
                 .addGap(94, 94, 94)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(purchProductId, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(224, Short.MAX_VALUE))
         );
 
@@ -145,13 +152,30 @@ public class SignIn extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void purchProductIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchProductIdKeyReleased
-        
-    }//GEN-LAST:event_purchProductIdKeyReleased
+    private void usernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameKeyReleased
 
-    private void btnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignInActionPerformed
-        
-    }//GEN-LAST:event_btnSignInActionPerformed
+    }//GEN-LAST:event_usernameKeyReleased
+
+    private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
+        try {
+            String insertedUsername = username.getText();
+            String insertedPassword = MD5.getMd5(new String(password.getPassword()));
+            String query = "SELECT Id FROM `userprofile` WHERE `userprofile`.`Username`='"
+                    + insertedUsername + "' AND `userprofile`.`Password`='" + insertedPassword + "'";
+            ResultSet rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                SystemUser.userId = rs.getInt("Id");
+                new Main().setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "incorrect username and password");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,13 +213,13 @@ public class SignIn extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSignIn;
     private javax.swing.ButtonGroup buttonGroup1;
-    private com.xpos.custom.JCPasswordField jCPasswordField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private app.bolivia.swing.JCTextField purchProductId;
+    private javax.swing.JButton login;
+    private com.xpos.custom.JCPasswordField password;
+    private app.bolivia.swing.JCTextField username;
     // End of variables declaration//GEN-END:variables
 }

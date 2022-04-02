@@ -48,3 +48,5 @@ Thumbs.db
 *.mov
 *.wmv
 
+/XPOS 2.0/nbproject/private/
+/XPOS 2.0/build/

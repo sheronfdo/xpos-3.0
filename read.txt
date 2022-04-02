@@ -1,1 +1,0 @@
-this is second release for xpos 1.0

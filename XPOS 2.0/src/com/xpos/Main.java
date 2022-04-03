@@ -36,6 +36,7 @@ public class Main extends javax.swing.JFrame {
         runDateTime();
         setVisibleFalseAllPanels();
         setDashboardComponent();
+        dashboard.setVisible(true);
     }
 
     Timer myTimer = new Timer();
@@ -192,7 +193,7 @@ public class Main extends javax.swing.JFrame {
         POInvoice.setVisible(false);
         ProductDetail.setVisible(false);
         reqForQuate.setVisible(false);
-        //user1.setVisible(false);
+        User.setVisible(false);
     }
 
     /**
@@ -281,6 +282,7 @@ public class Main extends javax.swing.JFrame {
         categoryCount = new com.xpos.dashboard.component.Dashpanel();
         ongoingPOs = new com.xpos.dashboard.component.Dashpanel();
         stockItemCount = new com.xpos.dashboard.component.Dashpanel();
+        User = new com.xpos.gui.User();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("XPOS 2.0"); // NOI18N
@@ -967,6 +969,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         MainPanel.add(dashboard, "card3");
+        MainPanel.add(User, "card16");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -1143,7 +1146,7 @@ public class Main extends javax.swing.JFrame {
 
     private void systemUserNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_systemUserNameMouseClicked
         setVisibleFalseAllPanels();
-        //user1.setVisible(true);// TODO add your handling code here:
+        User.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_systemUserNameMouseClicked
 
     /**
@@ -1206,6 +1209,7 @@ public class Main extends javax.swing.JFrame {
     private com.xpos.gui.SaleInvoice SaleInvoice;
     private javax.swing.JPanel SideBar2;
     private com.xpos.gui.SupplierProduct SupplierProduct;
+    private com.xpos.gui.User User;
     private com.xpos.gui.UserProfile UserProfile;
     private javax.swing.JButton brandPanelBtn;
     private com.xpos.dashboard.component.Dashpanel categoryCount;

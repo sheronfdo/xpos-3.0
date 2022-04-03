@@ -8,6 +8,7 @@ package com.xpos;
 import com.xpos.database.DbConnect;
 import com.xpos.encrypt.MD5;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -27,6 +28,28 @@ public class SignIn extends javax.swing.JFrame {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/xpos/images/icon.png")));
         setLocationRelativeTo(null);
+    }
+
+    public void signInProcess() {
+        try {
+            String insertedUsername = username.getText();
+            String insertedPassword = MD5.getMd5(new String(password.getPassword()));
+            String query = "SELECT Id FROM `userprofile` WHERE `userprofile`.`Username`='"
+                    + insertedUsername + "' AND `userprofile`.`Password`='" + insertedPassword + "'";
+            ResultSet rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                SystemUser.userId = rs.getInt("Id");
+                SystemUser.username = insertedUsername;
+                new Main().setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "incorrect username and password");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -69,6 +92,11 @@ public class SignIn extends javax.swing.JFrame {
         password.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         password.setPhColor(new java.awt.Color(26, 140, 255));
         password.setPlaceholder("Enter Your Password");
+        password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordKeyPressed(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(26, 140, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 42)); // NOI18N
@@ -153,30 +181,20 @@ public class SignIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameKeyReleased
-
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            password.requestFocus();
+        }
     }//GEN-LAST:event_usernameKeyReleased
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-        try {
-            String insertedUsername = username.getText();
-            String insertedPassword = MD5.getMd5(new String(password.getPassword()));
-            String query = "SELECT Id FROM `userprofile` WHERE `userprofile`.`Username`='"
-                    + insertedUsername + "' AND `userprofile`.`Password`='" + insertedPassword + "'";
-            ResultSet rs = DbConnect.getFromDB(query);
-            if (rs.next()) {
-                SystemUser.userId = rs.getInt("Id");
-                SystemUser.username = insertedUsername;
-                new Main().setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "incorrect username and password");
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        signInProcess();
     }//GEN-LAST:event_loginActionPerformed
+
+    private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            signInProcess();
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_passwordKeyPressed
 
     /**
      * @param args the command line arguments

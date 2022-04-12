@@ -45,16 +45,32 @@ public class User extends javax.swing.JPanel {
 
         jLabel6 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
-        userProButInsert = new javax.swing.JButton();
         userProButEdit = new javax.swing.JButton();
-        userProButDelete = new javax.swing.JButton();
         userProButCancel = new javax.swing.JButton();
         userProUsername = new app.bolivia.swing.JCTextField();
-        jPanel19 = new javax.swing.JPanel();
-        userProActive = new javax.swing.JRadioButton();
-        userProNotActive = new javax.swing.JRadioButton();
-        userProEmployeeCombo = new javax.swing.JComboBox<>();
         userProPassword = new javax.swing.JPasswordField();
+        userProPassword1 = new javax.swing.JPasswordField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        positionValue = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        nameValue = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        addressValue = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        telephoneValue = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        nicValue = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        dobValue = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jdValue = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        emailValue = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        genderValue = new javax.swing.JLabel();
+        idValue = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -67,39 +83,15 @@ public class User extends javax.swing.JPanel {
 
         jPanel18.setBackground(new java.awt.Color(255, 255, 255));
 
-        userProButInsert.setBackground(new java.awt.Color(0, 60, 128));
-        userProButInsert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        userProButInsert.setForeground(new java.awt.Color(255, 255, 255));
-        userProButInsert.setText("INSERT");
-        userProButInsert.setBorder(null);
-        userProButInsert.setFocusPainted(false);
-        userProButInsert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userProButInsertActionPerformed(evt);
-            }
-        });
-
         userProButEdit.setBackground(new java.awt.Color(0, 60, 128));
         userProButEdit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         userProButEdit.setForeground(new java.awt.Color(255, 255, 255));
-        userProButEdit.setText("EDIT");
+        userProButEdit.setText("UPDATE");
         userProButEdit.setBorder(null);
         userProButEdit.setFocusPainted(false);
         userProButEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userProButEditActionPerformed(evt);
-            }
-        });
-
-        userProButDelete.setBackground(new java.awt.Color(0, 60, 128));
-        userProButDelete.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        userProButDelete.setForeground(new java.awt.Color(255, 255, 255));
-        userProButDelete.setText("DELETE");
-        userProButDelete.setBorder(null);
-        userProButDelete.setFocusPainted(false);
-        userProButDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userProButDeleteActionPerformed(evt);
             }
         });
 
@@ -120,87 +112,184 @@ public class User extends javax.swing.JPanel {
         userProUsername.setPhColor(new java.awt.Color(0, 51, 255));
         userProUsername.setPreferredSize(new java.awt.Dimension(200, 30));
 
-        jPanel19.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Is Active", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        userProPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "New Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
-        userProActive.setBackground(new java.awt.Color(255, 255, 255));
-        userProActive.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        userProActive.setForeground(new java.awt.Color(26, 140, 255));
-        userProActive.setSelected(true);
-        userProActive.setText("Active");
-
-        userProNotActive.setBackground(new java.awt.Color(255, 255, 255));
-        userProNotActive.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        userProNotActive.setForeground(new java.awt.Color(26, 140, 255));
-        userProNotActive.setText("Not-Active");
-
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(userProActive)
-                .addGap(18, 18, 18)
-                .addComponent(userProNotActive)
-                .addContainerGap())
-        );
-        jPanel19Layout.setVerticalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userProActive)
-                    .addComponent(userProNotActive))
-                .addGap(0, 7, Short.MAX_VALUE))
-        );
-
-        userProEmployeeCombo.setForeground(new java.awt.Color(26, 140, 255));
-        userProEmployeeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee" }));
-        userProEmployeeCombo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Select Employee", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
-        userProEmployeeCombo.setOpaque(false);
-
-        userProPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Default Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        userProPassword1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Confirm Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+            .addGroup(jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userProPassword)
-                    .addComponent(jPanel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(userProUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(userProEmployeeCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel18Layout.createSequentialGroup()
-                        .addComponent(userProButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userProPassword, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(userProUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addGap(216, 216, 216)
                         .addComponent(userProButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(userProButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(userProButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(userProPassword1))
                 .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(userProEmployeeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userProUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userProPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userProPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userProButInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userProButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userProButDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userProButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(464, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("ID");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setText("Employee Position");
+
+        positionValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        positionValue.setText("jLabel2");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setText("Name");
+
+        nameValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        nameValue.setText("jLabel2");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setText("Address");
+
+        addressValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        addressValue.setText("jLabel2");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setText("Telephone No");
+
+        telephoneValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        telephoneValue.setText("jLabel2");
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel12.setText("NIC");
+
+        nicValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        nicValue.setText("jLabel2");
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel14.setText("Date Of Birth");
+
+        dobValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        dobValue.setText("jLabel2");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel16.setText("Joined Date");
+
+        jdValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jdValue.setText("jLabel2");
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel18.setText("Email");
+
+        emailValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        emailValue.setText("jLabel2");
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel20.setText("Gender");
+
+        genderValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        genderValue.setText("jLabel2");
+
+        idValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        idValue.setText("jLabel2");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel16)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))
+                        .addGap(47, 47, 47)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(idValue, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(genderValue, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(emailValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jdValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dobValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nicValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(telephoneValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addressValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nameValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(positionValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(499, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(idValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(positionValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(nameValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(addressValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(telephoneValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(nicValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(dobValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jdValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(emailValue))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(genderValue))
+                .addContainerGap(413, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -212,38 +301,22 @@ public class User extends javax.swing.JPanel {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(996, Short.MAX_VALUE))
+                        .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void userProButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButInsertActionPerformed
-//        int employeeId = Integer.parseInt(userProEmployeeCombo.getSelectedItem().toString().split(" - ")[0]);
-//        String username = userProUsername.getText();
-//        String password = MD5.getMd5(new String(userProPassword.getPassword()));
-//        boolean active = userProActive.isSelected() ? true : false;
-//
-//        String query = "INSERT INTO `userprofile`(`Employee_Id`, `Username`, `Password`, `Status`) VALUES (" + employeeId
-//        + ",'" + username + "','" + password + "'," + active + ")";
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearUserProPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }//GEN-LAST:event_userProButInsertActionPerformed
 
     private void userProButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButEditActionPerformed
 //        int employeeId = Integer.parseInt(userProEmployeeCombo.getSelectedItem().toString().split(" - ")[0]);
@@ -272,37 +345,39 @@ public class User extends javax.swing.JPanel {
 //        }
     }//GEN-LAST:event_userProButEditActionPerformed
 
-    private void userProButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButDeleteActionPerformed
-//        String query = "UPDATE `userprofile` SET `Status`=0 WHERE Id=" + userProId;
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearUserProPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }//GEN-LAST:event_userProButDeleteActionPerformed
-
     private void userProButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButCancelActionPerformed
         //clearUserProPanel();
     }//GEN-LAST:event_userProButCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel addressValue;
+    private javax.swing.JLabel dobValue;
+    private javax.swing.JLabel emailValue;
+    private javax.swing.JLabel genderValue;
+    private javax.swing.JLabel idValue;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
-    private javax.swing.JRadioButton userProActive;
+    private javax.swing.JLabel jdValue;
+    private javax.swing.JLabel nameValue;
+    private javax.swing.JLabel nicValue;
+    private javax.swing.JLabel positionValue;
+    private javax.swing.JLabel telephoneValue;
     private javax.swing.JButton userProButCancel;
-    private javax.swing.JButton userProButDelete;
     private javax.swing.JButton userProButEdit;
-    private javax.swing.JButton userProButInsert;
-    private javax.swing.JComboBox<String> userProEmployeeCombo;
-    private javax.swing.JRadioButton userProNotActive;
     private javax.swing.JPasswordField userProPassword;
+    private javax.swing.JPasswordField userProPassword1;
     private app.bolivia.swing.JCTextField userProUsername;
     // End of variables declaration//GEN-END:variables
 }

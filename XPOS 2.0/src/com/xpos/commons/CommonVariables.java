@@ -10,5 +10,5 @@ package com.xpos.commons;
  * @author Jamit
  */
 public class CommonVariables {
-    static public String imagesPath = "src/com/xpos/images/";
+    static public String imagesPath = "/com/xpos/images/";
 }

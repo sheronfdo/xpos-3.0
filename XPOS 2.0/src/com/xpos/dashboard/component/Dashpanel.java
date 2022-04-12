@@ -23,7 +23,7 @@ public class Dashpanel extends javax.swing.JPanel {
 
     public void setCompoImage(String compoImage) {
         this.compoImage = compoImage;
-        compoImageLabel.setIcon(new ImageIcon(this.compoImage));
+        compoImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(this.compoImage)));
     }
 
     public String getCompoName() {

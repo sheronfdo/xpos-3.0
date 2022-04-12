@@ -46,9 +46,9 @@ public class SignIn extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "incorrect username and password");
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex);
         }
     }
 

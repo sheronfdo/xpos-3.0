@@ -20,7 +20,7 @@ public class DbConnect {
     private static String dbHost = "localhost";
     private static String port = "3306";
     private static String dbName = "xpos_db_2";
-    private static String userName = "root";
+    private static String userName = "sheronfdo";
     private static String password = "Jamith@5000";
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException {

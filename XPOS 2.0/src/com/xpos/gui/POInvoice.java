@@ -64,7 +64,6 @@ public class POInvoice extends javax.swing.JPanel {
     }
 
     private void fillPOItemTable(int POId) {
-        
         if (POId == 0) {
             POId = Integer.parseInt(POTable.getValueAt(POTable.getSelectedRow(), 0).toString());
         }

@@ -62,6 +62,12 @@ public class QuateInvoice extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel13 = new javax.swing.JLabel();
+        saleSearchByInvoice = new app.bolivia.swing.JCTextField();
+        saleSearchByCustomer = new app.bolivia.swing.JCTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        saleTable = new rojeru_san.complementos.RSTableMetro();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        soldItemTable = new rojeru_san.complementos.RSTableMetro();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -72,24 +78,146 @@ public class QuateInvoice extends javax.swing.JPanel {
         jLabel13.setText("QUATE INVOICE");
         jLabel13.setOpaque(true);
 
+        saleSearchByInvoice.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Invoice Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        saleSearchByInvoice.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        saleSearchByInvoice.setPhColor(new java.awt.Color(0, 51, 255));
+        saleSearchByInvoice.setPlaceholder("Search Invoice Number");
+        saleSearchByInvoice.setPreferredSize(new java.awt.Dimension(200, 30));
+        saleSearchByInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saleSearchByInvoiceActionPerformed(evt);
+            }
+        });
+        saleSearchByInvoice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                saleSearchByInvoiceKeyReleased(evt);
+            }
+        });
+
+        saleSearchByCustomer.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Search Customer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        saleSearchByCustomer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        saleSearchByCustomer.setPhColor(new java.awt.Color(0, 51, 255));
+        saleSearchByCustomer.setPlaceholder("Search Customer");
+        saleSearchByCustomer.setPreferredSize(new java.awt.Dimension(200, 30));
+        saleSearchByCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saleSearchByCustomerActionPerformed(evt);
+            }
+        });
+        saleSearchByCustomer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                saleSearchByCustomerKeyReleased(evt);
+            }
+        });
+
+        saleTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Date", "Supplier", "Is Responsed", "System User"
+            }
+        ));
+        saleTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        saleTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        saleTable.setRowHeight(25);
+        saleTable.setRowMargin(0);
+        saleTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        saleTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saleTableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(saleTable);
+
+        soldItemTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Quate Req Id", "Product Id -  Product Name", "Quantity"
+            }
+        ));
+        soldItemTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        soldItemTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        soldItemTable.setRowHeight(25);
+        soldItemTable.setRowMargin(0);
+        soldItemTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        soldItemTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                soldItemTableMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(soldItemTable);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1240, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 724, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(saleSearchByInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saleSearchByCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(765, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saleSearchByInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saleSearchByCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void saleSearchByInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleSearchByInvoiceActionPerformed
+        
+    }//GEN-LAST:event_saleSearchByInvoiceActionPerformed
+
+    private void saleSearchByInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleSearchByInvoiceKeyReleased
+       
+    }//GEN-LAST:event_saleSearchByInvoiceKeyReleased
+
+    private void saleSearchByCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleSearchByCustomerActionPerformed
+        
+    }//GEN-LAST:event_saleSearchByCustomerActionPerformed
+
+    private void saleSearchByCustomerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleSearchByCustomerKeyReleased
+        
+    }//GEN-LAST:event_saleSearchByCustomerKeyReleased
+
+    private void saleTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleTableMouseClicked
+        
+    }//GEN-LAST:event_saleTableMouseClicked
+
+    private void soldItemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldItemTableMouseClicked
+        
+    }//GEN-LAST:event_soldItemTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private app.bolivia.swing.JCTextField saleSearchByCustomer;
+    private app.bolivia.swing.JCTextField saleSearchByInvoice;
+    private rojeru_san.complementos.RSTableMetro saleTable;
+    private rojeru_san.complementos.RSTableMetro soldItemTable;
     // End of variables declaration//GEN-END:variables
 }

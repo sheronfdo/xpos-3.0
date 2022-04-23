@@ -25,12 +25,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jamit
  */
-public class SetQuateResponse extends javax.swing.JPanel {
+public class QuateInvoice extends javax.swing.JPanel {
 
     /**
      * Creates new form Purchase
      */
-    public SetQuateResponse() {
+    public QuateInvoice() {
         initComponents();
         //fillSupplierProductTable(null);
         clearPurchOrderPanel();
@@ -69,7 +69,7 @@ public class SetQuateResponse extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("SET QUATE STATUS");
+        jLabel13.setText("QUATE INVOICE");
         jLabel13.setOpaque(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

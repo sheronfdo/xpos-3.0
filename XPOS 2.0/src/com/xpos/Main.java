@@ -194,6 +194,7 @@ public class Main extends javax.swing.JFrame {
         ProductDetail.setVisible(false);
         reqForQuate.setVisible(false);
         User.setVisible(false);
+        QuateInvoice.setVisible(false);
     }
 
     /**
@@ -206,7 +207,7 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        SideBar2 = new javax.swing.JPanel();
+        SideBar = new javax.swing.JPanel();
         homeBut2 = new javax.swing.JButton();
         supplierBut = new javax.swing.JButton();
         product = new javax.swing.JButton();
@@ -277,10 +278,12 @@ public class Main extends javax.swing.JFrame {
         PurchaseInvoice = new com.xpos.gui.PurchaseInvoice();
         ReturnInvoice = new com.xpos.gui.ReturnInvoice();
         POInvoice = new com.xpos.gui.POInvoice();
+        QuateInvoice = new com.xpos.gui.QuateInvoice();
         purchaseInvoiceBtn = new javax.swing.JButton();
         purchaseOrderBtn = new javax.swing.JButton();
         returnInvoiceBtn = new javax.swing.JButton();
         saleInvoiceBtn = new javax.swing.JButton();
+        quateRequestBtn = new javax.swing.JButton();
         reqForQuate = new com.xpos.gui.ReqForQuate();
         User = new com.xpos.gui.User();
 
@@ -290,7 +293,7 @@ public class Main extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(1920, 996));
 
-        SideBar2.setBackground(new java.awt.Color(26, 140, 255));
+        SideBar.setBackground(new java.awt.Color(26, 140, 255));
 
         homeBut2.setBackground(new java.awt.Color(0, 60, 128));
         homeBut2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -460,13 +463,13 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout SideBar2Layout = new javax.swing.GroupLayout(SideBar2);
-        SideBar2.setLayout(SideBar2Layout);
-        SideBar2Layout.setHorizontalGroup(
-            SideBar2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SideBar2Layout.createSequentialGroup()
+        javax.swing.GroupLayout SideBarLayout = new javax.swing.GroupLayout(SideBar);
+        SideBar.setLayout(SideBarLayout);
+        SideBarLayout.setHorizontalGroup(
+            SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SideBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(SideBar2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(homeBut2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(supplierBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -483,9 +486,9 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(invoiceBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        SideBar2Layout.setVerticalGroup(
-            SideBar2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SideBar2Layout.createSequentialGroup()
+        SideBarLayout.setVerticalGroup(
+            SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SideBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(homeBut2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -881,6 +884,7 @@ public class Main extends javax.swing.JFrame {
         jPanel37.add(PurchaseInvoice, "card3");
         jPanel37.add(ReturnInvoice, "card4");
         jPanel37.add(POInvoice, "card5");
+        jPanel37.add(QuateInvoice, "card6");
 
         purchaseInvoiceBtn.setBackground(new java.awt.Color(0, 60, 128));
         purchaseInvoiceBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -930,6 +934,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        quateRequestBtn.setBackground(new java.awt.Color(0, 60, 128));
+        quateRequestBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        quateRequestBtn.setForeground(new java.awt.Color(255, 255, 255));
+        quateRequestBtn.setText("QUATE REQUEST");
+        quateRequestBtn.setBorder(null);
+        quateRequestBtn.setFocusPainted(false);
+        quateRequestBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quateRequestBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout InvoicesLayout = new javax.swing.GroupLayout(Invoices);
         Invoices.setLayout(InvoicesLayout);
         InvoicesLayout.setHorizontalGroup(
@@ -949,6 +965,8 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(returnInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(quateRequestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(purchaseOrderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -961,7 +979,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(purchaseInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(purchaseOrderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(returnInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saleInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(saleInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quateRequestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
                 .addContainerGap())
@@ -976,7 +995,7 @@ public class Main extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(SideBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -988,7 +1007,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SideBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
@@ -1149,6 +1168,12 @@ public class Main extends javax.swing.JFrame {
         User.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_systemUserNameMouseClicked
 
+    private void quateRequestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quateRequestBtnActionPerformed
+        setVisibleFalseAllPanels();
+        Invoices.setVisible(true);
+        QuateInvoice.setVisible(true);
+    }//GEN-LAST:event_quateRequestBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1203,11 +1228,12 @@ public class Main extends javax.swing.JFrame {
     private com.xpos.gui.Purchase Purchase;
     private com.xpos.gui.PurchaseInvoice PurchaseInvoice;
     private com.xpos.gui.PurchaseOrder PurchaseOrder;
+    private com.xpos.gui.QuateInvoice QuateInvoice;
     private com.xpos.gui.Return Return;
     private com.xpos.gui.ReturnInvoice ReturnInvoice;
     private com.xpos.gui.Sale Sale;
     private com.xpos.gui.SaleInvoice SaleInvoice;
-    private javax.swing.JPanel SideBar2;
+    private javax.swing.JPanel SideBar;
     private com.xpos.gui.SupplierProduct SupplierProduct;
     private com.xpos.gui.User User;
     private com.xpos.gui.UserProfile UserProfile;
@@ -1247,6 +1273,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton purchaseInvoiceBtn;
     private javax.swing.JButton purchaseOrder;
     private javax.swing.JButton purchaseOrderBtn;
+    private javax.swing.JButton quateRequestBtn;
     private com.xpos.dashboard.component.Dashpanel remProductCount;
     private com.xpos.gui.ReqForQuate reqForQuate;
     private javax.swing.JButton returnInvoiceBtn;

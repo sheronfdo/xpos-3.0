@@ -72,18 +72,17 @@ public class POInvoice extends javax.swing.JPanel {
         tableModel.setRowCount(0);
         try {
 
-            String query = "SELECT orderedproducts.`Product_Id` as productId,"
-                    + " orderedproducts.`Quantity` as quantity,"
+            String query = "SELECT PurchaseOrderItem.`Product_Id` as productId,"
+                    + " PurchaseOrderItem.`Quantity` as quantity,"
                     + " product.Description as description,"
                     + " (SELECT supplierproduct.ItemCode"
                     + " FROM supplierproduct"
                     + " WHERE supplierproduct.Supplier_Id=purchaseorder.Supplier_Id"
-                    + " AND supplierproduct.Product_Id=orderedproducts.Product_Id) as itemcode"
-                    + " FROM ((`orderedproducts`"
-                    + " JOIN product ON orderedproducts.Product_Id=product.Id)"
-                    + " JOIN purchaseorder ON purchaseorder.Id=orderedproducts.PurchaseOrder_Id)"
-                    + " WHERE orderedproducts.`PurchaseOrder_Id`=" + POId;
-
+                    + " AND supplierproduct.Product_Id=PurchaseOrderItem.Product_Id) as itemcode"
+                    + " FROM ((`PurchaseOrderItem`"
+                    + " JOIN product ON PurchaseOrderItem.Product_Id=product.Id)"
+                    + " JOIN purchaseorder ON purchaseorder.Id=PurchaseOrderItem.PurchaseOrder_Id)"
+                    + " WHERE PurchaseOrderItem.`PurchaseOrder_Id`=" + POId;
             ResultSet rs = DbConnect.getFromDB(query);
             while (rs.next()) {
                 Vector v = new Vector();

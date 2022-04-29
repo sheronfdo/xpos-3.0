@@ -149,7 +149,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="rojeru_san.complementos.RSTableMetro" name="saleTable">
+        <Component class="rojeru_san.complementos.RSTableMetro" name="quateTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="5" rowCount="0">
@@ -205,7 +205,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="saleTableMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="quateTableMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
@@ -217,13 +217,13 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="rojeru_san.complementos.RSTableMetro" name="soldItemTable">
+        <Component class="rojeru_san.complementos.RSTableMetro" name="quateItemTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="0">
-                <Column editable="true" title="ID" type="java.lang.Object"/>
-                <Column editable="true" title="Quate Req Id" type="java.lang.Object"/>
-                <Column editable="true" title="Product Id -  Product Name" type="java.lang.Object"/>
+                <Column editable="true" title="Product Id" type="java.lang.Object"/>
+                <Column editable="true" title="Product Name" type="java.lang.Object"/>
+                <Column editable="true" title="Item Code" type="java.lang.Object"/>
                 <Column editable="true" title="Quantity" type="java.lang.Object"/>
               </Table>
             </Property>
@@ -267,7 +267,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="soldItemTableMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="quateItemTableMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>

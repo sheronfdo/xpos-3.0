@@ -32,26 +32,78 @@ public class QuateInvoice extends javax.swing.JPanel {
      */
     public QuateInvoice() {
         initComponents();
-        //fillSupplierProductTable(null);
-        clearPurchOrderPanel();
+        fillQuateInvoiceTable(null);
     }
 
-    private void clearPurchOrderPanel() {
-        
+    private void fillQuateInvoiceTable(String query) {
+        DefaultTableModel tableModel = (DefaultTableModel) quateItemTable.getModel();
+        tableModel.setRowCount(0);
+        tableModel = (DefaultTableModel) quateTable.getModel();
+        tableModel.setRowCount(0);
+        try {
+            if (query == null) {
+                query = "SELECT reqforquate.Id as quatereqid,"
+                        + " reqforquate.Date as quatereqdate,"
+                        + " reqforquate.IsResponses as IsResponses,"
+                        + " reqforquate.Supplier_Id as Supplier_Id,"
+                        + " reqforquate.UserProfile_Id as userprofile,"
+                        + " supplier.Name as suppliername,"
+                        + " userprofile.Username as username"
+                        + " from reqforquate INNER JOIN supplier"
+                        + " ON reqforquate.Supplier_Id=supplier.Id"
+                        + " INNER JOIN userprofile"
+                        + " ON userprofile.Id=reqforquate.UserProfile_Id"
+                        + " WHERE reqforquate.Status=1";
+            }
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("quatereqid"));
+                v.add(rs.getDate("quatereqdate"));
+                v.add(rs.getInt("Supplier_Id") + " - " + rs.getString("suppliername"));
+                v.add(rs.getBoolean("IsResponses")? "Responsed":"Not Responsed");
+                v.add(rs.getString("username"));
+                tableModel.addRow(v);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PurchaseInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PurchaseInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    private void loadPurchaseOrderSupplierCombo() {
-        
+    private void fillQuateItemTable(int quateId) {
+        if (quateId == 0) {
+            quateId = Integer.parseInt(quateTable.getValueAt(quateTable.getSelectedRow(), 0).toString());
+        }
+        DefaultTableModel tableModel = (DefaultTableModel) quateItemTable.getModel();
+        tableModel.setRowCount(0);
+        try {
+
+            String query = "SELECT *,"
+                    + "(select supplierproduct.ItemCode from supplierproduct"
+                    + " WHERE supplierproduct.Supplier_Id=(SELECT reqforquate.Supplier_Id FROM reqforquate"
+                    + " WHERE reqforquate.Id=reqforquateitem.ReqForQuate_Id"
+                    + ") AND supplierproduct.Product_Id=reqforquateitem.Product_Id) as itemcode,"
+                    + "(SELECT product.Description FROM product WHERE product.Id=Product_Id) as productName"
+                    + " FROM `reqforquateitem` WHERE reqforquateitem.ReqForQuate_Id=" + quateId;
+
+            ResultSet rs = DbConnect.getFromDB(query);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getInt("product_Id"));
+                v.add(rs.getString("productName"));
+                v.add(rs.getString("itemcode"));
+                v.add(rs.getInt("quantity"));
+                tableModel.addRow(v);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SaleInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
-    private void fillQuateReqProductTable(int supId) {
-        
-    }
-
-    private void fillSupplierProductTable(String query) {
-
-    }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,9 +117,9 @@ public class QuateInvoice extends javax.swing.JPanel {
         saleSearchByInvoice = new app.bolivia.swing.JCTextField();
         saleSearchByCustomer = new app.bolivia.swing.JCTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        saleTable = new rojeru_san.complementos.RSTableMetro();
+        quateTable = new rojeru_san.complementos.RSTableMetro();
         jScrollPane3 = new javax.swing.JScrollPane();
-        soldItemTable = new rojeru_san.complementos.RSTableMetro();
+        quateItemTable = new rojeru_san.complementos.RSTableMetro();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -110,7 +162,7 @@ public class QuateInvoice extends javax.swing.JPanel {
             }
         });
 
-        saleTable.setModel(new javax.swing.table.DefaultTableModel(
+        quateTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -118,37 +170,37 @@ public class QuateInvoice extends javax.swing.JPanel {
                 "ID", "Date", "Supplier", "Is Responsed", "System User"
             }
         ));
-        saleTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        saleTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        saleTable.setRowHeight(25);
-        saleTable.setRowMargin(0);
-        saleTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        saleTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        quateTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        quateTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quateTable.setRowHeight(25);
+        quateTable.setRowMargin(0);
+        quateTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        quateTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                saleTableMouseClicked(evt);
+                quateTableMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(saleTable);
+        jScrollPane2.setViewportView(quateTable);
 
-        soldItemTable.setModel(new javax.swing.table.DefaultTableModel(
+        quateItemTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Quate Req Id", "Product Id -  Product Name", "Quantity"
+                "Product Id", "Product Name", "Item Code", "Quantity"
             }
         ));
-        soldItemTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
-        soldItemTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        soldItemTable.setRowHeight(25);
-        soldItemTable.setRowMargin(0);
-        soldItemTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
-        soldItemTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        quateItemTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
+        quateItemTable.setFuenteHead(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quateItemTable.setRowHeight(25);
+        quateItemTable.setRowMargin(0);
+        quateItemTable.setSelectionBackground(new java.awt.Color(0, 60, 128));
+        quateItemTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                soldItemTableMouseClicked(evt);
+                quateItemTableMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(soldItemTable);
+        jScrollPane3.setViewportView(quateItemTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -203,22 +255,22 @@ public class QuateInvoice extends javax.swing.JPanel {
         
     }//GEN-LAST:event_saleSearchByCustomerKeyReleased
 
-    private void saleTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleTableMouseClicked
-        
-    }//GEN-LAST:event_saleTableMouseClicked
+    private void quateTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_quateTableMouseClicked
+        fillQuateItemTable(0);
+    }//GEN-LAST:event_quateTableMouseClicked
 
-    private void soldItemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldItemTableMouseClicked
+    private void quateItemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_quateItemTableMouseClicked
         
-    }//GEN-LAST:event_soldItemTableMouseClicked
+    }//GEN-LAST:event_quateItemTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private rojeru_san.complementos.RSTableMetro quateItemTable;
+    private rojeru_san.complementos.RSTableMetro quateTable;
     private app.bolivia.swing.JCTextField saleSearchByCustomer;
     private app.bolivia.swing.JCTextField saleSearchByInvoice;
-    private rojeru_san.complementos.RSTableMetro saleTable;
-    private rojeru_san.complementos.RSTableMetro soldItemTable;
     // End of variables declaration//GEN-END:variables
 }

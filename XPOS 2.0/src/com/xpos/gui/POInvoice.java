@@ -28,7 +28,7 @@ public class POInvoice extends javax.swing.JPanel {
      */
     public POInvoice() {
         initComponents();
-        fillPOInvoiceTable(null); 
+        fillPOInvoiceTable(null);
     }
 
     private void fillPOInvoiceTable(String query) {
@@ -41,6 +41,9 @@ public class POInvoice extends javax.swing.JPanel {
                 query = "SELECT purchaseorder.`Id` as POId,"
                         + " purchaseorder.`Supplier_Id` as supplierId,"
                         + " purchaseorder.`Date` as PODate,"
+                        + " purchaseorder.`subTotal` as subtotal,"
+                        + " purchaseorder.`Discount` as discount,"
+                        + " purchaseorder.`finalTotal` as FinalTotal,"
                         + " isSupplied as isSupplied,"
                         + " supplier.Name as supplierName"
                         + " FROM `purchaseorder`"
@@ -53,6 +56,9 @@ public class POInvoice extends javax.swing.JPanel {
                 v.add(rs.getInt("POId"));
                 v.add(rs.getInt("supplierId") + " - " + rs.getString("supplierName"));
                 v.add(rs.getDate("PODate"));
+                v.add(rs.getDouble("subtotal"));
+                v.add(rs.getDouble("discount"));
+                v.add(rs.getDouble("finaltotal"));
                 v.add(rs.getString("isSupplied"));
                 tableModel.addRow(v);
             }
@@ -64,7 +70,7 @@ public class POInvoice extends javax.swing.JPanel {
     }
 
     private void fillPOItemTable(int POId) {
-        
+
         if (POId == 0) {
             POId = Integer.parseInt(POTable.getValueAt(POTable.getSelectedRow(), 0).toString());
         }
@@ -74,6 +80,8 @@ public class POInvoice extends javax.swing.JPanel {
 
             String query = "SELECT PurchaseOrderItem.`Product_Id` as productId,"
                     + " PurchaseOrderItem.`Quantity` as quantity,"
+                    + " PurchaseOrderItem.`ItemPrice` as itemprice,"
+                    + " PurchaseOrderItem.`TotalPrice` as totalprice,"
                     + " product.Description as description,"
                     + " (SELECT supplierproduct.ItemCode"
                     + " FROM supplierproduct"
@@ -89,7 +97,9 @@ public class POInvoice extends javax.swing.JPanel {
                 v.add(rs.getInt("productId"));
                 v.add(rs.getString("description"));
                 v.add(rs.getString("itemcode"));
+                v.add(rs.getString("itemPrice"));
                 v.add(rs.getInt("quantity"));
+                v.add(rs.getString("totalprice"));
                 tableModel.addRow(v);
             }
         } catch (ClassNotFoundException ex) {
@@ -134,7 +144,7 @@ public class POInvoice extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Supplier", "Date", "Is Supplied"
+                "ID", "Supplier", "Date", "Sub Total", "Discount", "Final Total", "Is Supplied"
             }
         ));
         POTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
@@ -214,7 +224,7 @@ public class POInvoice extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID ", "Product", "Item Code", "Quantity"
+                "ID ", "Product", "Item Code", "Item Price", "Quantity", "Total Price"
             }
         ));
         POItemTable.setColorBackgoundHead(new java.awt.Color(26, 140, 255));
@@ -285,7 +295,10 @@ public class POInvoice extends javax.swing.JPanel {
                     query = "SELECT purchaseorder.`Id` as POId,"
                             + " purchaseorder.`Supplier_Id` as supplierId,"
                             + " purchaseorder.`Date` as PODate,"
-                            + " purchaseorder.`IsSupplied` as isSupplied,"
+                            + " purchaseorder.`subTotal` as subtotal,"
+                            + " purchaseorder.`Discount` as discount,"
+                            + " purchaseorder.`finalTotal` as FinalTotal,"
+                            + " isSupplied as isSupplied,"
                             + " supplier.Name as supplierName"
                             + " FROM `purchaseorder`"
                             + " JOIN supplier on purchaseorder.Supplier_Id=supplier.Id"

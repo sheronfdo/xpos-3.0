@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
 import javax.swing.JFrame;
 import org.apache.log4j.Logger;
 
@@ -33,7 +32,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         SystemLogger.initLogger();
-        log = Logger.getLogger(SignIn.class);
+        log = Logger.getLogger(Main.class);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/xpos/images/icon.png")));
         systemUserName.setText(SystemUser.username.toUpperCase());

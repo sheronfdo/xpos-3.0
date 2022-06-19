@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.database.DbConnect;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import com.xpos.commons.Validate;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -23,6 +25,7 @@ public class Brand extends javax.swing.JPanel {
 
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static Logger log;
 
     int brandId;
 
@@ -31,10 +34,14 @@ public class Brand extends javax.swing.JPanel {
      */
     public Brand() {
         initComponents();
+        SystemLogger.initLogger();
+        log = Logger.getLogger(Brand.class);
         clearBrandPanel();
+        log.info("brand panel running...");
     }
 
     private boolean validateForm() {
+        log.info("validating form");
         return Validate.isName(brandName.getText().toString())
                 && Validate.isName(brandCompanyName.getText().toString())
                 && Validate.isText(brandCompanyAddress.getText().toString())
@@ -42,6 +49,7 @@ public class Brand extends javax.swing.JPanel {
     }
 
     public void clearBrandPanel() {
+        log.info("clear brand form");
         brandName.setText("");
         brandCompanyName.setText("");
         brandCompanyAddress.setText("");
@@ -50,12 +58,15 @@ public class Brand extends javax.swing.JPanel {
     }
 
     private void fillBrandTable(String query) {
+        log.info("fill brand table, queary : " + query);
         tablemodel = (DefaultTableModel) brandTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
+            log.info("query null then assigning query");
             query = "SELECT * FROM `brand` where status=1";
         }
         try {
+            log.info("executing query");
             ResultSet rs = DbConnect.getFromDB(query);
             while (rs.next()) {
                 Vector v = new Vector();
@@ -67,12 +78,13 @@ public class Brand extends javax.swing.JPanel {
 
                 tablemodel.addRow(v);
             }
+            log.info("table filled with data");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         }
     }
 
@@ -330,6 +342,7 @@ public class Brand extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void brandTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brandTableMouseClicked
+        log.info("user presses brand table row");
         int selectedRow = brandTable.getSelectedRow();
         brandId = Integer.parseInt(brandTable.getValueAt(selectedRow, 0).toString());
         String name = brandTable.getValueAt(selectedRow, 1).toString();
@@ -350,10 +363,13 @@ public class Brand extends javax.swing.JPanel {
     private void brandSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandSearchKeyReleased
         String query = "select * from brand where BrandName like '%" + brandSearch.getText() + "%' and status=1";
         fillBrandTable(query);
+        log.info("brand search, query : " + query);
     }//GEN-LAST:event_brandSearchKeyReleased
 
     private void brandButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButInsertActionPerformed
+        log.info("User presses insert button");
         if (validateForm()) {
+            log.info("validate process passed");
             String name = brandName.getText();
             String companyName = brandCompanyName.getText();
             String companyAddress = brandCompanyAddress.getText();
@@ -364,18 +380,24 @@ public class Brand extends javax.swing.JPanel {
             try {
                 DbConnect.pushToDB(query);
                 clearBrandPanel();
+                log.info("execute insert query");
             } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
+                log.error("brand insert failed", ex);
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                log.error("brand insert failed", ex);
+            } catch (Exception ex) {
+                log.error("brand insert failed", ex);
             }
         } else {
+            log.info("validate process failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_brandButInsertActionPerformed
 
     private void brandButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButEditActionPerformed
+        log.info("user presses edit button");
         if (validateForm()) {
+            log.info("validate process passed");
             String name = brandName.getText();
             String companyName = brandCompanyName.getText();
             String companyAddress = brandCompanyAddress.getText();
@@ -386,29 +408,38 @@ public class Brand extends javax.swing.JPanel {
             try {
                 DbConnect.pushToDB(query);
                 clearBrandPanel();
+                log.info("push update query");
             } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
+                log.error("brand edit failed", ex);
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                log.error("brand edit failed", ex);
+            } catch (Exception ex) {
+                log.error("brand edit failed", ex);
             }
         } else {
+            log.info("validate process failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_brandButEditActionPerformed
 
     private void brandButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButDeleteActionPerformed
+        log.info("user presses delete button");
         String query = "UPDATE `brand` SET `Status`=0 WHERE `Id`=" + brandId;
         try {
             DbConnect.pushToDB(query);
             clearBrandPanel();
+            log.info("push delete query");
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+            log.error("brand delete failed", ex);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error("brand delete failed", ex);
+        } catch (Exception ex) {
+            log.error("brand delete failed", ex);
         }
     }//GEN-LAST:event_brandButDeleteActionPerformed
 
     private void brandButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandButCancelActionPerformed
+        log.info("user presses cancel button");
         clearBrandPanel();
     }//GEN-LAST:event_brandButCancelActionPerformed
 
@@ -418,9 +449,12 @@ public class Brand extends javax.swing.JPanel {
 
     private void brandNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandNameKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on brandname text field");
             if (Validate.isText(brandName.getText().toString())) {
+                log.info("validate process passed, then focus brand company");
                 brandCompanyName.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }
@@ -428,9 +462,12 @@ public class Brand extends javax.swing.JPanel {
 
     private void brandCompanyNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandCompanyNameKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on brandcompany text field");
             if (Validate.isText(brandCompanyName.getText().toString())) {
+                log.info("validate process passed, then focus brand address");
                 brandCompanyAddress.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }
@@ -438,9 +475,12 @@ public class Brand extends javax.swing.JPanel {
 
     private void brandCompanyAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandCompanyAddressKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on brandaddress text field");
             if (Validate.isText(brandCompanyAddress.getText().toString())) {
                 brandCompanyRegNo.requestFocus();
+                log.info("validate process passed, then focus brandregno");
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }
@@ -448,7 +488,9 @@ public class Brand extends javax.swing.JPanel {
 
     private void brandCompanyRegNoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandCompanyRegNoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on brandregNo text field");
             if (!Validate.isText(brandCompanyRegNo.getText().toString())) {
+                log.info("validation failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }

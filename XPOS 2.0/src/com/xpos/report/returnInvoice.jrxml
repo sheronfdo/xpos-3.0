@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="returnInvoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="456dfd92-c6e1-4ea2-a7b3-d9ddbdc521e1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="xpos_db"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="returnIdNum" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT `return`.`Id`, `return`.`Sale_Id`, `return`.`Date`, `return`.`RefundAmount`, product.Description, CASE WHEN `returnitem`.`type`='R' THEN 'Replace' WHEN `returnitem`.`type`='C' THEN 'Cash Refund' END as Type, CASE WHEN `returnitem`.`cond`='D' THEN 'Damage' WHEN `returnitem`.`cond`='G' THEN 'Good' END as Cond, `returnitem`.`Quantity`, `returnitem`.`ReturnPrice` FROM ((`returnitem` JOIN `return` ON `return`.`Id`= `returnitem`.`Return_Id`)JOIN product ON `returnitem`.Product_Id=product.Id) WHERE `return`.`Id`= 8]]>
+	</queryString>
+	<field name="Id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Id"/>
+		<property name="com.jaspersoft.studio.field.label" value="Id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="return"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Sale_Id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Sale_Id"/>
+		<property name="com.jaspersoft.studio.field.label" value="Sale_Id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="return"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="Date"/>
+		<property name="com.jaspersoft.studio.field.label" value="Date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="return"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RefundAmount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="RefundAmount"/>
+		<property name="com.jaspersoft.studio.field.label" value="RefundAmount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="return"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Description"/>
+		<property name="com.jaspersoft.studio.field.label" value="Description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Type" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Type"/>
+		<property name="com.jaspersoft.studio.field.label" value="Type"/>
+	</field>
+	<field name="Cond" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Cond"/>
+		<property name="com.jaspersoft.studio.field.label" value="Cond"/>
+	</field>
+	<field name="Quantity" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Quantity"/>
+		<property name="com.jaspersoft.studio.field.label" value="Quantity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="returnitem"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ReturnPrice" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="ReturnPrice"/>
+		<property name="com.jaspersoft.studio.field.label" value="ReturnPrice"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="returnitem"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="109" splitType="Stretch">
+			<staticText>
+				<reportElement x="335" y="31" width="220" height="38" forecolor="#06073B" uuid="0a98aae7-cef1-4b92-b899-f7f0343bd429"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calisto MT" size="23" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Return Invoice]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="-1" width="170" height="40" forecolor="#1A8CFF" uuid="c785a49d-ed8f-4b10-b4d2-2613b1961f0d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Berlin Sans FB Demi" size="27" isBold="true"/>
+				</textElement>
+				<text><![CDATA[XPOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="28" width="131" height="20" forecolor="#1A8CFF" uuid="106d4db2-9460-4867-8a71-8e67e1b10750"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Demi Cond" size="14"/>
+				</textElement>
+				<text><![CDATA[11 Sea Street,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-2" y="45" width="100" height="23" forecolor="#1A8CFF" uuid="0a7ad76a-ba08-4a22-8193-e036e5be27e5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Demi Cond" size="14"/>
+				</textElement>
+				<text><![CDATA[ Colombo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="63" width="100" height="20" forecolor="#1A8CFF" uuid="4de0cc0e-2eb6-47cc-92ee-b3988f6a1863"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Demi Cond" size="14"/>
+				</textElement>
+				<text><![CDATA[0785423695]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="81" width="100" height="16" forecolor="#1A8CFF" uuid="e0910ca0-f9f9-4af7-991c-03a3ee32d742"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Demi Cond" size="14"/>
+				</textElement>
+				<text><![CDATA[xpos@email.com]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" forecolor="#736B6B" uuid="1febfaa7-5bcb-43c6-bb13-f15e8e30cd40"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="30" uuid="6c63363f-2d56-4d76-a937-3844f181baac"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Monospaced" size="12"/>
+				</textElement>
+				<text><![CDATA[Return No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="1" width="75" height="30" uuid="fdffe31b-7807-4c58-8dd4-bff4b1d8371e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Monospaced" size="12"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="35" width="555" height="1" forecolor="#736B6B" uuid="2105af44-b5c6-45c6-8617-0965585957c6"/>
+			</line>
+			<textField>
+				<reportElement x="80" y="0" width="80" height="30" uuid="e90b33ec-b5ce-4b63-997d-c0af932aa69e"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMM d, yyyy">
+				<reportElement x="455" y="1" width="100" height="30" uuid="6dc3a845-c60f-40e4-8307-7c6142f800cc"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="1" width="80" height="30" uuid="f3b60318-aca3-4bba-8733-266efdfbc302"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Monospaced" size="12"/>
+				</textElement>
+				<text><![CDATA[Sale No:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="260" y="1" width="85" height="30" uuid="c4e0f10d-abca-4e71-b394-8dbe56f99982"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Sale_Id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="450" y="30" width="104" height="30" forecolor="#FFFFFF" backcolor="#1A8CFF" uuid="bdebb287-8a4e-4ce0-9d32-41b9b4f1d543">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2e8d671d-53c5-4851-bc84-cfbdd9ac871f"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#1A8CFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria Math" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Return Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="30" width="150" height="30" forecolor="#FFFFFF" backcolor="#1A8CFF" uuid="f7ef0078-c52b-4f0e-824f-7eab9b6a388b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b64d2dfc-2bba-4db0-a77c-902c5a015f7c"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria Math" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="30" width="80" height="30" forecolor="#FFFFFF" backcolor="#1A8CFF" uuid="652f43d9-a198-444a-9b56-22ceade631b9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="61d32fcf-b174-40f3-adef-812f27c94c24"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#1A8CFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria Math" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="150" y="30" width="110" height="30" forecolor="#FFFFFF" backcolor="#1A8CFF" uuid="272be56e-6b78-4dd3-a6aa-bcb77417016a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9827684a-013e-41c9-828e-3fafecc4f5a0"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#1A8CFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria Math" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Return Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="260" y="30" width="110" height="30" forecolor="#FFFFFF" backcolor="#1A8CFF" uuid="a197feb7-80ac-4206-939a-34a9699f8864">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="61d32fcf-b174-40f3-adef-812f27c94c24"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#1A8CFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#1A8CFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria Math" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product Condition]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="150" height="30" uuid="456fdcd4-9aba-4ecb-8550-98111eb0cd8b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff212547-3bec-43b1-aa80-fb170f900f3f"/>
+				</reportElement>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="110" height="30" uuid="4ea583dc-0066-4734-a5a1-2bd6a849a2e6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4fd755e6-f8c8-4050-8f51-b7f08dd54597"/>
+				</reportElement>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="110" height="30" uuid="e29fe81f-6af8-43df-b503-f33a9a4f2a52">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1643718-03c5-4f71-b336-a309839ee5e2"/>
+				</reportElement>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Cond}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="80" height="30" uuid="8b86ae20-ac03-4c94-806c-7a329347926b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff79980e-956c-4b70-895f-f7f8cae57920"/>
+				</reportElement>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Quantity}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#;#,##0.00#-">
+				<reportElement x="450" y="0" width="104" height="30" uuid="4589d7b6-179b-49d4-8eeb-9b233b0c395d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="917d0d39-277c-4c31-8a1b-31d794bb86de"/>
+				</reportElement>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ReturnPrice}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="1" width="555" height="1" forecolor="#736B6B" uuid="0f5debbd-3294-436c-b8fb-69f58bb19f38"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="5" width="150" height="30" uuid="fbfa9267-fd04-4d34-bb6c-4d54028176c5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="46cf6d28-c263-461f-b2f8-0efe297a6a7c"/>
+				</reportElement>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Cambria Math" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Refund]]></text>
+			</staticText>
+			<textField pattern="#,##0.00#;#,##0.00#-">
+				<reportElement x="450" y="5" width="104" height="30" uuid="8750ac7e-20b2-47c1-96b4-43596fd2f825"/>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RefundAmount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="9" width="204" height="22" forecolor="#111417" uuid="779ae8d7-4b90-4181-b5c8-5c7d43930b3b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Candara Light" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thank You For Your Business]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="34" width="177" height="22" forecolor="#1B8CFF" uuid="23658612-a0e4-4f2e-95e0-acc3255687ac"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bahnschrift" size="15"/>
+				</textElement>
+				<text><![CDATA[XPOS Pvt (Ltd) Company]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="38" width="180" height="18" forecolor="#707070" uuid="964acbfb-63a0-433b-9b99-0cc767f9fda8"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Copyright @ 2022 All rights reserved]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" forecolor="#736B6B" uuid="79395542-5fc9-4400-b333-4d9e1c31e6fa"/>
+			</line>
+			<line>
+				<reportElement x="0" y="4" width="555" height="1" forecolor="#736B6B" uuid="136a27fe-5320-4f66-a086-dad5d92c8970"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

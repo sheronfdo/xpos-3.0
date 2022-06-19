@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -23,6 +25,7 @@ public class Category extends javax.swing.JPanel {
 
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static Logger log;
 
     int catId;
 
@@ -31,14 +34,19 @@ public class Category extends javax.swing.JPanel {
      */
     public Category() {
         initComponents();
+        SystemLogger.initLogger();
+        log = Logger.getLogger(Category.class);
         clearCategoryPanel();
+        log.info("category panel running...");
     }
 
     private boolean validateForm() {
+        log.info("validate category form");
         return Validate.isText(catDescription.getText().toString());
     }
 
     public void clearCategoryPanel() {
+        log.info("clear category panel");
         catDescription.setText("");
         catSpecNote.setText("");
         catSearch.setText("");
@@ -46,12 +54,15 @@ public class Category extends javax.swing.JPanel {
     }
 
     private void fillCategoryTable(String query) {
+        log.info("fill category table, query : " + query);
         tablemodel = (DefaultTableModel) categoryTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
+            log.info("query null then assigning query");
             query = "SELECT `Id`, `Description`, `Note` FROM `category` where status=1";
         }
         try {
+            log.info("executing query");
             ResultSet rs = DbConnect.getFromDB(query);
             while (rs.next()) {
                 Vector v = new Vector();
@@ -61,12 +72,13 @@ public class Category extends javax.swing.JPanel {
 
                 tablemodel.addRow(v);
             }
+            log.info("table filled with data");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         }
     }
 
@@ -288,6 +300,7 @@ public class Category extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryTableMouseClicked
+        log.info("user presses category table row");
         int selectedRow = categoryTable.getSelectedRow();
         catId = Integer.parseInt(categoryTable.getValueAt(selectedRow, 0).toString());
         catDescription.setText(categoryTable.getValueAt(selectedRow, 1).toString());
@@ -301,71 +314,85 @@ public class Category extends javax.swing.JPanel {
     private void catSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_catSearchKeyReleased
         String query = "select * from category where description like '%" + catSearch.getText() + "%' and status=1";
         fillCategoryTable(query);
+        log.info("category search, query : " + query);
     }//GEN-LAST:event_catSearchKeyReleased
 
     private void catButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButInsertActionPerformed
+        log.info("user presses insert button");
         if (validateForm()) {
+            log.info("validate process passed");
             String description = catDescription.getText();
             String note = catSpecNote.getText();
             String query = "INSERT INTO `category`(`Description`, `Note`) VALUES ('" + description + "','" + note + "')";
             try {
                 DbConnect.pushToDB(query);
                 clearCategoryPanel();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                log.info("execute insert query");
+            } catch (ClassNotFoundException ex) {
+                log.error("category insert failed", ex);
+            } catch (SQLException ex) {
+                log.error("category insert failed", ex);
+            } catch (Exception ex) {
+                log.error("category insert failed", ex);
             }
         } else {
+            log.info("validate process failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_catButInsertActionPerformed
 
     private void catButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButEditActionPerformed
+        log.info("user presses edit button");
         if (validateForm()) {
+            log.info("validate process passed");
             String description = catDescription.getText();
             String note = catSpecNote.getText();
             String query = "UPDATE `category` SET `Description`='" + description + "',`Note`='" + note + "' WHERE Id=" + catId;
             try {
                 DbConnect.pushToDB(query);
                 clearCategoryPanel();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                log.info("execute insert query");
+            } catch (ClassNotFoundException ex) {
+                log.error("category edit failed", ex);
+            } catch (SQLException ex) {
+                log.error("category edit failed", ex);
+            } catch (Exception ex) {
+                log.error("category edit failed", ex);
             }
         } else {
+            log.info("validate process failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_catButEditActionPerformed
 
     private void catButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButDeleteActionPerformed
+        log.info("user presses delete button");
         String query = "UPDATE `category` SET `Status`=0 WHERE Id=" + catId;
         try {
             DbConnect.pushToDB(query);
             clearCategoryPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            log.info("push delete query");
+        } catch (ClassNotFoundException ex) {
+            log.error("category delete failed", ex);
+        } catch (SQLException ex) {
+            log.error("category delete failed", ex);
+        } catch (Exception ex) {
+            log.error("category delete failed", ex);
         }
     }//GEN-LAST:event_catButDeleteActionPerformed
 
     private void catButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catButCancelActionPerformed
-        clearCategoryPanel();
+         log.info("user presses cancel button");clearCategoryPanel();
     }//GEN-LAST:event_catButCancelActionPerformed
 
     private void catDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_catDescriptionKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on catdescription text field");
             if (Validate.isText(catDescription.getText().toString())) {
+                log.info("validate process passed");
                 catSpecNote.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:

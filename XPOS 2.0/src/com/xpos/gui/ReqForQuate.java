@@ -14,12 +14,21 @@ import java.sql.Statement;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -595,6 +604,9 @@ public class ReqForQuate extends javax.swing.JPanel {
                     Logger.getLogger(ReqForQuate.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            if (currentPurchaseOrderId > 0) {
+                printInvoice(currentPurchaseOrderId);
+            }
             clearPurchOrderPanel();
         } else {
             if (RFQTable.getRowCount() == 0) {
@@ -606,6 +618,21 @@ public class ReqForQuate extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_RFQCompleteActionPerformed
 
+    private void printInvoice(int invoiceId) {
+        try {
+            HashMap<String, Object> para = new HashMap<String, Object>();
+            para.put("reqforquateid", invoiceId);
+            JasperDesign design = JRXmlLoader.load("src\\com\\xpos\\report\\reqForQuate.jrxml");
+            JasperReport report = JasperCompileManager.compileReport(design);
+            JasperPrint jprint = JasperFillManager.fillReport(report, para, DbConnect.getDBConnection());
+            JasperViewer.viewReport(jprint, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void RFQDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RFQDeleteItemActionPerformed
         try {
             tablemodel = (DefaultTableModel) RFQTable.getModel();

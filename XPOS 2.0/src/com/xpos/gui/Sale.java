@@ -7,6 +7,7 @@ package com.xpos.gui;
 
 import com.xpos.SystemUser;
 import com.xpos.database.DbConnect;
+import static com.xpos.database.DbConnect.connect;
 import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,10 +16,19 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -28,7 +38,7 @@ public class Sale extends javax.swing.JPanel {
 
     DefaultTableModel tablemodel;
     boolean cusSelectPanel = false;
-    
+
     SelectCustPopup selectCustPopup = new SelectCustPopup();
 
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -67,7 +77,7 @@ public class Sale extends javax.swing.JPanel {
         identifyCustomerId();
         fillSaleDetails();
 
-        int saleId;
+        int saleId = 0;
 
         String query = "INSERT INTO `sale`(`Date`, `Time`, `Customer_Id`, `TotalRetailPrice`, `DiscountByItems`, "
                 + "`DiscountByTotal`, `Cost`, `FinalTotal`, `Profit`, `Pay`, `UserProfile_Id`) "
@@ -103,10 +113,27 @@ public class Sale extends javax.swing.JPanel {
 
                 }
             }
+            if (saleId > 0) {
+                printInvoice(saleId);
+            }
         } catch (Exception ex) {
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
+    private void printInvoice(int invoiceId) {
+        try {
+            HashMap<String, Object> para = new HashMap<String, Object>();
+            para.put("saleInvoice", invoiceId);
+            JasperDesign design = JRXmlLoader.load("src\\com\\xpos\\report\\saleInvoice.jrxml");
+            JasperReport report = JasperCompileManager.compileReport(design);
+            JasperPrint jprint = JasperFillManager.fillReport(report, para, DbConnect.getDBConnection());
+            JasperViewer.viewReport(jprint, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void clearSalePanel() {
@@ -1061,10 +1088,10 @@ public class Sale extends javax.swing.JPanel {
 
     private void saleProdDescKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdDescKeyReleased
         String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
-                    + " product.Category_Id as categoryId, category.Description as categoryName,"
-                    + " product.Description as description, product.TotalQuantity as totalQuantity"
-                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
-                    + " WHERE product.Status = 1 and product.Description like '%"+saleProdDesc.getText().toString()+"%'";
+                + " product.Category_Id as categoryId, category.Description as categoryName,"
+                + " product.Description as description, product.TotalQuantity as totalQuantity"
+                + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                + " WHERE product.Status = 1 and product.Description like '%" + saleProdDesc.getText().toString() + "%'";
         fillSaleProdTable(query);
     }//GEN-LAST:event_saleProdDescKeyReleased
 

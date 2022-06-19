@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -26,6 +28,7 @@ public class Customer extends javax.swing.JPanel {
 
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static Logger log;
 
     int customerId;
 
@@ -34,10 +37,14 @@ public class Customer extends javax.swing.JPanel {
      */
     public Customer() {
         initComponents();
+        SystemLogger.initLogger();
+        log = Logger.getLogger(Category.class);
         fillCustomerTable(null);
+        log.info("customer panel running...");
     }
 
     private boolean validateForm() {
+        log.info("validate customer form");
         return Validate.isText(customerAddress.getText().toString())
                 && Validate.isTelephone(customerTeleNumber.getText().toString())
                 && Validate.isNIC(customerNIC.getText().toString())
@@ -48,6 +55,7 @@ public class Customer extends javax.swing.JPanel {
     }
 
     public void clearCustomerPanel() {
+        log.info("clear customer form");
         customerName.setText("");
         customerAddress.setText("");
         customerTeleNumber.setText("");
@@ -61,12 +69,15 @@ public class Customer extends javax.swing.JPanel {
     }
 
     private void fillCustomerTable(String query) {
+        log.info("fill customer table, query : " + query);
         tablemodel = (DefaultTableModel) customerTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
+            log.info("query null then assigning query");
             query = "SELECT * FROM `customer` WHERE STATUS=1";
         }
         try {
+            log.info("executing query");
             ResultSet rs = DbConnect.getFromDB(query);
             while (rs.next()) {
                 Vector v = new Vector();
@@ -83,12 +94,13 @@ public class Customer extends javax.swing.JPanel {
 
                 tablemodel.addRow(v);
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.info("table filled with data");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
+        } catch (ClassNotFoundException e) {
+            log.error("table filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         }
     }
 
@@ -440,7 +452,9 @@ public class Customer extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void customerButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButInsertActionPerformed
+        log.info("user presses insert button");
         if (validateForm()) {
+            log.info("validate process passed");
             String name = customerName.getText();
             String address = customerAddress.getText();
             String teleNumber = customerTeleNumber.getText();
@@ -455,22 +469,27 @@ public class Customer extends javax.swing.JPanel {
                     + "'" + address + "','" + teleNumber + "','" + NIC + "','" + DOB.format(defaultDateFormat) + "','"
                     + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "')";
             try {
+                log.info("executing query");
                 DbConnect.pushToDB(query);
+                clearCustomerPanel();
+                log.info("table filled with data");
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error("table filling failed", e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("table filling failed", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("table filling failed", e);
             }
-            clearCustomerPanel();
         } else {
+            log.info("validate process failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_customerButInsertActionPerformed
 
     private void customerButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButEditActionPerformed
+        log.info("user presses edit button");
         if (validateForm()) {
+            log.info("validate process passed");
             String name = customerName.getText();
             String address = customerAddress.getText();
             String teleNumber = customerTeleNumber.getText();
@@ -484,39 +503,46 @@ public class Customer extends javax.swing.JPanel {
                     + "TelephoneNo='" + teleNumber + "',NIC='" + NIC + "',DOB='" + DOB.format(defaultDateFormat) + "',JoinedDate='" + joinedDate.format(defaultDateFormat) + "',"
                     + "Email='" + email + "',Gender='" + gender + "' WHERE Id=" + customerId;
             try {
+                log.info("executing query");
                 DbConnect.pushToDB(query);
+                clearCustomerPanel();
+                log.info("table filled with data");
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error("table filling failed", e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("table filling failed", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("table filling failed", e);
             }
-            clearCustomerPanel();
         } else {
+            log.info("validate process failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_customerButEditActionPerformed
 
     private void customerButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButDeleteActionPerformed
+        log.info("user presses delete button");
         String query = "UPDATE customer SET Status=0 WHERE Id=" + customerId;
         try {
             DbConnect.pushToDB(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            clearCustomerPanel();
+            log.info("push delete query");
+        } catch (ClassNotFoundException ex) {
+            log.error("category delete failed", ex);
+        } catch (SQLException ex) {
+            log.error("category delete failed", ex);
+        } catch (Exception ex) {
+            log.error("category delete failed", ex);
         }
-        clearCustomerPanel();
     }//GEN-LAST:event_customerButDeleteActionPerformed
 
     private void customerButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButCancelActionPerformed
+        log.info("user presses cancel button");
         clearCustomerPanel();        // TODO add your handling code here:
     }//GEN-LAST:event_customerButCancelActionPerformed
 
     private void customerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerTableMouseClicked
+        log.info("user presses customer table row");
         int selectedRow = customerTable.getSelectedRow();
         customerId = Integer.parseInt(customerTable.getValueAt(selectedRow, 0).toString());
 
@@ -531,12 +557,14 @@ public class Customer extends javax.swing.JPanel {
             customerGenMale.setSelected(customerTable.getValueAt(selectedRow, 8).toString().equals("Male"));
             customerGenFemale.setSelected(customerTable.getValueAt(selectedRow, 8).toString().equals("Female"));
         } catch (Exception e) {
+            log.error("user click failed", e);
         }
     }//GEN-LAST:event_customerTableMouseClicked
 
     private void customerSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerSearchKeyReleased
         String query = "SELECT * from customer WHERE Name LIKE '%" + customerSearch.getText().toString() + "%' and Status=1";
         fillCustomerTable(query);
+        log.info("customer search, query : " + query);
     }//GEN-LAST:event_customerSearchKeyReleased
 
     private void customerNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerNameKeyReleased
@@ -545,9 +573,12 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerAddressKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on address text field");
             if (Validate.isText(customerAddress.getText().toString())) {
+                log.info("validate process passed");
                 customerTeleNumber.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -555,9 +586,12 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerTeleNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerTeleNumberKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on telenumber text field");
             if (Validate.isTelephone(customerTeleNumber.getText().toString())) {
+                log.info("validate process passed");
                 customerNIC.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }
@@ -565,9 +599,12 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerNICKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerNICKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on nic text field");
             if (Validate.isNIC(customerNIC.getText().toString())) {
+                log.info("validate process passed");
                 customerDOB.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -575,9 +612,12 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerNameKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on name text field");
             if (Validate.isName(customerName.getText().toString())) {
+                log.info("validate process passed");
                 customerAddress.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }          // TODO add your handling code here:
@@ -585,9 +625,12 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerDOBKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerDOBKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on dob datechooser");
             if (Validate.isDate(customerDOB.getDate().toString())) {
+                log.info("validate process passed");
                 customerJoinedDate.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         } // TODO add your handling code here:
@@ -595,9 +638,12 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerJoinedDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerJoinedDateKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on joineddate datechooser");
             if (Validate.isDate(customerJoinedDate.getDate().toString())) {
+                log.info("validate process passed");
                 customerEmail.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -605,9 +651,12 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerEmailKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on dob email field");
             if (Validate.isEmail(customerEmail.getText().toString())) {
+                log.info("validate process passed");
                 customerGenMale.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -615,9 +664,11 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerGenMaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerGenMaleKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on male radio button");
             customerButInsert.requestFocus();
         }
         if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            log.info("user presses space on male radio button");
             customerGenFemale.requestFocus();
         }
         // TODO add your handling code here:
@@ -625,9 +676,11 @@ public class Customer extends javax.swing.JPanel {
 
     private void customerGenFemaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerGenFemaleKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on female radio button");
             customerButInsert.requestFocus();
         }
         if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            log.info("user presses space on female radio button");
             customerGenMale.requestFocus();
         }        // TODO add your handling code here:
     }//GEN-LAST:event_customerGenFemaleKeyPressed

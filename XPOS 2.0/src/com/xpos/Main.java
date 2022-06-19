@@ -103,7 +103,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void updateDashboard() {
-        log.info("updateDashboard method running...");
         String query = null;
         ResultSet rs = null;
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString();

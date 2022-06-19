@@ -86,7 +86,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="homeBut2" alignment="0" max="32767" attributes="0"/>
+                          <Component id="homeBut" alignment="0" max="32767" attributes="0"/>
                           <Component id="supplierBut" alignment="0" max="32767" attributes="0"/>
                           <Component id="product" alignment="0" max="32767" attributes="0"/>
                           <Component id="customer" alignment="0" max="32767" attributes="0"/>
@@ -99,7 +99,7 @@
                           <Component id="purchaseOrder" alignment="0" max="32767" attributes="0"/>
                           <Component id="returnPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="invoiceBtn" alignment="0" max="32767" attributes="0"/>
-                          <Component id="invoiceBtn1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="reqForQuateBtn" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -109,7 +109,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="homeBut2" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="homeBut" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="supplierBut" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -135,14 +135,14 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="invoiceBtn" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="invoiceBtn1" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="reqForQuateBtn" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="homeBut2">
+            <Component class="javax.swing.JButton" name="homeBut">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -160,7 +160,7 @@
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homeBut2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homeButActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="supplierBut">
@@ -415,7 +415,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="invoiceBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="invoiceBtn1">
+            <Component class="javax.swing.JButton" name="reqForQuateBtn">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="80" green="3c" red="0" type="rgb"/>
@@ -433,7 +433,7 @@
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="invoiceBtn1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reqForQuateBtnActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

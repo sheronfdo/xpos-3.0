@@ -5,6 +5,7 @@
  */
 package com.xpos;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.database.DbConnect;
 import com.xpos.encrypt.MD5;
 import java.awt.Toolkit;
@@ -12,8 +13,9 @@ import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -21,33 +23,47 @@ import javax.swing.JOptionPane;
  */
 public class SignIn extends javax.swing.JFrame {
 
+    private static Logger log;
+
     /**
      * Creates new form SignIn
      */
     public SignIn() {
         initComponents();
+        SystemLogger.initLogger();
+        log = Logger.getLogger(SignIn.class);
+        log.info("Programs starts, Login Panel running...");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/xpos/images/icon.png")));
         setLocationRelativeTo(null);
     }
 
     public void signInProcess() {
+        log.info("SignInProcess method runs...");
         try {
             String insertedUsername = username.getText();
             String insertedPassword = MD5.getMd5(new String(password.getPassword()));
             String query = "SELECT Id FROM `userprofile` WHERE `userprofile`.`Username`='"
                     + insertedUsername + "' AND `userprofile`.`Password`='" + insertedPassword + "'";
             ResultSet rs = DbConnect.getFromDB(query);
+            log.info("User inserted login details : " + insertedUsername);
             if (rs.next()) {
+                log.info("User login process completed. User : " + insertedUsername);
                 SystemUser.userId = rs.getInt("Id");
                 SystemUser.username = insertedUsername;
                 new Main().setVisible(true);
                 this.dispose();
             } else {
+                log.info("User login process failed. User : " + insertedUsername);
                 JOptionPane.showMessageDialog(this, "incorrect username and password");
             }
         } catch (ClassNotFoundException ex) {
+            log.error("Login failed.", ex);
             JOptionPane.showMessageDialog(this, ex);
         } catch (SQLException ex) {
+            log.error("Login failed.", ex);
+            JOptionPane.showMessageDialog(this, ex);
+        } catch (Exception ex) {
+            log.error("Login failed.", ex);
             JOptionPane.showMessageDialog(this, ex);
         }
     }
@@ -181,17 +197,20 @@ public class SignIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("User presses enter to focus next text field");
             password.requestFocus();
         }
     }//GEN-LAST:event_usernameKeyReleased
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
+        log.info("User presses login button");
         signInProcess();
     }//GEN-LAST:event_loginActionPerformed
 
     private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("User presses enter to focus login button");
             signInProcess();
         }// TODO add your handling code here:
     }//GEN-LAST:event_passwordKeyPressed

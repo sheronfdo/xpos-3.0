@@ -6,6 +6,7 @@
 package com.xpos;
 
 import com.xpos.commons.CommonVariables;
+import com.xpos.commons.SystemLogger;
 import com.xpos.database.DbConnect;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
@@ -15,8 +16,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -24,11 +25,15 @@ import javax.swing.JFrame;
  */
 public class Main extends javax.swing.JFrame {
 
+    private static Logger log;
+
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
+        SystemLogger.initLogger();
+        log = Logger.getLogger(SignIn.class);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/xpos/images/icon.png")));
         systemUserName.setText(SystemUser.username.toUpperCase());
@@ -37,6 +42,7 @@ public class Main extends javax.swing.JFrame {
         setVisibleFalseAllPanels();
         setDashboardComponent();
         dashboard.setVisible(true);
+        log.info("Dashboard starts...");
     }
 
     Timer myTimer = new Timer();
@@ -54,9 +60,11 @@ public class Main extends javax.swing.JFrame {
 
     public void runDateTime() {
         myTimer.scheduleAtFixedRate(task, 0, 500);
+        log.info("myTimer thread starts...");
     }
 
     public void setDashboardComponent() {
+        log.info("Setting Up dashboard components...");
         dailyCustomerCount.setCompoName(" Today Customers");
         dailySaleCount.setCompoName(" Today Sales");
         dailyPurchaseCount.setCompoName(" Today Purchases");
@@ -96,6 +104,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void updateDashboard() {
+        log.info("updateDashboard method running...");
         String query = null;
         ResultSet rs = null;
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString();
@@ -161,13 +170,16 @@ public class Main extends javax.swing.JFrame {
                 stockItemCount.setCompoValue(Integer.toString(rs.getInt("COUNT(*)")));
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("dashboard update failed...", ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("dashboard update failed...", ex);
+        } catch (Exception ex) {
+            log.error("dashboard update failed...", ex);
         }
     }
 
     public void setVisibleFalseAllPanels() {
+        log.info("set all panels visible false");
         dashboard.setVisible(false);
         supplier.setVisible(false);
         Product.setVisible(false);
@@ -208,7 +220,7 @@ public class Main extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         SideBar = new javax.swing.JPanel();
-        homeBut2 = new javax.swing.JButton();
+        homeBut = new javax.swing.JButton();
         supplierBut = new javax.swing.JButton();
         product = new javax.swing.JButton();
         customer = new javax.swing.JButton();
@@ -221,7 +233,7 @@ public class Main extends javax.swing.JFrame {
         purchaseOrder = new javax.swing.JButton();
         returnPanel = new javax.swing.JButton();
         invoiceBtn = new javax.swing.JButton();
-        invoiceBtn1 = new javax.swing.JButton();
+        reqForQuateBtn = new javax.swing.JButton();
         Header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -295,15 +307,15 @@ public class Main extends javax.swing.JFrame {
 
         SideBar.setBackground(new java.awt.Color(26, 140, 255));
 
-        homeBut2.setBackground(new java.awt.Color(0, 60, 128));
-        homeBut2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        homeBut2.setForeground(new java.awt.Color(255, 255, 255));
-        homeBut2.setText("DASHBOARD");
-        homeBut2.setBorder(null);
-        homeBut2.setFocusPainted(false);
-        homeBut2.addActionListener(new java.awt.event.ActionListener() {
+        homeBut.setBackground(new java.awt.Color(0, 60, 128));
+        homeBut.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        homeBut.setForeground(new java.awt.Color(255, 255, 255));
+        homeBut.setText("DASHBOARD");
+        homeBut.setBorder(null);
+        homeBut.setFocusPainted(false);
+        homeBut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                homeBut2ActionPerformed(evt);
+                homeButActionPerformed(evt);
             }
         });
 
@@ -451,15 +463,15 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        invoiceBtn1.setBackground(new java.awt.Color(0, 60, 128));
-        invoiceBtn1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        invoiceBtn1.setForeground(new java.awt.Color(255, 255, 255));
-        invoiceBtn1.setText("REQUEST FOR QUATE");
-        invoiceBtn1.setBorder(null);
-        invoiceBtn1.setFocusPainted(false);
-        invoiceBtn1.addActionListener(new java.awt.event.ActionListener() {
+        reqForQuateBtn.setBackground(new java.awt.Color(0, 60, 128));
+        reqForQuateBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        reqForQuateBtn.setForeground(new java.awt.Color(255, 255, 255));
+        reqForQuateBtn.setText("REQUEST FOR QUATE");
+        reqForQuateBtn.setBorder(null);
+        reqForQuateBtn.setFocusPainted(false);
+        reqForQuateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                invoiceBtn1ActionPerformed(evt);
+                reqForQuateBtnActionPerformed(evt);
             }
         });
 
@@ -470,7 +482,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(SideBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(homeBut2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(homeBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(supplierBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(customer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -483,14 +495,14 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(purchaseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(returnPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(invoiceBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(invoiceBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(reqForQuateBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         SideBarLayout.setVerticalGroup(
             SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SideBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(homeBut2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(homeBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(supplierBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -516,7 +528,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(invoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(invoiceBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(reqForQuateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1027,149 +1039,160 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void homeBut2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBut2ActionPerformed
+    private void homeButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButActionPerformed
+        log.info("user pressed dashboard(homebut) button");
         setVisibleFalseAllPanels();
         dashboard.setVisible(true);
-    }//GEN-LAST:event_homeBut2ActionPerformed
+    }//GEN-LAST:event_homeButActionPerformed
 
     private void supplierButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierButActionPerformed
+        log.info("user pressed supplierbut button");
         setVisibleFalseAllPanels();
         supplier.setVisible(true);
     }//GEN-LAST:event_supplierButActionPerformed
 
     private void productActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productActionPerformed
+        log.info("user pressed product button");
         setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
     }//GEN-LAST:event_productActionPerformed
 
     private void customerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerActionPerformed
+        log.info("user pressed customer button");
         setVisibleFalseAllPanels();
         Customer.setVisible(true);
     }//GEN-LAST:event_customerActionPerformed
 
     private void exCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exCostActionPerformed
+        log.info("user pressed excost button");
         setVisibleFalseAllPanels();
         ExCost.setVisible(true);
     }//GEN-LAST:event_exCostActionPerformed
 
     private void exIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exIncomeActionPerformed
+        log.info("user pressed exincome button");
         setVisibleFalseAllPanels();
         ExIncome.setVisible(true);
     }//GEN-LAST:event_exIncomeActionPerformed
 
     private void purchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseActionPerformed
+        log.info("user pressed purchase button");
         setVisibleFalseAllPanels();
         Purchase.setVisible(true);
     }//GEN-LAST:event_purchaseActionPerformed
 
     private void saleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleActionPerformed
+        log.info("user pressed sale button");
         setVisibleFalseAllPanels();
         Sale.setVisible(true);
     }//GEN-LAST:event_saleActionPerformed
 
     private void hrmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hrmActionPerformed
+        log.info("user pressed hrm button");
         setVisibleFalseAllPanels();
         HRM.setVisible(true);
     }//GEN-LAST:event_hrmActionPerformed
 
     private void employeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeActionPerformed
+        log.info("user pressed employee button");
         setVisibleFalseAllPanels();
         HRM.setVisible(true);
         Employee.setVisible(true);
     }//GEN-LAST:event_employeeActionPerformed
 
     private void userProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProfileActionPerformed
+        log.info("user pressed userprofile button");
         setVisibleFalseAllPanels();
         HRM.setVisible(true);
         UserProfile.setVisible(true);
     }//GEN-LAST:event_userProfileActionPerformed
 
     private void userPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userPositionActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed userposition button");setVisibleFalseAllPanels();
         HRM.setVisible(true);
         EmpPosition.setVisible(true);
     }//GEN-LAST:event_userPositionActionPerformed
 
     private void supplierProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierProductActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed supplierproduct button");setVisibleFalseAllPanels();
         SupplierProduct.setVisible(true);
     }//GEN-LAST:event_supplierProductActionPerformed
 
     private void purchaseOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseOrderActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed purchaseorder button");setVisibleFalseAllPanels();
         PurchaseOrder.setVisible(true);
     }//GEN-LAST:event_purchaseOrderActionPerformed
 
     private void returnPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnPanelActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed returnpanel button");setVisibleFalseAllPanels();
         Return.setVisible(true);
     }//GEN-LAST:event_returnPanelActionPerformed
 
     private void productBatchPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBatchPanelBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed productbatchpanel button");setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
         Batch.setVisible(true);
     }//GEN-LAST:event_productBatchPanelBtnActionPerformed
 
     private void categoryPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryPanelBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed categorypanel button");setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
         Category.setVisible(true);
     }//GEN-LAST:event_categoryPanelBtnActionPerformed
 
     private void brandPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandPanelBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed brand button");setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
         Brand.setVisible(true);
     }//GEN-LAST:event_brandPanelBtnActionPerformed
 
     private void productPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productPanelBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed productpanel button");setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
         Product.setVisible(true);
     }//GEN-LAST:event_productPanelBtnActionPerformed
 
     private void purchaseInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseInvoiceBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed purchaseinvoice button");setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         PurchaseInvoice.setVisible(true);          // TODO add your handling code here:
     }//GEN-LAST:event_purchaseInvoiceBtnActionPerformed
 
     private void purchaseOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseOrderBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed purchaseorder button");setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         POInvoice.setVisible(true);          // TODO add your handling code here:
     }//GEN-LAST:event_purchaseOrderBtnActionPerformed
 
     private void returnInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnInvoiceBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed returninoice button");setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         ReturnInvoice.setVisible(true);          // TODO add your handling code here:
     }//GEN-LAST:event_returnInvoiceBtnActionPerformed
 
     private void saleInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleInvoiceBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed saleinvoice button");setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         SaleInvoice.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_saleInvoiceBtnActionPerformed
 
     private void invoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed invoice button");setVisibleFalseAllPanels();
         Invoices.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_invoiceBtnActionPerformed
 
-    private void invoiceBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceBtn1ActionPerformed
-        setVisibleFalseAllPanels();
+    private void reqForQuateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqForQuateBtnActionPerformed
+        log.info("user pressed reqforquate button");setVisibleFalseAllPanels();
         reqForQuate.setVisible(true);// TODO add your handling code here:
-    }//GEN-LAST:event_invoiceBtn1ActionPerformed
+    }//GEN-LAST:event_reqForQuateBtnActionPerformed
 
     private void systemUserNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_systemUserNameMouseClicked
-        setVisibleFalseAllPanels();
+        log.info("user pressed systemusername button");setVisibleFalseAllPanels();
         User.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_systemUserNameMouseClicked
 
     private void quateRequestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quateRequestBtnActionPerformed
-        setVisibleFalseAllPanels();
+        log.info("user pressed quaterequest button");setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         QuateInvoice.setVisible(true);
     }//GEN-LAST:event_quateRequestBtnActionPerformed
@@ -1250,10 +1273,9 @@ public class Main extends javax.swing.JFrame {
     private com.xpos.dashboard.component.Dashpanel employeeCount;
     private javax.swing.JButton exCost;
     private javax.swing.JButton exIncome;
-    private javax.swing.JButton homeBut2;
+    private javax.swing.JButton homeBut;
     private javax.swing.JButton hrm;
     private javax.swing.JButton invoiceBtn;
-    private javax.swing.JButton invoiceBtn1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
@@ -1276,6 +1298,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton quateRequestBtn;
     private com.xpos.dashboard.component.Dashpanel remProductCount;
     private com.xpos.gui.ReqForQuate reqForQuate;
+    private javax.swing.JButton reqForQuateBtn;
     private javax.swing.JButton returnInvoiceBtn;
     private javax.swing.JButton returnPanel;
     private javax.swing.JButton sale;

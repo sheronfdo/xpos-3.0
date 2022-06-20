@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.event.KeyEvent;
@@ -18,6 +19,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -28,6 +30,7 @@ public class Employee extends javax.swing.JPanel {
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    private static Logger log;
     int employeeId;
 
     /**
@@ -37,9 +40,13 @@ public class Employee extends javax.swing.JPanel {
         initComponents();
         fillEmpTable(null);
         loadEmpPosCombo();
+        SystemLogger.initLogger();
+        log = Logger.getLogger(EmpPosition.class);
+        log.info("employee panel running start...");
     }
 
     public void clearEmployePanel() {
+        log.info("clear employee form");
         empName.setText("");
         empAddress.setText("");
         empTeleNumber.setText("");
@@ -54,6 +61,7 @@ public class Employee extends javax.swing.JPanel {
     }
 
     private boolean validateForm() {
+        log.info("validate employee form");
         return Validate.isText(empAddress.getText().toString())
                 && Validate.isTelephone(empTeleNumber.getText().toString())
                 && Validate.isNIC(empNIC.getText().toString())
@@ -65,6 +73,7 @@ public class Employee extends javax.swing.JPanel {
     }
 
     public void loadEmpPosCombo() {
+        log.info("loadempposcombo method running");
         try {
             ResultSet rs = DbConnect.getFromDB("select Id,PositionName from employeeposition where status=1");
             Vector v = new Vector();
@@ -74,22 +83,26 @@ public class Employee extends javax.swing.JPanel {
                 v.add(position);
             }
             empPositionCombo.setModel(new DefaultComboBoxModel(v));
+            log.info("combo loaded");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("combobox filling failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("combobox filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("combobox filling failed", e);
         }
     }
 
     public void fillEmpTable(String query) {
+        log.info("fill customer table, query : " + query);
         tablemodel = (DefaultTableModel) empTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
+            log.info("query null assigning the query");
             query = "SELECT * FROM employee join employeeposition on employee.EmployeePosition_id=employeeposition.Id  where employee.status=1";
         }
         try {
+            log.info("execute query");
             ResultSet rs = DbConnect.getFromDB(query);
             while (rs.next()) {
                 Vector v = new Vector();
@@ -107,12 +120,13 @@ public class Employee extends javax.swing.JPanel {
 
                 tablemodel.addRow(v);
             }
+            log.info("table filled with data");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         }
     }
 
@@ -473,7 +487,9 @@ public class Employee extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void empButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButInsertActionPerformed
+        log.info("user presses insert button");
         if (validateForm()) {
+            log.info("form validation passed");
             String name = empName.getText();
             String address = empAddress.getText();
             String teleNumber = empTeleNumber.getText();
@@ -490,22 +506,26 @@ public class Employee extends javax.swing.JPanel {
                     + "','" + joinedDate.format(defaultDateFormat) + "','" + email + "','" + gender + "'," + positionId + ")";
 
             try {
+                log.info("execute query");
                 DbConnect.pushToDB(query);
                 clearEmployePanel();
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             }
         } else {
+            log.info("form validation failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_empButInsertActionPerformed
 
     private void empButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButEditActionPerformed
+        log.info("user presses edit button");
         if (validateForm()) {
+            log.info("form validation passed");
             String name = empName.getText();
             String address = empAddress.getText();
             String teleNumber = empTeleNumber.getText();
@@ -520,31 +540,35 @@ public class Employee extends javax.swing.JPanel {
                     + "',`NIC`='" + NIC + "',`DOB`='" + DOB.format(defaultDateFormat) + "',`JoinedDate`='" + joinedDate.format(defaultDateFormat)
                     + "',`Email`='" + email + "',`Gender`='" + gender + "',`EmployeePosition_id`=" + positionId + " WHERE Id=" + employeeId;
             try {
+                log.info("execute query");
                 DbConnect.pushToDB(query);
                 clearEmployePanel();
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             }//
         } else {
+            log.info("form validation failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_empButEditActionPerformed
 
     private void empButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empButDeleteActionPerformed
+        log.info("user presses delete button");
         String query = "UPDATE `employee` SET Status=0 WHERE Id=" + employeeId;
         try {
+            log.info("execute query");
             DbConnect.pushToDB(query);
             clearEmployePanel();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         }
     }//GEN-LAST:event_empButDeleteActionPerformed
 
@@ -554,6 +578,7 @@ public class Employee extends javax.swing.JPanel {
 
     private void empTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empTableMouseClicked
         try {
+            log.info("user selected table row");
             int selectedRow = empTable.getSelectedRow();
             employeeId = Integer.parseInt(empTable.getValueAt(selectedRow, 0).toString());
 
@@ -568,11 +593,12 @@ public class Employee extends javax.swing.JPanel {
             empGenFemale.setSelected(empTable.getValueAt(selectedRow, 8).toString().equals("Female"));
             empPositionCombo.setSelectedItem(empTable.getValueAt(selectedRow, 9).toString() + " - " + empTable.getValueAt(selectedRow, 10).toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("row selected failed", e);
         }
     }//GEN-LAST:event_empTableMouseClicked
 
     private void empSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empSearchKeyReleased
+        log.info("search form");
         String query = "SELECT * FROM employee join employeeposition on "
                 + "employee.EmployeePosition_id=employeeposition.Id  "
                 + "where employee.status=1 and employee.name like '%" + empSearch.getText() + "%'";
@@ -581,9 +607,12 @@ public class Employee extends javax.swing.JPanel {
 
     private void empNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empNameKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on empname textfield");
             if (Validate.isName(empName.getText())) {
+                log.info("validate process passed");
                 empAddress.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }    // TODO add your handling code here:
@@ -591,9 +620,12 @@ public class Employee extends javax.swing.JPanel {
 
     private void empAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empAddressKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on empaddress textfield");
             if (Validate.isText(empAddress.getText().toString())) {
+                log.info("validate process passed");
                 empTeleNumber.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -602,9 +634,12 @@ public class Employee extends javax.swing.JPanel {
     private void empTeleNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empTeleNumberKeyPressed
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on emptelenumber textfield");
             if (Validate.isTelephone(empTeleNumber.getText().toString())) {
+                log.info("validate process passed");
                 empNIC.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
 
@@ -613,9 +648,12 @@ public class Employee extends javax.swing.JPanel {
 
     private void empNICKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empNICKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on empnic textfield");
             if (Validate.isNIC(empNIC.getText().toString())) {
+                log.info("validate process passed");
                 empDOB.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -623,9 +661,12 @@ public class Employee extends javax.swing.JPanel {
 
     private void empDOBKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empDOBKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on empdob textfield");
             if (Validate.isDate(empDOB.getDate().toString())) {
+                log.info("validate process passed");
                 empJoinedDate.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -633,9 +674,12 @@ public class Employee extends javax.swing.JPanel {
 
     private void empJoinedDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empJoinedDateKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on empjoineddate textfield");
             if (Validate.isDate(empJoinedDate.getDate().toString())) {
+                log.info("validate process passed");
                 empEmail.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -643,9 +687,12 @@ public class Employee extends javax.swing.JPanel {
 
     private void empEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empEmailKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on empemail textfield");
             if (Validate.isEmail(empEmail.getText().toString())) {
+                log.info("validate process passed");
                 empGenMale.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -653,27 +700,34 @@ public class Employee extends javax.swing.JPanel {
 
     private void empGenMaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empGenMaleKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on empgenmale radio button");
             empPositionCombo.requestFocus();
         }
         if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            log.info("user presses space on empgenmale radio button");
             empGenFemale.requestFocus();
         }        // TODO add your handling code here:
     }//GEN-LAST:event_empGenMaleKeyPressed
 
     private void empGenFemaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empGenFemaleKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on empgenfemale radio button");
             empPositionCombo.requestFocus();
         }
         if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            log.info("user presses space on empgenfemale radio button");
             empGenMale.requestFocus();
         }        // TODO add your handling code here:
     }//GEN-LAST:event_empGenFemaleKeyPressed
 
     private void empPositionComboKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empPositionComboKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter on emppositioncombo textfield");
             if (empPositionCombo.getSelectedIndex() > 0) {
+                log.info("validate process passed");
                 empButInsert.requestFocus();
             } else {
+                log.info("validate process failed");
                 JOptionPane.showMessageDialog(null, "Position not selected", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:

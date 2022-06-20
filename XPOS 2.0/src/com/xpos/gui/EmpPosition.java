@@ -473,11 +473,11 @@ public class EmpPosition extends javax.swing.JPanel {
             clearEmpPosPanel();
             log.error("executing query");
         } catch (SQLException e) {
-            log.error("table filling failed", e);
+            log.error("data insert failed", e);
         } catch (ClassNotFoundException e) {
-            log.error("table filling failed", e);
+            log.error("data insert failed", e);
         } catch (Exception e) {
-            log.error("table filling failed", e);
+            log.error("data insert failed", e);
         }
     }//GEN-LAST:event_empPosButInsertActionPerformed
 
@@ -509,11 +509,11 @@ public class EmpPosition extends javax.swing.JPanel {
             clearEmpPosPanel();
             log.error("executing query");
         } catch (SQLException e) {
-            log.error("table filling failed", e);
+            log.error("data edit failed", e);
         } catch (ClassNotFoundException e) {
-            log.error("table filling failed", e);
+            log.error("data edit failed", e);
         } catch (Exception e) {
-            log.error("table filling failed", e);
+            log.error("data edit failed", e);
         }
     }//GEN-LAST:event_empPosButEditActionPerformed
 
@@ -525,11 +525,11 @@ public class EmpPosition extends javax.swing.JPanel {
             clearEmpPosPanel();
             log.error("executing query");
         } catch (SQLException e) {
-            log.error("table filling failed", e);
+            log.error("data delete failed", e);
         } catch (ClassNotFoundException e) {
-            log.error("table filling failed", e);
+            log.error("data delete failed", e);
         } catch (Exception e) {
-            log.error("table filling failed", e);
+            log.error("data delete failed", e);
         }
     }//GEN-LAST:event_empPosButDeleteActionPerformed
 

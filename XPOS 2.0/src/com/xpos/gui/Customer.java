@@ -473,11 +473,11 @@ public class Customer extends javax.swing.JPanel {
                 DbConnect.pushToDB(query);
                 clearCustomerPanel();
             } catch (SQLException e) {
-                log.error("table filling failed", e);
+                log.error("data insert failed", e);
             } catch (ClassNotFoundException e) {
-                log.error("table filling failed", e);
+                log.error("data insert failed", e);
             } catch (Exception e) {
-                log.error("table filling failed", e);
+                log.error("data insert failed", e);
             }
         } else {
             log.info("validate process failed");
@@ -507,11 +507,11 @@ public class Customer extends javax.swing.JPanel {
                 clearCustomerPanel();
                 log.info("table filled with data");
             } catch (SQLException e) {
-                log.error("table filling failed", e);
+                log.error("data edit failed", e);
             } catch (ClassNotFoundException e) {
-                log.error("table filling failed", e);
+                log.error("data edit failed", e);
             } catch (Exception e) {
-                log.error("table filling failed", e);
+                log.error("data edit failed", e);
             }
         } else {
             log.info("validate process failed");

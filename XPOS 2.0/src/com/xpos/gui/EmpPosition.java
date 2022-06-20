@@ -5,12 +5,14 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.database.DbConnect;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -21,6 +23,7 @@ public class EmpPosition extends javax.swing.JPanel {
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    private static Logger log;
     int empPosId;
 
     /**
@@ -29,9 +32,13 @@ public class EmpPosition extends javax.swing.JPanel {
     public EmpPosition() {
         initComponents();
         fillEmpPosTable(null);
+        SystemLogger.initLogger();
+        log = Logger.getLogger(EmpPosition.class);
+        log.info("employee position running start...");
     }
 
     public void clearEmpPosPanel() {
+        log.info("clear employee position panel");
         empPosSearch.setText("");
         empPosName.setText("");
         empPosPerSale.setSelected(false);
@@ -51,12 +58,15 @@ public class EmpPosition extends javax.swing.JPanel {
     }
 
     public void fillEmpPosTable(String query) {
+        log.info("fill customer table, query : " + query);
         tablemodel = (DefaultTableModel) empPosTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
+            log.info("query null then assigning query");
             query = "select * from employeeposition where status=1";
         }
         try {
+            log.info("executing query");
             ResultSet rs = DbConnect.getFromDB(query);
             while (rs.next()) {
                 Vector v = new Vector();
@@ -78,12 +88,13 @@ public class EmpPosition extends javax.swing.JPanel {
 
                 tablemodel.addRow(v);
             }
+            log.info("table filled with data");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         }
     }
 
@@ -433,6 +444,7 @@ public class EmpPosition extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void empPosButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosButInsertActionPerformed
+        log.info("user pressed insert button");
         String name = empPosName.getText();
         boolean salePerm = empPosPerSale.isSelected();
         boolean purchasePerm = empPosPerPurchase.isSelected();
@@ -459,16 +471,18 @@ public class EmpPosition extends javax.swing.JPanel {
         try {
             DbConnect.pushToDB(query);
             clearEmpPosPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("executing query");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
+        } catch (ClassNotFoundException e) {
+            log.error("table filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         }
     }//GEN-LAST:event_empPosButInsertActionPerformed
 
     private void empPosButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosButEditActionPerformed
+        log.info("user pressed edit button");
         String name = empPosName.getText().toString();
         boolean salePerm = empPosPerSale.isSelected();
         boolean purchasePerm = empPosPerPurchase.isSelected();
@@ -493,26 +507,29 @@ public class EmpPosition extends javax.swing.JPanel {
         try {
             DbConnect.pushToDB(query);
             clearEmpPosPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("executing query");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
+        } catch (ClassNotFoundException e) {
+            log.error("table filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         }
     }//GEN-LAST:event_empPosButEditActionPerformed
 
     private void empPosButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosButDeleteActionPerformed
+        log.error("user presses delete button");
         String query = "UPDATE `employeeposition` SET `Status`=0 WHERE `Id`=" + empPosId;
         try {
             DbConnect.pushToDB(query);
             clearEmpPosPanel();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("executing query");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
+        } catch (ClassNotFoundException e) {
+            log.error("table filling failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table filling failed", e);
         }
     }//GEN-LAST:event_empPosButDeleteActionPerformed
 
@@ -525,6 +542,7 @@ public class EmpPosition extends javax.swing.JPanel {
     }//GEN-LAST:event_empPosPerProductsActionPerformed
 
     private void empPosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empPosTableMouseClicked
+        log.info("user clicked table row");
         int selectedRow = empPosTable.getSelectedRow();
         empPosId = Integer.parseInt(empPosTable.getValueAt(selectedRow, 0).toString());
         String posName = empPosTable.getValueAt(selectedRow, 1).toString();
@@ -561,6 +579,7 @@ public class EmpPosition extends javax.swing.JPanel {
     private void empPosSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empPosSearchKeyReleased
         String query = "select * from employeeposition where PositionName like '%" + empPosSearch.getText().toString() + "%'";
         fillEmpPosTable(query);
+        log.info("search function");
     }//GEN-LAST:event_empPosSearchKeyReleased
 
 

@@ -472,7 +472,6 @@ public class Customer extends javax.swing.JPanel {
                 log.info("executing query");
                 DbConnect.pushToDB(query);
                 clearCustomerPanel();
-                log.info("table filled with data");
             } catch (SQLException e) {
                 log.error("table filling failed", e);
             } catch (ClassNotFoundException e) {

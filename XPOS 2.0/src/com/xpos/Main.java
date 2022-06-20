@@ -1106,91 +1106,107 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_userProfileActionPerformed
 
     private void userPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userPositionActionPerformed
-        log.info("user pressed userposition button");setVisibleFalseAllPanels();
+        log.info("user pressed userposition button");
+        setVisibleFalseAllPanels();
         HRM.setVisible(true);
         EmpPosition.setVisible(true);
     }//GEN-LAST:event_userPositionActionPerformed
 
     private void supplierProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierProductActionPerformed
-        log.info("user pressed supplierproduct button");setVisibleFalseAllPanels();
+        log.info("user pressed supplierproduct button");
+        setVisibleFalseAllPanels();
         SupplierProduct.setVisible(true);
     }//GEN-LAST:event_supplierProductActionPerformed
 
     private void purchaseOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseOrderActionPerformed
-        log.info("user pressed purchaseorder button");setVisibleFalseAllPanels();
+        log.info("user pressed purchaseorder button");
+        setVisibleFalseAllPanels();
         PurchaseOrder.setVisible(true);
     }//GEN-LAST:event_purchaseOrderActionPerformed
 
     private void returnPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnPanelActionPerformed
-        log.info("user pressed returnpanel button");setVisibleFalseAllPanels();
+        log.info("user pressed returnpanel button");
+        setVisibleFalseAllPanels();
         Return.setVisible(true);
     }//GEN-LAST:event_returnPanelActionPerformed
 
     private void productBatchPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBatchPanelBtnActionPerformed
-        log.info("user pressed productbatchpanel button");setVisibleFalseAllPanels();
+        log.info("user pressed productbatchpanel button");
+        setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
         Batch.setVisible(true);
     }//GEN-LAST:event_productBatchPanelBtnActionPerformed
 
     private void categoryPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryPanelBtnActionPerformed
-        log.info("user pressed categorypanel button");setVisibleFalseAllPanels();
+        log.info("user pressed categorypanel button");
+        setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
         Category.setVisible(true);
     }//GEN-LAST:event_categoryPanelBtnActionPerformed
 
     private void brandPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandPanelBtnActionPerformed
-        log.info("user pressed brand button");setVisibleFalseAllPanels();
+        log.info("user pressed brand button");
+        setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
         Brand.setVisible(true);
     }//GEN-LAST:event_brandPanelBtnActionPerformed
 
     private void productPanelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productPanelBtnActionPerformed
-        log.info("user pressed productpanel button");setVisibleFalseAllPanels();
+        log.info("user pressed productpanel button");
+        setVisibleFalseAllPanels();
         ProductDetail.setVisible(true);
         Product.setVisible(true);
     }//GEN-LAST:event_productPanelBtnActionPerformed
 
     private void purchaseInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseInvoiceBtnActionPerformed
-        log.info("user pressed purchaseinvoice button");setVisibleFalseAllPanels();
+        log.info("user pressed purchaseinvoice button");
+        setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         PurchaseInvoice.setVisible(true);          // TODO add your handling code here:
     }//GEN-LAST:event_purchaseInvoiceBtnActionPerformed
 
     private void purchaseOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseOrderBtnActionPerformed
-        log.info("user pressed purchaseorder button");setVisibleFalseAllPanels();
+        log.info("user pressed purchaseorder button");
+        setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         POInvoice.setVisible(true);          // TODO add your handling code here:
     }//GEN-LAST:event_purchaseOrderBtnActionPerformed
 
     private void returnInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnInvoiceBtnActionPerformed
-        log.info("user pressed returninoice button");setVisibleFalseAllPanels();
+        log.info("user pressed returninoice button");
+        setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         ReturnInvoice.setVisible(true);          // TODO add your handling code here:
     }//GEN-LAST:event_returnInvoiceBtnActionPerformed
 
     private void saleInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleInvoiceBtnActionPerformed
-        log.info("user pressed saleinvoice button");setVisibleFalseAllPanels();
+        log.info("user pressed saleinvoice button");
+        setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         SaleInvoice.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_saleInvoiceBtnActionPerformed
 
     private void invoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceBtnActionPerformed
-        log.info("user pressed invoice button");setVisibleFalseAllPanels();
+        log.info("user pressed invoice button");
+        setVisibleFalseAllPanels();
         Invoices.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_invoiceBtnActionPerformed
 
     private void reqForQuateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqForQuateBtnActionPerformed
-        log.info("user pressed reqforquate button");setVisibleFalseAllPanels();
+        log.info("user pressed reqforquate button");
+        setVisibleFalseAllPanels();
         reqForQuate.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_reqForQuateBtnActionPerformed
 
     private void systemUserNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_systemUserNameMouseClicked
-        log.info("user pressed systemusername button");setVisibleFalseAllPanels();
+        log.info("user pressed systemusername button");
+        setVisibleFalseAllPanels();
         User.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_systemUserNameMouseClicked
 
     private void quateRequestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quateRequestBtnActionPerformed
-        log.info("user pressed quaterequest button");setVisibleFalseAllPanels();
+        log.info("user pressed quaterequest button");
+        setVisibleFalseAllPanels();
         Invoices.setVisible(true);
         QuateInvoice.setVisible(true);
     }//GEN-LAST:event_quateRequestBtnActionPerformed

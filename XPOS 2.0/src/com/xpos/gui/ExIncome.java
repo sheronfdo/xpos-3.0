@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,6 +29,7 @@ public class ExIncome extends javax.swing.JPanel {
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    private static Logger log;
     int xIncomeId;
 
     /**
@@ -35,15 +38,20 @@ public class ExIncome extends javax.swing.JPanel {
     public ExIncome() {
         initComponents();
         fillExIncomeTable(null);
+        SystemLogger.initLogger();
+        log = Logger.getLogger(ExIncome.class);
+        log.info("exincome panel running start...");
     }
 
     private boolean validateForm() {
+        log.info("validate exincome form");
         return Validate.isDate(xIncomeDate.getDate().toString())
                 && Validate.isText(xIncomeDescription.getText().toString())
                 && Validate.isDoubleNumber(xIncomeAmount.getText().toString());
     }
 
     public void clearExIncomePanel() {
+        log.info("clear exincome panel");
         xIncomeDate.setDate(null);
         xIncomeDescription.setText("");
         xIncomeAmount.setText("");
@@ -52,13 +60,16 @@ public class ExIncome extends javax.swing.JPanel {
     }
 
     public void fillExIncomeTable(String query) {
+        log.info("fill table");
         tablemodel = (DefaultTableModel) xIncomeTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
+            log.info("assign query because null");
             query = "select * from exincome where Status=1";
         }
         try {
             ResultSet rs = DbConnect.getFromDB(query);
+            log.info("executing query");
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getInt("Id"));
@@ -67,12 +78,13 @@ public class ExIncome extends javax.swing.JPanel {
                 v.add(rs.getDouble("IncomeAmount"));
                 tablemodel.addRow(v);
             }
+            log.info("table filled");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table fill failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("table fill failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table fill failed", e);
         }
 
     }
@@ -307,67 +319,79 @@ public class ExIncome extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void xIncomeButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButInsertActionPerformed
+        log.info("user presses insert button");
         if (validateForm()) {
+            log.info("form validate passed");
             LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String desc = xIncomeDescription.getText().toString();
             double amount = Double.valueOf(xIncomeAmount.getText().toString());
             String query = "INSERT INTO `exincome`(`Date`, `Description`, `IncomeAmount`) VALUES ('" + date.format(defaultDateFormat)
                     + "','" + desc + "'," + amount + ")";
             try {
+                log.info("execute query");
                 DbConnect.pushToDB(query);
                 clearExIncomePanel();
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             }
         } else {
+            log.info("form validate failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_xIncomeButInsertActionPerformed
 
     private void xIncomeButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButEditActionPerformed
+        log.info("user presses edit button");
         if (validateForm()) {
+            log.info("form validate passed");
             LocalDate date = xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String desc = xIncomeDescription.getText().toString();
             double amount = Double.valueOf(xIncomeAmount.getText().toString());
             String query = "update exincome set Date='" + date + "',Description='" + desc + "',IncomeAmount=" + amount + " where Id=" + xIncomeId;
             try {
+                log.info("execute query");
                 DbConnect.pushToDB(query);
                 clearExIncomePanel();
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             }
         } else {
+            log.info("form validate failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_xIncomeButEditActionPerformed
 
     private void xIncomeButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButDeleteActionPerformed
+        log.info("user presses delete button");
         String query = "update exincome set Status=0 where Id=" + xIncomeId;
         try {
+            log.info("execute query");
             DbConnect.pushToDB(query);
             clearExIncomePanel();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         }
     }//GEN-LAST:event_xIncomeButDeleteActionPerformed
 
     private void xIncomeButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xIncomeButCancelActionPerformed
+        log.info("user presses cancel button");
         clearExIncomePanel();
     }//GEN-LAST:event_xIncomeButCancelActionPerformed
 
     private void xIncomeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xIncomeTableMouseClicked
+        log.info("user selected a row");
         int selectedRow = xIncomeTable.getSelectedRow();
         try {
             xIncomeId = Integer.parseInt(xIncomeTable.getValueAt(selectedRow, 0).toString());
@@ -375,20 +399,24 @@ public class ExIncome extends javax.swing.JPanel {
             xIncomeDescription.setText(xIncomeTable.getValueAt(selectedRow, 2).toString());
             xIncomeAmount.setText(xIncomeTable.getValueAt(selectedRow, 3).toString());
         } catch (Exception e) {
-
+            log.error("row selection failed", e);
         }
     }//GEN-LAST:event_xIncomeTableMouseClicked
 
     private void xIncomeSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeSearchKeyReleased
         String query = "select * from exincome where Description like '%" + xIncomeSearch.getText().toString() + "%' and status=1";
         fillExIncomeTable(query);
+        log.info("xincome search : query = " + query);
     }//GEN-LAST:event_xIncomeSearchKeyReleased
 
     private void xIncomeDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeDateKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter to date chooser");
             if (Validate.isDate(xIncomeDate.getDate().toString())) {
+                log.info("date validation passed and set focus to description");
                 xIncomeDescription.requestFocus();
             } else {
+                log.info("date validation failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }         // TODO add your handling code here:
@@ -396,9 +424,12 @@ public class ExIncome extends javax.swing.JPanel {
 
     private void xIncomeDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeDescriptionKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter to description text field");
             if (Validate.isText(xIncomeDescription.getText().toString())) {
+                log.info("validation passed and set focus to amount");
                 xIncomeAmount.requestFocus();
             } else {
+                log.info("validation failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -406,9 +437,12 @@ public class ExIncome extends javax.swing.JPanel {
 
     private void xIncomeAmountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeAmountKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                log.info("user presses enter to amount field");
             if (Validate.isDoubleNumber(xIncomeAmount.getText().toString())) {
+                log.info("validation passed");
                 xIncomeButInsert.requestFocus();
             } else {
+                log.info("validation failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:

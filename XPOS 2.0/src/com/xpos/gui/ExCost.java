@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,6 +29,7 @@ public class ExCost extends javax.swing.JPanel {
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    private static Logger log;
     int xCostId;
 
     /**
@@ -35,15 +38,20 @@ public class ExCost extends javax.swing.JPanel {
     public ExCost() {
         initComponents();
         fillExCostTable(null);
+        SystemLogger.initLogger();
+        log = Logger.getLogger(ExCost.class);
+        log.info("excost panel running start...");
     }
 
     private boolean validateForm() {
+        log.info("validate excost form");
         return Validate.isDate(xCostDate.getDate().toString())
                 && Validate.isText(xCostDescription.getText().toString())
                 && Validate.isDoubleNumber(xCostAmount.getText().toString());
     }
 
     public void clearExCostPanel() {
+        log.info("validate excost form");
         xCostDate.setDate(null);
         xCostDescription.setText("");
         xCostAmount.setText("");
@@ -52,13 +60,16 @@ public class ExCost extends javax.swing.JPanel {
     }
 
     private void fillExCostTable(String query) {
+        log.info("fill table");
         tablemodel = (DefaultTableModel) xCostTable.getModel();
         tablemodel.setRowCount(0);
         if (query == null) {
+            log.info("assign query because null");
             query = "select * from excost where Status=1";
         }
         try {
             ResultSet rs = DbConnect.getFromDB(query);
+            log.info("executing query");
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getInt("Id"));
@@ -67,12 +78,13 @@ public class ExCost extends javax.swing.JPanel {
                 v.add(rs.getDouble("CostAmount"));
                 tablemodel.addRow(v);
             }
+            log.info("table filled");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("table fill failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("table fill failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("table fill failed", e);
         }
     }
 
@@ -306,67 +318,79 @@ public class ExCost extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void xCostButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButInsertActionPerformed
+        log.info("user presses insert button");
         if (validateForm()) {
+            log.info("form validate passed");
             LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String desc = xCostDescription.getText().toString();
             double amount = Double.valueOf(xCostAmount.getText().toString());
             String query = "INSERT INTO `excost`(`Date`, `Description`, `CostAmount`) VALUES ('" + date.format(defaultDateFormat)
                     + "','" + desc + "'," + amount + ")";
             try {
+                log.info("execute query");
                 DbConnect.pushToDB(query);
                 clearExCostPanel();
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("data insert failed", e);
             }
         } else {
+            log.info("form validate failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_xCostButInsertActionPerformed
 
     private void xCostButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButEditActionPerformed
+        log.info("user presses edit button");
         if (validateForm()) {
+            log.info("form validate passed");
             LocalDate date = xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String desc = xCostDescription.getText().toString();
             double amount = Double.valueOf(xCostAmount.getText().toString());
             String query = "update excost set Date='" + date + "',Description='" + desc + "',CostAmount=" + amount + " where Id=" + xCostId;
             try {
+                log.info("execute query");
                 DbConnect.pushToDB(query);
                 clearExCostPanel();
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("data edit failed", e);
             }
         } else {
+            log.info("form validate failed");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }//GEN-LAST:event_xCostButEditActionPerformed
 
     private void xCostButDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButDeleteActionPerformed
+        log.info("user presses delete button");
         String query = "update excost set Status=0 where Id=" + xCostId;
         try {
+            log.info("execute query");
             DbConnect.pushToDB(query);
             clearExCostPanel();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("data delete failed", e);
         }// TODO add your handling code here:
     }//GEN-LAST:event_xCostButDeleteActionPerformed
 
     private void xCostButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCostButCancelActionPerformed
+        log.info("user presses cancel button");
         clearExCostPanel();
     }//GEN-LAST:event_xCostButCancelActionPerformed
 
     private void xCostTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xCostTableMouseClicked
+        log.info("user selected a row");
         int selectedRow = xCostTable.getSelectedRow();
         try {
             xCostId = Integer.parseInt(xCostTable.getValueAt(selectedRow, 0).toString());
@@ -374,20 +398,24 @@ public class ExCost extends javax.swing.JPanel {
             xCostDescription.setText(xCostTable.getValueAt(selectedRow, 2).toString());
             xCostAmount.setText(xCostTable.getValueAt(selectedRow, 3).toString());
         } catch (Exception e) {
-
+            log.error("row selection failed", e);
         }
     }//GEN-LAST:event_xCostTableMouseClicked
 
     private void xCostSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostSearchKeyReleased
         String query = "select * from excost where Description like '%" + xCostSearch.getText().toString() + "%' and status=1";
         fillExCostTable(query);
+        log.info("xcost search : query = " + query);
     }//GEN-LAST:event_xCostSearchKeyReleased
 
     private void xCostDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostDateKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter to date chooser");
             if (Validate.isDate(xCostDate.getDate().toString())) {
+                log.info("date validation passed and set focus to description");
                 xCostDescription.requestFocus();
             } else {
+                log.info("date validation failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }        // TODO add your handling code here:
@@ -395,9 +423,12 @@ public class ExCost extends javax.swing.JPanel {
 
     private void xCostDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostDescriptionKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter to description text field");
             if (Validate.isText(xCostDescription.getText().toString())) {
+                log.info("validation passed and set focus to amount");
                 xCostAmount.requestFocus();
             } else {
+                log.info("validation failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }   // TODO add your handling code here:
@@ -405,9 +436,12 @@ public class ExCost extends javax.swing.JPanel {
 
     private void xCostAmountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostAmountKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                log.info("user presses enter to amount field");
             if (Validate.isDoubleNumber(xCostAmount.getText().toString())) {
+                log.info("validation passed");
                 xCostButInsert.requestFocus();
             } else {
+                log.info("validation failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
         }         // TODO add your handling code here:

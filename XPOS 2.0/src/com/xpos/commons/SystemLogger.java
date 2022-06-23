@@ -8,7 +8,6 @@ package com.xpos.commons;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-
 /**
  *
  * @author Jamith
@@ -19,7 +18,7 @@ public class SystemLogger {
      * @param args the command line arguments
      */
     
-    public static void initLogger(){
+     public static void initLogger(){
         PropertyConfigurator.configure(new SystemLogger().getClass().getResource("log4j.properties"));
     }
 }

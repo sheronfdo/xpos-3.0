@@ -37,10 +37,10 @@ public class ExCost extends javax.swing.JPanel {
      */
     public ExCost() {
         initComponents();
-        fillExCostTable(null);
         SystemLogger.initLogger();
         log = Logger.getLogger(ExCost.class);
         log.info("excost panel running start...");
+        fillExCostTable(null);
     }
 
     private boolean validateForm() {
@@ -60,9 +60,9 @@ public class ExCost extends javax.swing.JPanel {
     }
 
     private void fillExCostTable(String query) {
-        log.info("fill table");
         tablemodel = (DefaultTableModel) xCostTable.getModel();
         tablemodel.setRowCount(0);
+        log.info("fill table, query : "+query);
         if (query == null) {
             log.info("assign query because null");
             query = "select * from excost where Status=1";
@@ -436,7 +436,7 @@ public class ExCost extends javax.swing.JPanel {
 
     private void xCostAmountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xCostAmountKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                log.info("user presses enter to amount field");
+            log.info("user presses enter to amount field");
             if (Validate.isDoubleNumber(xCostAmount.getText().toString())) {
                 log.info("validation passed");
                 xCostButInsert.requestFocus();

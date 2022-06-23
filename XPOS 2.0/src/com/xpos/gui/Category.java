@@ -308,7 +308,7 @@ public class Category extends javax.swing.JPanel {
     }//GEN-LAST:event_categoryTableMouseClicked
 
     private void catSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catSearchActionPerformed
-        // TODO add your handling code here:
+         //TODO add your handling code here:
     }//GEN-LAST:event_catSearchActionPerformed
 
     private void catSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_catSearchKeyReleased

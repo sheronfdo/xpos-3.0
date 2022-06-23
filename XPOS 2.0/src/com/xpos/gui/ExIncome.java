@@ -37,10 +37,10 @@ public class ExIncome extends javax.swing.JPanel {
      */
     public ExIncome() {
         initComponents();
-        fillExIncomeTable(null);
         SystemLogger.initLogger();
         log = Logger.getLogger(ExIncome.class);
         log.info("exincome panel running start...");
+        fillExIncomeTable(null);
     }
 
     private boolean validateForm() {
@@ -60,9 +60,9 @@ public class ExIncome extends javax.swing.JPanel {
     }
 
     public void fillExIncomeTable(String query) {
-        log.info("fill table");
         tablemodel = (DefaultTableModel) xIncomeTable.getModel();
         tablemodel.setRowCount(0);
+        log.info("fill table, query : "+query);
         if (query == null) {
             log.info("assign query because null");
             query = "select * from exincome where Status=1";
@@ -437,7 +437,7 @@ public class ExIncome extends javax.swing.JPanel {
 
     private void xIncomeAmountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_xIncomeAmountKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                log.info("user presses enter to amount field");
+            log.info("user presses enter to amount field");
             if (Validate.isDoubleNumber(xIncomeAmount.getText().toString())) {
                 log.info("validation passed");
                 xIncomeButInsert.requestFocus();

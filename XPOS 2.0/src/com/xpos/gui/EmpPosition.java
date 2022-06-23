@@ -31,10 +31,10 @@ public class EmpPosition extends javax.swing.JPanel {
      */
     public EmpPosition() {
         initComponents();
-        fillEmpPosTable(null);
         SystemLogger.initLogger();
         log = Logger.getLogger(EmpPosition.class);
         log.info("employee position running start...");
+        fillEmpPosTable(null);
     }
 
     public void clearEmpPosPanel() {
@@ -444,7 +444,7 @@ public class EmpPosition extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void empPosButInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosButInsertActionPerformed
-        log.info("user pressed insert button");
+        //log.info("user pressed insert button");
         String name = empPosName.getText();
         boolean salePerm = empPosPerSale.isSelected();
         boolean purchasePerm = empPosPerPurchase.isSelected();
@@ -482,7 +482,7 @@ public class EmpPosition extends javax.swing.JPanel {
     }//GEN-LAST:event_empPosButInsertActionPerformed
 
     private void empPosButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empPosButEditActionPerformed
-        log.info("user pressed edit button");
+        //log.info("user pressed edit button");
         String name = empPosName.getText().toString();
         boolean salePerm = empPosPerSale.isSelected();
         boolean purchasePerm = empPosPerPurchase.isSelected();

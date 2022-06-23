@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.commons.SystemLogger;
 import com.xpos.database.DbConnect;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,11 +24,15 @@ import javax.swing.JOptionPane;
  */
 public class POInvoice extends javax.swing.JPanel {
 
+    private static org.apache.log4j.Logger log;
     /**
      * Creates new form Brand
      */
     public POInvoice() {
         initComponents();
+        SystemLogger.initLogger();
+        log = org.apache.log4j.Logger.getLogger(ExIncome.class);
+        log.info("exincome panel running start...");
         fillPOInvoiceTable(null);
     }
 

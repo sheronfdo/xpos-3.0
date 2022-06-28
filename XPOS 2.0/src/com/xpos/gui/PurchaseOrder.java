@@ -6,6 +6,7 @@
 package com.xpos.gui;
 
 import com.xpos.SystemUser;
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
@@ -37,7 +38,7 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class PurchaseOrder extends javax.swing.JPanel {
 
-    int supplierId=0;
+    int supplierId = 0;
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
@@ -77,6 +78,9 @@ public class PurchaseOrder extends javax.swing.JPanel {
     private void fillPurchaseOrderProdTable(String query) {
         tablemodel = (DefaultTableModel) purchOrderProdTable.getModel();
         tablemodel.setRowCount(0);
+        supplierId = Validate.isDoubleNumber(purchOrderSupplierCombo.getSelectedItem().toString().split(" - ")[0].trim().toString()) ?
+                Integer.parseInt(purchOrderSupplierCombo.getSelectedItem().toString().split(" - ")[0].trim()) :
+                Integer.parseInt("0");
         if (query == null) {
             query = "SELECT product.Id as productid,"
                     + " product.Description as productname,"
@@ -642,49 +646,71 @@ public class PurchaseOrder extends javax.swing.JPanel {
     }//GEN-LAST:event_purchOrderSupplierComboActionPerformed
 
     private void purchOrderProductIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchOrderProductIdKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String query = "SELECT `Id`, `Description` FROM `product` WHERE status=1 and Id="
-                    + purchOrderProductId.getText();
-            try {
-                ResultSet rs = DbConnect.getFromDB(query);
-                if (rs.next()) {
-                    purchOrderDescription.setText(rs.getString("Description").toString());
+        if ((evt.getKeyCode() == KeyEvent.VK_ENTER) && (purchOrderSupplierCombo.getSelectedIndex()>0)) {
+            if (Validate.isNumber(purchOrderProductId.getText())) {
+                String query = "SELECT `Id`, `Description` FROM `product` WHERE status=1 and Id="
+                        + purchOrderProductId.getText();
+                try {
+                    ResultSet rs = DbConnect.getFromDB(query);
+                    if (rs.next()) {
+                        purchOrderDescription.setText(rs.getString("Description").toString());
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            //purchBarcode.setText("");
-            purchOrderStockQuantity.setText("");
-            //purchOrderOrderedQuantity.setText("");
-            //purchPurchasePrice.setText("");
-            purchOrderQuantity.setText("");
-            purchOrderBrand.setText("");
+                //purchBarcode.setText("");
+                purchOrderStockQuantity.setText("");
+                //purchOrderOrderedQuantity.setText("");
+                //purchPurchasePrice.setText("");
+                purchOrderQuantity.setText("");
+                purchOrderBrand.setText("");
 
-            String query1 = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
-                    + " product.Category_Id as categoryId, category.Description as categoryName,"
-                    + " product.Description as description, product.TotalQuantity as totalQuantity, product.orderedQuantity as orderedQuantity"
-                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
-                    + " WHERE product.Status = 1 and product.Id=" + purchOrderProductId.getText();
-            fillPurchaseOrderProdTable(query1);
-            String query2 = "SELECT batchesofproduct.Id as batchid,"
-                    + " batchesofproduct.Barcode as Barcode,"
-                    + " batchesofproduct.BatchNumber as BatchNumber,"
-                    + " batchesofproduct.QuantityByBatch as quantity,"
-                    + " batchesofproduct.PurchasePrice as purchPrice,"
-                    + " batchesofproduct.RetailPrice AS RetailPrice"
-                    + " FROM batchesofproduct "
-                    + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id=" + purchOrderProductId.getText();
-            //fillPurchaseBatchTable(query2);
+                String query1 = "SELECT product.Id as productid,"
+                        + " product.Brand_Id as brandId,"
+                        + " brand.BrandName as brand,"
+                        + " product.Category_Id as categoryId,"
+                        + " category.Description as category,"
+                        + " product.Description as productname,"
+                        + " product.TotalQuantity as productstock,"
+                        + " product.orderedQuantity as orderedquantity,"
+                        + " product.ReOrderLevel as reorderlevel,"
+                        + " (SELECT supplierproduct.ItemCode FROM supplierproduct WHERE supplierproduct.Product_Id=productid AND supplierproduct.Supplier_Id="
+                        + Integer.parseInt(purchOrderSupplierCombo.getSelectedItem().toString().split(" - ")[0].trim()) + ") as itemcode"
+                        + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id)"
+                        + " JOIN category ON product.Category_Id=category.Id)"
+                        + " WHERE product.Status = 1 and product.Id=" + purchOrderProductId.getText();
+                fillPurchaseOrderProdTable(query1);
+
+//                String query2 = "SELECT batchesofproduct.Id as batchid,"
+//                        + " batchesofproduct.Barcode as Barcode,"
+//                        + " batchesofproduct.BatchNumber as BatchNumber,"
+//                        + " batchesofproduct.QuantityByBatch as quantity,"
+//                        + " batchesofproduct.PurchasePrice as purchPrice,"
+//                        + " batchesofproduct.RetailPrice AS RetailPrice"
+//                        + " FROM batchesofproduct "
+//                        + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id=" + purchOrderProductId.getText();
+                //fillPurchaseBatchTable(query2);
+            } else {
+                JOptionPane.showMessageDialog(null, "Input Validation Failed", "Invalid Number Format", 1);
+            }
+
+        } else {
+        JOptionPane.showMessageDialog(null, "Supplier not selected", "Please select supplier", 1);
         }
     }//GEN-LAST:event_purchOrderProductIdKeyReleased
 
     private void purchOrderQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchOrderQuantityKeyReleased
-        double purchPrice = Double.parseDouble(purchOrderPurchasePrice.getText().toString());
-        int quantity = Integer.parseInt(purchOrderQuantity.getText().toString());
-        double total = purchPrice * quantity;
-        purchOrderProductTotal.setText(Double.toString(total));
+        if (Validate.isDoubleNumber(purchOrderQuantity.getText())) {
+            double purchPrice = Double.parseDouble(purchOrderPurchasePrice.getText().toString());
+            int quantity = Integer.parseInt(purchOrderQuantity.getText().toString());
+            double total = purchPrice * quantity;
+            purchOrderProductTotal.setText(Double.toString(total));
+        } else {
+            JOptionPane.showMessageDialog(null, "Input Validation Failed", "Invalid Number Format", 1);
+        }
+
     }//GEN-LAST:event_purchOrderQuantityKeyReleased
 
     private void purchOrderAddToTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchOrderAddToTableActionPerformed
@@ -758,7 +784,7 @@ public class PurchaseOrder extends javax.swing.JPanel {
                 try {
                     String itemQuery = "INSERT INTO `purchaseorderitem`(`PurchaseOrder_Id`,"
                             + " `Product_Id`, `ItemPrice`, `Quantity`, `TotalPrice`)"
-                            + " VALUES ("+currentPurchaseOrderId+","+proId+","+purchPrice+","+quantity+","+itemTotal+")";
+                            + " VALUES (" + currentPurchaseOrderId + "," + proId + "," + purchPrice + "," + quantity + "," + itemTotal + ")";
 
                     String updateProduct = "UPDATE product SET TotalQuantity=TotalQuantity+"
                             + quantity + ", OrderedQuantity=OrderedQuantity+" + quantity + " WHERE Id=" + proId;
@@ -802,7 +828,7 @@ public class PurchaseOrder extends javax.swing.JPanel {
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void purchOrderDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchOrderDeleteItemActionPerformed
         try {
             tablemodel = (DefaultTableModel) purchOrderProduct.getModel();
@@ -820,7 +846,12 @@ public class PurchaseOrder extends javax.swing.JPanel {
         if (purchOrderDiscount.getText().toString().equals("")) {
             purchOrderDiscount.setText("0");
         }
-        calPurchaseOrderDetails();
+        if (Validate.isDoubleNumber(purchOrderDiscount.getText())) {
+            calPurchaseOrderDetails();
+        } else {
+            JOptionPane.showMessageDialog(null, "Input Validation Failed", "Invalid Number Format", 1);
+        }
+
     }//GEN-LAST:event_purchOrderDiscountKeyReleased
 
     private void purchOrderDisAmountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchOrderDisAmountMouseClicked
@@ -865,7 +896,11 @@ public class PurchaseOrder extends javax.swing.JPanel {
 
     private void purchOrderPurchasePriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchOrderPurchasePriceKeyReleased
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER) && (purchOrderPurchasePrice.getText().length() > 0)) {
-            purchOrderQuantity.requestFocus();
+            if (Validate.isDoubleNumber(purchOrderPurchasePrice.getText())) {
+                purchOrderQuantity.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Input Validation Failed", "Invalid Number Format", 1);
+            }
         }
     }//GEN-LAST:event_purchOrderPurchasePriceKeyReleased
 

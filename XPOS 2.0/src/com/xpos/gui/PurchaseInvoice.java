@@ -288,21 +288,25 @@ public class PurchaseInvoice extends javax.swing.JPanel {
     private void purchaseSearchByInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_purchaseSearchByInvoiceKeyReleased
         String query = null;
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            int saleId = Integer.parseInt(purchaseSearchByInvoice.getText().toString().equals("") ? "0" : purchaseSearchByInvoice.getText().toString());
-            if (saleId != 0) {
-                query = "SELECT purchase.`Id` as purchaseId,"
-                        + " purchase.`PurchaseOrder_Id` as POId,"
-                        + " purchase.`Supplier_Id` as supplierId,"
-                        + " supplier.Name as supplierName,"
-                        + " purchase.`PurchaseDate` PDate,"
-                        + " purchase.`Total` as total,"
-                        + " purchase.`Discount` as discount,"
-                        + " purchase.`Balance` as balance,"
-                        + " userprofile.Username as username"
-                        + " FROM `purchase`"
-                        + " JOIN supplier on purchase.Supplier_Id=supplier.Id"
-                        + " JOIN userprofile on purchase.UserProfile_Id=userprofile.Id"
-                        + " WHERE purchase.Status=1 and purchase.id=" + saleId;
+            if (Validate.isNumber(purchaseSearchByInvoice.getText().toString().equals("") ? "0" : purchaseSearchByInvoice.getText().toString())) {
+                int saleId = Integer.parseInt(purchaseSearchByInvoice.getText().toString().equals("") ? "0" : purchaseSearchByInvoice.getText().toString());
+                if (saleId != 0) {
+                    query = "SELECT purchase.`Id` as purchaseId,"
+                            + " purchase.`PurchaseOrder_Id` as POId,"
+                            + " purchase.`Supplier_Id` as supplierId,"
+                            + " supplier.Name as supplierName,"
+                            + " purchase.`PurchaseDate` PDate,"
+                            + " purchase.`Total` as total,"
+                            + " purchase.`Discount` as discount,"
+                            + " purchase.`Balance` as balance,"
+                            + " userprofile.Username as username"
+                            + " FROM `purchase`"
+                            + " JOIN supplier on purchase.Supplier_Id=supplier.Id"
+                            + " JOIN userprofile on purchase.UserProfile_Id=userprofile.Id"
+                            + " WHERE purchase.Status=1 and purchase.id=" + saleId;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Input Validation Failed", "Validation Failed", 1);
             }
         }
         fillPurchaseInvoiceTable(query);

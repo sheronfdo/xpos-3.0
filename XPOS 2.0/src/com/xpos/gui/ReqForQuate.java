@@ -6,7 +6,9 @@
 package com.xpos.gui;
 
 import com.xpos.SystemUser;
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -535,12 +537,15 @@ public class ReqForQuate extends javax.swing.JPanel {
                 + " INNER JOIN category ON category.Id=product.Category_Id)"
                 + " WHERE product.TotalQuantity<product.ReOrderLevel and product.Description like '%"
                 + RFQProdDescriptionSearch.getText().toString() + "%' and product.Status=1";
-
         fillSupplierProductTable(query);
     }//GEN-LAST:event_RFQProdDescriptionSearchKeyReleased
 
     private void RFQQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RFQQuantityKeyReleased
-        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && Validate.isNumber(RFQQuantity.getText())) {
+            RFQAddToTable.setFocusable(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Form Validation FAiled", "Invalid Number Format", 1);
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_RFQQuantityKeyReleased
 
     private void RFQAddToTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RFQAddToTableActionPerformed
@@ -632,7 +637,7 @@ public class ReqForQuate extends javax.swing.JPanel {
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void RFQDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RFQDeleteItemActionPerformed
         try {
             tablemodel = (DefaultTableModel) RFQTable.getModel();

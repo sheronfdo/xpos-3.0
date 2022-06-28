@@ -23,7 +23,6 @@ public class Validate {
 
     public static boolean isNumber(String in) {
         return Pattern.matches("[0-9]+", in);
-
     }
 
     public static boolean isDoubleNumber(String in) {

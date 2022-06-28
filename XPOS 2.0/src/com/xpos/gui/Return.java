@@ -6,6 +6,7 @@
 package com.xpos.gui;
 
 import com.xpos.SystemUser;
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
@@ -43,7 +44,7 @@ public class Return extends javax.swing.JPanel {
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
     boolean invoiceSelectPanel = false;
-    
+
     SelectInvoicePopup selectInvoicePopup = new SelectInvoicePopup();
 
     //return data
@@ -967,7 +968,11 @@ public class Return extends javax.swing.JPanel {
     }//GEN-LAST:event_returnSoldItemSearchKeyReleased
 
     private void returnQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_returnQuantityKeyReleased
-        calRefundAmount();
+        if (Validate.isNumber(returnQuantity.getText())) {
+            calRefundAmount();
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
+        }
     }//GEN-LAST:event_returnQuantityKeyReleased
 
     private void returnAddToTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnAddToTableActionPerformed
@@ -1043,7 +1048,7 @@ public class Return extends javax.swing.JPanel {
                             sql.setInt(1, curReturnQuantity);
                             sql.setInt(2, curReturnProductId);
                             sql.executeUpdate();
-                        }else{
+                        } else {
                             query1 = "INSERT INTO `removedproduct`(`Product_Id`, `Quantity`) VALUES (?,?)";
                             sql = DbConnect.getDBConnection().prepareStatement(query1);
                             sql.setInt(1, curReturnProductId);
@@ -1076,7 +1081,7 @@ public class Return extends javax.swing.JPanel {
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void returnDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDeleteItemActionPerformed
         try {
             tablemodel = (DefaultTableModel) returnTable.getModel();
@@ -1101,7 +1106,7 @@ public class Return extends javax.swing.JPanel {
             invoicePopup.show(selectInvoice, selectInvoice.getWidth() - 506, selectInvoice.getHeight());
             invoiceSelectPanel = true;
         } else {
-            invoiceId = Integer.parseInt(selectInvoicePopup.getInvoiceId().toString());
+            invoiceId = Integer.parseInt((selectInvoicePopup.getInvoiceId()==null)? "0":selectInvoicePopup.getInvoiceId().toString());
             saleInvoiceLabel.setText(Integer.toString(invoiceId));
             invoiceSelectPanel = false;
             selectInvoice.setText("SELECT INVOICE");

@@ -5,6 +5,7 @@
  */
 package com.xpos.gui;
 
+import com.xpos.SystemUser;
 import com.xpos.database.DbConnect;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import com.xpos.commons.Validate;
+import com.xpos.encrypt.MD5;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,9 +34,48 @@ public class User extends javax.swing.JPanel {
      * Creates new form Brand
      */
     public User() {
-        initComponents();
+        try {
+            initComponents();
+            String query = "SELECT employee.Id,"
+                    + " employee.EmployeePosition_id,"
+                    + " employee.Name,"
+                    + " employee.Address,"
+                    + " employee.TelephoneNo,"
+                    + " employee.NIC,"
+                    + " employee.DOB,"
+                    + " employee.JoinedDate,"
+                    + " employee.Email,"
+                    + " employee.Gender,"
+                    + " employeeposition.PositionName"
+                    + " FROM `userprofile`"
+                    + " JOIN employee ON userprofile.Employee_Id=employee.Id"
+                    + " JOIN employeeposition ON employee.EmployeePosition_id=employeeposition.Id"
+                    + " WHERE userprofile.Id=" + SystemUser.userId;
+            ResultSet rs = DbConnect.getFromDB(query);
+            if (rs.next()) {
+                idValue.setText(rs.getString("Id"));
+                positionValue.setText(rs.getString("PositionName"));
+                nameValue.setText(rs.getString("Name"));
+                addressValue.setText(rs.getString("Address"));
+                telephoneValue.setText(rs.getString("TelephoneNo"));
+                nicValue.setText(rs.getString("NIC"));
+                dobValue.setText(rs.getString("DOB"));
+                jdValue.setText(rs.getString("JoinedDate"));
+                emailValue.setText(rs.getString("Email"));
+                genderValue.setText(rs.getString("Gender"));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    public void clearForm() {
+        userProUsername.setText("");
+        userProPassword.setText("");
+        userProConfirmPassword.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,7 +92,7 @@ public class User extends javax.swing.JPanel {
         userProButCancel = new javax.swing.JButton();
         userProUsername = new app.bolivia.swing.JCTextField();
         userProPassword = new javax.swing.JPasswordField();
-        userProPassword1 = new javax.swing.JPasswordField();
+        userProConfirmPassword = new javax.swing.JPasswordField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -114,7 +157,7 @@ public class User extends javax.swing.JPanel {
 
         userProPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "New Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
-        userProPassword1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Confirm Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
+        userProConfirmPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Confirm Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -131,7 +174,7 @@ public class User extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(userProButCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(userProPassword1))
+                    .addComponent(userProConfirmPassword))
                 .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
@@ -142,7 +185,7 @@ public class User extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userProPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userProPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userProConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userProButEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -153,7 +196,7 @@ public class User extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setText("ID");
+        jLabel1.setText("Employee ID");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Employee Position");
@@ -223,27 +266,30 @@ public class User extends javax.swing.JPanel {
                     .addComponent(jLabel12)
                     .addComponent(jLabel10)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel16)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel16))
                         .addGap(47, 47, 47)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jdValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(idValue, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(dobValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nicValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(telephoneValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addressValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nameValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(positionValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel18)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(159, 159, 159)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(idValue, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(genderValue, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                .addComponent(emailValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jdValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(dobValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nicValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(telephoneValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(addressValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nameValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(positionValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(genderValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(emailValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(499, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -278,9 +324,9 @@ public class User extends javax.swing.JPanel {
                     .addComponent(jLabel14)
                     .addComponent(dobValue))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16)
-                    .addComponent(jdValue))
+                    .addComponent(jdValue, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
@@ -319,34 +365,26 @@ public class User extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userProButEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButEditActionPerformed
-//        int employeeId = Integer.parseInt(userProEmployeeCombo.getSelectedItem().toString().split(" - ")[0]);
-//        String username = userProUsername.getText();
-//        String password = MD5.getMd5(new String(userProPassword.getPassword()));
-//        boolean active = userProActive.isSelected() ? true : false;
-//
-//        String query = null;
-//
-//        if (password.equals("d41d8cd98f00b204e9800998ecf8427e")) {
-//            query = "UPDATE `userprofile` SET `Employee_Id`=" + employeeId + ",`Username`='" + username
-//            + "',`Status`=" + active + " WHERE Id=" + userProId;
-//        } else {
-//            query = "UPDATE `userprofile` SET `Employee_Id`=" + employeeId + ",`Username`='" + username
-//            + "',`Password`='" + password + "',`Status`=" + active + " WHERE Id=" + userProId;
-//        }
-//        try {
-//            DbConnect.pushToDB(query);
-//            clearUserProPanel();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String username = userProUsername.getText();
+        String password = new String(userProPassword.getPassword());
+        String confirmPassword = new String(userProConfirmPassword.getPassword());
+        if (password.equals(confirmPassword)) {
+            try {
+                String query = "UPDATE `userprofile` SET `Username`='" + username + "',`Password`='" + MD5.getMd5(password) + "' WHERE `Id`=" + SystemUser.userId;
+                DbConnect.pushToDB(query);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Validate Failed", "Password Doesn't Match.", 1);
+        }
+
     }//GEN-LAST:event_userProButEditActionPerformed
 
     private void userProButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButCancelActionPerformed
-        //clearUserProPanel();
+        clearForm();
     }//GEN-LAST:event_userProButCancelActionPerformed
 
 
@@ -376,8 +414,8 @@ public class User extends javax.swing.JPanel {
     private javax.swing.JLabel telephoneValue;
     private javax.swing.JButton userProButCancel;
     private javax.swing.JButton userProButEdit;
+    private javax.swing.JPasswordField userProConfirmPassword;
     private javax.swing.JPasswordField userProPassword;
-    private javax.swing.JPasswordField userProPassword1;
     private app.bolivia.swing.JCTextField userProUsername;
     // End of variables declaration//GEN-END:variables
 }

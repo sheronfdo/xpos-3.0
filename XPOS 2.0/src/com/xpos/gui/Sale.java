@@ -6,6 +6,7 @@
 package com.xpos.gui;
 
 import com.xpos.SystemUser;
+import com.xpos.commons.Validate;
 import com.xpos.database.DbConnect;
 import static com.xpos.database.DbConnect.connect;
 import java.awt.event.KeyEvent;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -1120,36 +1122,39 @@ public class Sale extends javax.swing.JPanel {
 
     private void saleProdIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleProdIdKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String prodId = saleProdId.getText().trim();
-            clearSaleItem();
-            saleProdId.setText(prodId);
-            String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
-                    + " product.Category_Id as categoryId, category.Description as categoryName,"
-                    + " product.Description as description, product.TotalQuantity as totalQuantity"
-                    + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
-                    + " WHERE product.Status = 1 and product.Id='" + prodId + "'";
+            if (Validate.isNumber(saleProdId.getText().trim().toString())) {
+                String prodId = saleProdId.getText().trim();
+                clearSaleItem();
+                saleProdId.setText(prodId);
+                String query = "SELECT product.Id as Id, product.Brand_Id as brandId, brand.BrandName as brandName,"
+                        + " product.Category_Id as categoryId, category.Description as categoryName,"
+                        + " product.Description as description, product.TotalQuantity as totalQuantity"
+                        + " FROM ((product JOIN brand ON product.Brand_Id=brand.Id) JOIN category ON product.Category_Id=category.Id)"
+                        + " WHERE product.Status = 1 and product.Id='" + prodId + "'";
 
-            fillSaleProdTable(query);
-            String query2 = "SELECT batchesofproduct.Id as batchid,"
-                    + " batchesofproduct.Barcode as Barcode,"
-                    + " batchesofproduct.BatchNumber as BatchNumber,"
-                    + " batchesofproduct.QuantityByBatch as quantity,"
-                    + " batchesofproduct.PurchasePrice as purchPrice,"
-                    + " batchesofproduct.RetailPrice AS RetailPrice"
-                    + " FROM batchesofproduct "
-                    + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id='" + prodId + "'";
-            fillSaleBatchTable(query2);
-            String query3 = "select Description from product where id='" + prodId + "'";
-            try {
-                ResultSet rs = DbConnect.getFromDB(query3);
-                rs.next();
-                saleDesc.setText(rs.getString("Description"));
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+                fillSaleProdTable(query);
+                String query2 = "SELECT batchesofproduct.Id as batchid,"
+                        + " batchesofproduct.Barcode as Barcode,"
+                        + " batchesofproduct.BatchNumber as BatchNumber,"
+                        + " batchesofproduct.QuantityByBatch as quantity,"
+                        + " batchesofproduct.PurchasePrice as purchPrice,"
+                        + " batchesofproduct.RetailPrice AS RetailPrice"
+                        + " FROM batchesofproduct "
+                        + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id='" + prodId + "'";
+                fillSaleBatchTable(query2);
+                String query3 = "select Description from product where id='" + prodId + "'";
+                try {
+                    ResultSet rs = DbConnect.getFromDB(query3);
+                    rs.next();
+                    saleDesc.setText(rs.getString("Description"));
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
             }
-
         }
     }//GEN-LAST:event_saleProdIdKeyReleased
 
@@ -1190,49 +1195,56 @@ public class Sale extends javax.swing.JPanel {
 
     private void saleBatchIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleBatchIdKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            int typedBatchNumber = Integer.parseInt(saleBatchId.getText());
-            int productId = Integer.parseInt(saleProdId.getText());
-            String query = "SELECT batchesofproduct.Id as batchid,"
-                    + " batchesofproduct.Barcode as Barcode,"
-                    + " batchesofproduct.BatchNumber as BatchNumber,"
-                    + " batchesofproduct.QuantityByBatch as quantity,"
-                    + " batchesofproduct.PurchasePrice as purchPrice,"
-                    + " batchesofproduct.RetailPrice AS RetailPrice,"
-                    + " datesofbatch.manufacturedate as ManufactureDate,"
-                    + " datesofbatch.expiredate AS ExpireDate"
-                    + " FROM batchesofproduct join datesofbatch on batchesofproduct.id=datesofbatch.batchesofproduct_id"
-                    + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id="
-                    + productId + " and batchesofproduct.id=" + typedBatchNumber;
-            try {
-                ResultSet rs = DbConnect.getFromDB(query);
-                if (rs.next()) {
-                    saleManufacDate.setText(rs.getDate("ManufactureDate").toString());
-                    saleExpireDate.setText(rs.getDate("ExpireDate").toString());
-                    saleBarcode.setText(rs.getString("Barcode").toString());
-                    salePurchasePrice.setText(rs.getString("purchPrice").toString());
-                    saleRetailPrice.setText(rs.getString("RetailPrice").toString());
-                } else {
-                    saleManufacDate.setText("");
-                    saleExpireDate.setText("");
-                    saleBarcode.setText("");
-                    salePurchasePrice.setText("");
-                    saleRetailPrice.setText("");
+            if (Validate.isNumber(saleBatchId.getText().trim().toString())) {
+                int typedBatchNumber = Integer.parseInt(saleBatchId.getText());
+                int productId = Integer.parseInt(saleProdId.getText());
+                String query = "SELECT batchesofproduct.Id as batchid,"
+                        + " batchesofproduct.Barcode as Barcode,"
+                        + " batchesofproduct.BatchNumber as BatchNumber,"
+                        + " batchesofproduct.QuantityByBatch as quantity,"
+                        + " batchesofproduct.PurchasePrice as purchPrice,"
+                        + " batchesofproduct.RetailPrice AS RetailPrice,"
+                        + " datesofbatch.manufacturedate as ManufactureDate,"
+                        + " datesofbatch.expiredate AS ExpireDate"
+                        + " FROM batchesofproduct join datesofbatch on batchesofproduct.id=datesofbatch.batchesofproduct_id"
+                        + " WHERE batchesofproduct.Status = 1 and batchesofproduct.Product_Id="
+                        + productId + " and batchesofproduct.id=" + typedBatchNumber;
+                try {
+                    ResultSet rs = DbConnect.getFromDB(query);
+                    if (rs.next()) {
+                        saleManufacDate.setText(rs.getDate("ManufactureDate").toString());
+                        saleExpireDate.setText(rs.getDate("ExpireDate").toString());
+                        saleBarcode.setText(rs.getString("Barcode").toString());
+                        salePurchasePrice.setText(rs.getString("purchPrice").toString());
+                        saleRetailPrice.setText(rs.getString("RetailPrice").toString());
+                    } else {
+                        saleManufacDate.setText("");
+                        saleExpireDate.setText("");
+                        saleBarcode.setText("");
+                        salePurchasePrice.setText("");
+                        saleRetailPrice.setText("");
+                    }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
             }
-
         }
     }//GEN-LAST:event_saleBatchIdKeyReleased
 
     private void saleQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleQuantityKeyReleased
-        calSaleItemTotal();
+        if (Validate.isDoubleNumber(saleQuantity.getText())) {
+            calSaleItemTotal();
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
+        }
     }//GEN-LAST:event_saleQuantityKeyReleased
 
     private void saleAddToTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleAddToTableActionPerformed
@@ -1262,9 +1274,14 @@ public class Sale extends javax.swing.JPanel {
     }//GEN-LAST:event_saleAddToTableActionPerformed
 
     private void saleDiscountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleDiscountKeyReleased
-        if (!saleQuantity.getText().equals("")) {
-            calSaleItemTotal();
+        if (Validate.isDoubleNumber(saleDiscount.getText())) {
+            if (!saleQuantity.getText().equals("")) {
+                calSaleItemTotal();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
         }
+
     }//GEN-LAST:event_saleDiscountKeyReleased
 
     private void saleItemDisAmountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleItemDisAmountMouseClicked
@@ -1295,11 +1312,19 @@ public class Sale extends javax.swing.JPanel {
     }//GEN-LAST:event_saleCancelActionPerformed
 
     private void saleTotDiscountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleTotDiscountKeyReleased
-        fillSaleDetails();
+        if (Validate.isDoubleNumber(saleTotDiscount.getText())) {
+            fillSaleDetails();
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
+        }
     }//GEN-LAST:event_saleTotDiscountKeyReleased
 
     private void saleCustPayKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleCustPayKeyReleased
-        fillSaleDetails();
+        if (Validate.isDoubleNumber(saleCustPay.getText())) {
+            fillSaleDetails();
+        } else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
+        }
     }//GEN-LAST:event_saleCustPayKeyReleased
 
     private void saleTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleTableMouseClicked
@@ -1313,11 +1338,15 @@ public class Sale extends javax.swing.JPanel {
             customerPopup.show(selectCustomer, selectCustomer.getWidth() - 506, selectCustomer.getHeight());
             cusSelectPanel = true;
         } else {
-            String customer = selectCustPopup.getCusIdName();
+            String customer = (selectCustPopup.getCusIdName() == null) ? null : selectCustPopup.getCusIdName();
             saleCustomerLabel.setText(customer);
             cusSelectPanel = false;
             selectCustomer.setText("SELECT CUSTOMER");
-            identifyCustomerId();
+            if (customer != null) {
+                identifyCustomerId();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selection Failed", "Invalid User Selection", 1);
+            }
         }
     }//GEN-LAST:event_selectCustomerActionPerformed
 

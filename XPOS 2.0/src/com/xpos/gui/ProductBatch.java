@@ -584,8 +584,8 @@ public class ProductBatch extends javax.swing.JPanel {
                 && Validate.isNumber(batchQuantity.getText())
                 && Validate.isDoubleNumber(batchPurchPrice.getText())
                 && Validate.isDoubleNumber(batchRetailPrice.getText())
-                && Validate.isDate(batchManufacDate.getDate().toString())
-                && Validate.isDate(batchExpireDate.getDate().toString()))
+                && Validate.isDate(batchManufacDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
+                && Validate.isDate(batchExpireDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString()))
                 : (Validate.isNumber(batchProductId.getText())
                 && Validate.isNumber(batchNumber.getText())
                 && Validate.isNumber(batchQuantity.getText())
@@ -744,6 +744,8 @@ public class ProductBatch extends javax.swing.JPanel {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }
 
@@ -778,9 +780,7 @@ public class ProductBatch extends javax.swing.JPanel {
             boolean hasManufacDate = !(batchTable.getValueAt(batchTable.getSelectedRow(), 7) == null);
             boolean hasExpireDate = !(batchTable.getValueAt(batchTable.getSelectedRow(), 8) == null);
 
-            System.out.println(dateCheckBox);
-            System.out.println(hasManufacDate);
-            System.out.println(hasExpireDate);
+            
 
             if ((dateCheckBox) && (hasManufacDate && hasExpireDate)) {
                 String manuDate = defaultDateFormat.format(batchManufacDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
@@ -822,6 +822,8 @@ public class ProductBatch extends javax.swing.JPanel {
                 System.out.println("(dateCheckBox) && ((hasManufacDate && hasExpireDate) == false)");
             }
             clearBatchPanel();
+        }else {
+            JOptionPane.showMessageDialog(null, "Form Validation Failed", "Validation Failed", 1);
         }
     }
 

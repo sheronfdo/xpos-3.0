@@ -118,6 +118,9 @@ public class Supply extends javax.swing.JPanel {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 supNameKeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                supNameKeyReleased(evt);
+            }
         });
 
         supAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255)), "Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 10), new java.awt.Color(26, 140, 255))); // NOI18N
@@ -440,6 +443,10 @@ public class Supply extends javax.swing.JPanel {
             }
         }         // TODO add your handling code here:
     }//GEN-LAST:event_supRegisterNumberKeyPressed
+
+    private void supNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_supNameKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_supNameKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

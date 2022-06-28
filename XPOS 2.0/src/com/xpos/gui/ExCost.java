@@ -45,7 +45,7 @@ public class ExCost extends javax.swing.JPanel {
 
     private boolean validateForm() {
         log.info("validate excost form");
-        return Validate.isDate(xCostDate.getDate().toString())
+        return Validate.isDate(xCostDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
                 && Validate.isText(xCostDescription.getText().toString())
                 && Validate.isDoubleNumber(xCostAmount.getText().toString());
     }

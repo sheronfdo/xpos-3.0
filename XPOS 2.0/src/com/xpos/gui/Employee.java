@@ -61,13 +61,13 @@ public class Employee extends javax.swing.JPanel {
     }
 
     private boolean validateForm() {
-       log.info("validate employee form");
+        log.info("validate employee form");
         return Validate.isText(empAddress.getText().toString())
                 && Validate.isTelephone(empTeleNumber.getText().toString())
                 && Validate.isNIC(empNIC.getText().toString())
                 && Validate.isName(empName.getText().toString())
-                && Validate.isDate(empDOB.getDate().toString())
-                && Validate.isDate(empJoinedDate.getDate().toString())
+                && Validate.isDate(empDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
+                && Validate.isDate(empJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
                 && Validate.isEmail(empEmail.getText().toString())
                 && empPositionCombo.getSelectedIndex() > 0;
     }
@@ -540,11 +540,11 @@ public class Employee extends javax.swing.JPanel {
                     + "',`NIC`='" + NIC + "',`DOB`='" + DOB.format(defaultDateFormat) + "',`JoinedDate`='" + joinedDate.format(defaultDateFormat)
                     + "',`Email`='" + email + "',`Gender`='" + gender + "',`EmployeePosition_id`=" + positionId + " WHERE Id=" + employeeId;
             try {
-               log.info("execute query");
+                log.info("execute query");
                 DbConnect.pushToDB(query);
                 clearEmployePanel();
             } catch (SQLException e) {
-               log.error("data edit failed", e);
+                log.error("data edit failed", e);
             } catch (ClassNotFoundException e) {
                 log.error("data edit failed", e);
             } catch (Exception e) {
@@ -634,7 +634,7 @@ public class Employee extends javax.swing.JPanel {
     private void empTeleNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empTeleNumberKeyPressed
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-           log.info("user presses enter on emptelenumber textfield");
+            log.info("user presses enter on emptelenumber textfield");
             if (Validate.isTelephone(empTeleNumber.getText().toString())) {
                 log.info("validate process passed");
                 empNIC.requestFocus();

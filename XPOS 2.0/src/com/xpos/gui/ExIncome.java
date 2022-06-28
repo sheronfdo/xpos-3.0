@@ -45,7 +45,7 @@ public class ExIncome extends javax.swing.JPanel {
 
     private boolean validateForm() {
         log.info("validate exincome form");
-        return Validate.isDate(xIncomeDate.getDate().toString())
+        return Validate.isDate(xIncomeDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
                 && Validate.isText(xIncomeDescription.getText().toString())
                 && Validate.isDoubleNumber(xIncomeAmount.getText().toString());
     }

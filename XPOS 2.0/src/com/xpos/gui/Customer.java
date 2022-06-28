@@ -49,8 +49,8 @@ public class Customer extends javax.swing.JPanel {
                 && Validate.isTelephone(customerTeleNumber.getText().toString())
                 && Validate.isNIC(customerNIC.getText().toString())
                 && Validate.isName(customerName.getText().toString())
-                && Validate.isDate(customerDOB.getDate().toString())
-                && Validate.isDate(customerJoinedDate.getDate().toString())
+                && Validate.isDate(customerDOB.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
+                && Validate.isDate(customerJoinedDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
                 && Validate.isEmail(customerEmail.getText().toString());
     }
 

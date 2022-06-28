@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 public class POInvoice extends javax.swing.JPanel {
 
     private static org.apache.log4j.Logger log;
+
     /**
      * Creates new form Brand
      */
@@ -37,12 +38,14 @@ public class POInvoice extends javax.swing.JPanel {
     }
 
     private void fillPOInvoiceTable(String query) {
+        log.info("fill PO invoice table, query : " + query);
         DefaultTableModel tableModel = (DefaultTableModel) POItemTable.getModel();
         tableModel.setRowCount(0);
         tableModel = (DefaultTableModel) POTable.getModel();
         tableModel.setRowCount(0);
         try {
             if (query == null) {
+                log.info("assign query because null");
                 query = "SELECT purchaseorder.`Id` as POId,"
                         + " purchaseorder.`Supplier_Id` as supplierId,"
                         + " purchaseorder.`Date` as PODate,"
@@ -56,6 +59,7 @@ public class POInvoice extends javax.swing.JPanel {
                         + " WHERE purchaseorder.`Status` = 1";
             }
             ResultSet rs = DbConnect.getFromDB(query);
+            log.info("execute query");
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getInt("POId"));
@@ -67,22 +71,24 @@ public class POInvoice extends javax.swing.JPanel {
                 v.add(rs.getString("isSupplied"));
                 tableModel.addRow(v);
             }
+            log.info("table filled");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PurchaseInvoice.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("table filled failed", ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PurchaseInvoice.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("table filled failed", ex);
         }
     }
 
     private void fillPOItemTable(int POId) {
-
+        log.info("fillPOItemTable, poid : " + POId);
         if (POId == 0) {
             POId = Integer.parseInt(POTable.getValueAt(POTable.getSelectedRow(), 0).toString());
+            log.info("assign poid");
         }
         DefaultTableModel tableModel = (DefaultTableModel) POItemTable.getModel();
         tableModel.setRowCount(0);
         try {
-
+            log.info("assign query");
             String query = "SELECT PurchaseOrderItem.`Product_Id` as productId,"
                     + " PurchaseOrderItem.`Quantity` as quantity,"
                     + " PurchaseOrderItem.`ItemPrice` as itemprice,"
@@ -97,6 +103,7 @@ public class POInvoice extends javax.swing.JPanel {
                     + " JOIN purchaseorder ON purchaseorder.Id=PurchaseOrderItem.PurchaseOrder_Id)"
                     + " WHERE PurchaseOrderItem.`PurchaseOrder_Id`=" + POId;
             ResultSet rs = DbConnect.getFromDB(query);
+            log.info("execute query");
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getInt("productId"));
@@ -107,10 +114,11 @@ public class POInvoice extends javax.swing.JPanel {
                 v.add(rs.getString("totalprice"));
                 tableModel.addRow(v);
             }
+            log.info("table filled");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PurchaseInvoice.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("table filled failed", ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PurchaseInvoice.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("table filled failed", ex);
         }
     }
 
@@ -292,11 +300,16 @@ public class POInvoice extends javax.swing.JPanel {
     }//GEN-LAST:event_POSearchByInvoiceActionPerformed
 
     private void POSearchByInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_POSearchByInvoiceKeyReleased
+        log.info("user searched");
         String query = null;
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            log.info("user presses enter");
             if (Validate.isNumber(POSearchByInvoice.getText().toString()) || POSearchByInvoice.getText().toString().equals("")) {
+                log.info("po validation passed");
                 int POId = Integer.parseInt(POSearchByInvoice.getText().toString().equals("") ? "0" : POSearchByInvoice.getText().toString());
+                log.info("assign poid");
                 if (POId != 0) {
+                    log.info("assign query");
                     query = "SELECT purchaseorder.`Id` as POId,"
                             + " purchaseorder.`Supplier_Id` as supplierId,"
                             + " purchaseorder.`Date` as PODate,"
@@ -310,6 +323,7 @@ public class POInvoice extends javax.swing.JPanel {
                             + " WHERE purchaseorder.id=" + POId;
                 }
             } else {
+                log.info("po validation failed");
                 JOptionPane.showMessageDialog(null, "Not Text", "Validation Failed", 1);
             }
             fillPOInvoiceTable(query);
@@ -325,6 +339,7 @@ public class POInvoice extends javax.swing.JPanel {
     }//GEN-LAST:event_POSearchBySupplierActionPerformed
 
     private void POSearchBySupplierKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_POSearchBySupplierKeyReleased
+        log.info("user searches by by supplier");
         String query = "SELECT purchaseorder.`Id` as POId,"
                 + " purchaseorder.`Supplier_Id` as supplierId,"
                 + " purchaseorder.`Date` as PODate,"

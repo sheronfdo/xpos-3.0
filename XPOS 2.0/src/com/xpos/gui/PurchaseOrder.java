@@ -37,7 +37,7 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class PurchaseOrder extends javax.swing.JPanel {
 
-    int supplierId;
+    int supplierId=0;
     DefaultTableModel tablemodel;
     DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
@@ -138,6 +138,7 @@ public class PurchaseOrder extends javax.swing.JPanel {
 
     private void clearPurchOrderPanel() {
         purchOrderSupplierCombo.setSelectedIndex(0);
+        loadPurchaseOrderSupplierCombo();
         ((DefaultTableModel) purchOrderProduct.getModel()).setRowCount(0);
         ((DefaultTableModel) purchOrderProdTable.getModel()).setRowCount(0);
 

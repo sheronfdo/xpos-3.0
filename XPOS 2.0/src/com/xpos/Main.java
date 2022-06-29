@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 /**
@@ -1048,6 +1049,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isSupplier()) {
             setVisibleFalseAllPanels();
             supplier.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Supplier Detail.", 1);
         }
     }//GEN-LAST:event_supplierButActionPerformed
 
@@ -1056,6 +1059,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isProducts()) {
             setVisibleFalseAllPanels();
             ProductDetail.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Product Detail.", 1);
         }
     }//GEN-LAST:event_productActionPerformed
 
@@ -1064,6 +1069,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isCustomer()) {
             setVisibleFalseAllPanels();
             Customer.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Customer Detail.", 1);
         }
     }//GEN-LAST:event_customerActionPerformed
 
@@ -1072,6 +1079,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isExCost()) {
             setVisibleFalseAllPanels();
             ExCost.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Extra cost Detail.", 1);
         }
     }//GEN-LAST:event_exCostActionPerformed
 
@@ -1080,6 +1089,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isExIncome()) {
             setVisibleFalseAllPanels();
             ExIncome.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Extra income Detail.", 1);
         }
     }//GEN-LAST:event_exIncomeActionPerformed
 
@@ -1088,6 +1099,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isPurchase()) {
             setVisibleFalseAllPanels();
             Purchase.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Purchase.", 1);
         }
     }//GEN-LAST:event_purchaseActionPerformed
 
@@ -1096,6 +1109,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isSale()) {
             setVisibleFalseAllPanels();
             Sale.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to sale.", 1);
         }
     }//GEN-LAST:event_saleActionPerformed
 
@@ -1104,6 +1119,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isEmployee()) {
             setVisibleFalseAllPanels();
             HRM.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Employee Detail.", 1);
         }
     }//GEN-LAST:event_hrmActionPerformed
 
@@ -1113,6 +1130,8 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             HRM.setVisible(true);
             Employee.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Employee Detail.", 1);
         }
     }//GEN-LAST:event_employeeActionPerformed
 
@@ -1122,6 +1141,8 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             HRM.setVisible(true);
             UserProfile.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to User Detail.", 1);
         }
     }//GEN-LAST:event_userProfileActionPerformed
 
@@ -1131,6 +1152,8 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             HRM.setVisible(true);
             EmpPosition.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Position Detail.", 1);
         }
     }//GEN-LAST:event_userPositionActionPerformed
 
@@ -1139,6 +1162,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isSupplier()) {
             setVisibleFalseAllPanels();
             SupplierProduct.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Supplier Detail.", 1);
         }
     }//GEN-LAST:event_supplierProductActionPerformed
 
@@ -1147,6 +1172,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isPurchase()) {
             setVisibleFalseAllPanels();
             PurchaseOrder.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Purchase Order.", 1);
         }
     }//GEN-LAST:event_purchaseOrderActionPerformed
 
@@ -1155,6 +1182,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isReturns()) {
             setVisibleFalseAllPanels();
             Return.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Returns.", 1);
         }
     }//GEN-LAST:event_returnPanelActionPerformed
 
@@ -1164,6 +1193,8 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             ProductDetail.setVisible(true);
             Batch.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Product Detail.", 1);
         }
     }//GEN-LAST:event_productBatchPanelBtnActionPerformed
 
@@ -1173,6 +1204,8 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             ProductDetail.setVisible(true);
             Category.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Product Detail.", 1);
         }
     }//GEN-LAST:event_categoryPanelBtnActionPerformed
 
@@ -1182,6 +1215,8 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             ProductDetail.setVisible(true);
             Brand.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Product Detail.", 1);
         }
     }//GEN-LAST:event_brandPanelBtnActionPerformed
 
@@ -1191,6 +1226,8 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             ProductDetail.setVisible(true);
             Product.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Product Detail.", 1);
         }
     }//GEN-LAST:event_productPanelBtnActionPerformed
 
@@ -1200,16 +1237,20 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
             PurchaseInvoice.setVisible(true);
-        }          // TODO add your handling code here:
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
+        }         // TODO add your handling code here:
     }//GEN-LAST:event_purchaseInvoiceBtnActionPerformed
 
     private void purchaseOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseOrderBtnActionPerformed
         log.info("user pressed purchaseorder button");
-        if (SystemUser.isPurchase()) {
+        if (SystemUser.isInvoice()) {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
             POInvoice.setVisible(true);
-        }       // TODO add your handling code here:
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_purchaseOrderBtnActionPerformed
 
     private void returnInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnInvoiceBtnActionPerformed
@@ -1218,7 +1259,9 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
             ReturnInvoice.setVisible(true);
-        }        // TODO add your handling code here:
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
+        }       // TODO add your handling code here:
     }//GEN-LAST:event_returnInvoiceBtnActionPerformed
 
     private void saleInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleInvoiceBtnActionPerformed
@@ -1227,7 +1270,9 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
             SaleInvoice.setVisible(true);
-        }       // TODO add your handling code here:
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
+        }    // TODO add your handling code here:
     }//GEN-LAST:event_saleInvoiceBtnActionPerformed
 
     private void invoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceBtnActionPerformed
@@ -1235,6 +1280,8 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isInvoice()) {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
         }       // TODO add your handling code here:
     }//GEN-LAST:event_invoiceBtnActionPerformed
 
@@ -1243,7 +1290,9 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isPurchase()) {
             setVisibleFalseAllPanels();
             reqForQuate.setVisible(true);
-        }// TODO add your handling code here:
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Purchase Detail.", 1);
+        } // TODO add your handling code here:
     }//GEN-LAST:event_reqForQuateBtnActionPerformed
 
     private void systemUserNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_systemUserNameMouseClicked
@@ -1258,6 +1307,8 @@ public class Main extends javax.swing.JFrame {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
             QuateInvoice.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
         }
     }//GEN-LAST:event_quateRequestBtnActionPerformed
 

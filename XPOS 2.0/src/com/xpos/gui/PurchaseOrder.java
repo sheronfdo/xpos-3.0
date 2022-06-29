@@ -748,7 +748,7 @@ public class PurchaseOrder extends javax.swing.JPanel {
 
             calPurchaseOrderDetails();
 
-            int userProId = SystemUser.userId;
+            int userProId = SystemUser.getUserId();
             int currentPurchaseOrderId = 0;
 
             String purchQuery = "INSERT INTO `purchaseorder`(`Supplier_Id`, `Date`, `SubTotal`,"
@@ -760,7 +760,7 @@ public class PurchaseOrder extends javax.swing.JPanel {
                 pst.setDouble(3, totalWithNoDiscount);
                 pst.setDouble(4, discount);
                 pst.setDouble(5, finalTotal);
-                pst.setInt(6, SystemUser.userId);
+                pst.setInt(6, userProId);
                 pst.executeUpdate();
                 ResultSet rs = pst.getGeneratedKeys();
                 if (rs.next()) {

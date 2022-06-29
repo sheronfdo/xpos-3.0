@@ -576,7 +576,7 @@ public class ReqForQuate extends javax.swing.JPanel {
 
             int currentPurchaseOrderId = 0;
             String purchOrderQuery = "INSERT INTO `ReqForQuate`(`Supplier_Id`, `Date`, `IsResponses`, `UserProfile_Id`)"
-                    + " VALUES (" + supplier + ",'" + date + "', false," + SystemUser.userId + ")";
+                    + " VALUES (" + supplier + ",'" + date + "', false," + SystemUser.getUserId() + ")";
             try {
                 PreparedStatement pst = DbConnect.getDBConnection().prepareStatement(purchOrderQuery, Statement.RETURN_GENERATED_KEYS);
                 pst.executeUpdate();

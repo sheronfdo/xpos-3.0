@@ -50,7 +50,7 @@ public class User extends javax.swing.JPanel {
                     + " FROM `userprofile`"
                     + " JOIN employee ON userprofile.Employee_Id=employee.Id"
                     + " JOIN employeeposition ON employee.EmployeePosition_id=employeeposition.Id"
-                    + " WHERE userprofile.Id=" + SystemUser.userId;
+                    + " WHERE userprofile.Id=" + SystemUser.getUserId();
             ResultSet rs = DbConnect.getFromDB(query);
             if (rs.next()) {
                 idValue.setText(rs.getString("Id"));
@@ -370,7 +370,7 @@ public class User extends javax.swing.JPanel {
         String confirmPassword = new String(userProConfirmPassword.getPassword());
         if (password.equals(confirmPassword)) {
             try {
-                String query = "UPDATE `userprofile` SET `Username`='" + username + "',`Password`='" + MD5.getMd5(password) + "' WHERE `Id`=" + SystemUser.userId;
+                String query = "UPDATE `userprofile` SET `Username`='" + username + "',`Password`='" + MD5.getMd5(password) + "' WHERE `Id`=" + SystemUser.getUserId();
                 DbConnect.pushToDB(query);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -380,7 +380,6 @@ public class User extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(null, "Validate Failed", "Password Doesn't Match.", 1);
         }
-
     }//GEN-LAST:event_userProButEditActionPerformed
 
     private void userProButCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProButCancelActionPerformed

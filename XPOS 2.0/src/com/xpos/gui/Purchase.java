@@ -952,7 +952,7 @@ public class Purchase extends javax.swing.JPanel {
 
             calPurchaseDetails();
 
-            int userProId = SystemUser.userId;
+            int userProId = SystemUser.getUserId();
             int currentPurchaseId = 0;
 
             String purchQuery = "INSERT INTO `purchase`(`PurchaseDate`, `Total`, `Discount`, `Balance`,"

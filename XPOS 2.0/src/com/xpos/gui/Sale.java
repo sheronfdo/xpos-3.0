@@ -57,7 +57,7 @@ public class Sale extends javax.swing.JPanel {
     Double totDisValue = 0.0d;// discount by total
 
     int customerID;
-    int user = SystemUser.userId;
+    int user = SystemUser.getUserId();
 
     /**
      * Creates new form Sale

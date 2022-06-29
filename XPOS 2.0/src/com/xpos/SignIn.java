@@ -48,8 +48,7 @@ public class SignIn extends javax.swing.JFrame {
             log.info("User inserted login details : " + insertedUsername);
             if (rs.next()) {
                 log.info("User login process completed. User : " + insertedUsername);
-                SystemUser.userId = rs.getInt("Id");
-                SystemUser.username = insertedUsername;
+                SystemUser.user(rs.getInt("Id"),  insertedUsername);
                 new Main().setVisible(true);
                 this.dispose();
             } else {

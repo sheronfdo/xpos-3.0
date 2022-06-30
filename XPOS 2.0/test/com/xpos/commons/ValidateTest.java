@@ -5,129 +5,75 @@
  */
 package com.xpos.commons;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author Jamith
  */
 public class ValidateTest {
-    
-    /**
-     * Test of isName method, of class Validate.
-     */
+
     @Test
     public void testIsName() {
-        System.out.println("isName");
-        String in = "";
-        boolean expResult = false;
-        boolean result = Validate.isName(in);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(true, Validate.isName("Jamith Sheron"));
     }
 
-    /**
-     * Test of isNumber method, of class Validate.
-     */
     @Test
     public void testIsNumber() {
-        System.out.println("isNumber");
-        String in = "";
-        boolean expResult = false;
-        boolean result = Validate.isNumber(in);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(true, Validate.isNumber("321"));
     }
 
-    /**
-     * Test of isDoubleNumber method, of class Validate.
-     */
     @Test
     public void testIsDoubleNumber() {
-        System.out.println("isDoubleNumber");
-        String in = "";
-        boolean expResult = false;
+        String in = "0.00";
+        boolean expResult = true;
         boolean result = Validate.isDoubleNumber(in);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of isNIC method, of class Validate.
-     */
     @Test
     public void testIsNIC() {
-        System.out.println("isNIC");
-        String in = "";
-        boolean expResult = false;
+        String in = "200022502886";
+        boolean expResult = true;
         boolean result = Validate.isNIC(in);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of isText method, of class Validate.
-     */
     @Test
     public void testIsText() {
-        System.out.println("isText");
-        String in = "";
-        boolean expResult = false;
+        String in = "werh tbdrhbterty7rbty rt7 8r7t";
+        boolean expResult = true;
         boolean result = Validate.isText(in);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of isEmail method, of class Validate.
-     */
     @Test
     public void testIsEmail() {
-        System.out.println("isEmail");
-        String email = "";
-        boolean expResult = false;
+        String email = "jamith@mail.com";
+        boolean expResult = true;
         boolean result = Validate.isEmail(email);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of isTelephone method, of class Validate.
-     */
     @Test
     public void testIsTelephone() {
-        System.out.println("isTelephone");
-        String in = "";
-        boolean expResult = false;
+        String in = "0770470323";
+        boolean expResult = true;
         boolean result = Validate.isTelephone(in);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of isDate method, of class Validate.
-     */
     @Test
     public void testIsDate() {
-        System.out.println("isDate");
-        String date = "";
-        boolean expResult = false;
+        String date = "2022-04-15";
+        boolean expResult = true;
         boolean result = Validate.isDate(date);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-    
+
 }

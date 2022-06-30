@@ -886,7 +886,7 @@ public class Main extends javax.swing.JFrame {
         jLabel47.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel47.setForeground(new java.awt.Color(255, 255, 255));
         jLabel47.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel47.setText("PRODUCT DETAILS");
+        jLabel47.setText("INVOICES");
         jLabel47.setOpaque(true);
 
         jPanel37.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 140, 255), 2));

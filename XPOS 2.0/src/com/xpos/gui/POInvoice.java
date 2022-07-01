@@ -13,10 +13,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import com.xpos.commons.Validate;
+import com.xpos.report.Report;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -140,6 +146,7 @@ public class POInvoice extends javax.swing.JPanel {
         jPanel11 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         POItemTable = new rojeru_san.complementos.RSTableMetro();
+        butInvoicePrint = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -252,19 +259,37 @@ public class POInvoice extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(POItemTable);
 
+        butInvoicePrint.setBackground(new java.awt.Color(0, 60, 128));
+        butInvoicePrint.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        butInvoicePrint.setForeground(new java.awt.Color(255, 255, 255));
+        butInvoicePrint.setText("PRINT INVOICE");
+        butInvoicePrint.setBorder(null);
+        butInvoicePrint.setFocusPainted(false);
+        butInvoicePrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butInvoicePrintActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(butInvoicePrint, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jScrollPane3)
+                .addGap(5, 5, 5)
+                .addComponent(butInvoicePrint, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -351,12 +376,27 @@ public class POInvoice extends javax.swing.JPanel {
         fillPOInvoiceTable(query);
     }//GEN-LAST:event_POSearchBySupplierKeyReleased
 
+    private void butInvoicePrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInvoicePrintActionPerformed
+        int invoiceId = Integer.parseInt(POTable.getValueAt(POTable.getSelectedRow(), 0).toString());
+        try {
+            HashMap<String, Object> para = new HashMap<String, Object>();
+            para.put("POID", invoiceId);
+            JasperPrint jprint = JasperFillManager.fillReport(Report.POReport, para, DbConnect.getDBConnection());
+            JasperViewer.viewReport(jprint, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_butInvoicePrintActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojeru_san.complementos.RSTableMetro POItemTable;
     private app.bolivia.swing.JCTextField POSearchByInvoice;
     private app.bolivia.swing.JCTextField POSearchBySupplier;
     private rojeru_san.complementos.RSTableMetro POTable;
+    private javax.swing.JButton butInvoicePrint;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel9;

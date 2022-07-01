@@ -7,6 +7,7 @@ package com.xpos.gui;
 
 import com.xpos.SystemUser;
 import com.xpos.database.DbConnect;
+import com.xpos.report.Report;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,12 +15,17 @@ import java.sql.Statement;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -61,7 +67,7 @@ public class QuateInvoice extends javax.swing.JPanel {
                 v.add(rs.getInt("quatereqid"));
                 v.add(rs.getDate("quatereqdate"));
                 v.add(rs.getInt("Supplier_Id") + " - " + rs.getString("suppliername"));
-                v.add(rs.getBoolean("IsResponses")? "Responsed":"Not Responsed");
+                v.add(rs.getBoolean("IsResponses") ? "Responsed" : "Not Responsed");
                 v.add(rs.getString("username"));
                 tableModel.addRow(v);
             }
@@ -103,7 +109,7 @@ public class QuateInvoice extends javax.swing.JPanel {
             Logger.getLogger(SaleInvoice.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,6 +127,7 @@ public class QuateInvoice extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         quateItemTable = new rojeru_san.complementos.RSTableMetro();
         butSetResponsed = new javax.swing.JButton();
+        butInvoicePrint = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -215,6 +222,18 @@ public class QuateInvoice extends javax.swing.JPanel {
             }
         });
 
+        butInvoicePrint.setBackground(new java.awt.Color(0, 60, 128));
+        butInvoicePrint.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        butInvoicePrint.setForeground(new java.awt.Color(255, 255, 255));
+        butInvoicePrint.setText("PRINT INVOICE");
+        butInvoicePrint.setBorder(null);
+        butInvoicePrint.setFocusPainted(false);
+        butInvoicePrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butInvoicePrintActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -233,8 +252,10 @@ public class QuateInvoice extends javax.swing.JPanel {
                         .addComponent(saleSearchByInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saleSearchByCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(794, 794, 794)
-                        .addComponent(butSetResponsed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(butSetResponsed, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butInvoicePrint, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -245,7 +266,8 @@ public class QuateInvoice extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saleSearchByInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(saleSearchByCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butSetResponsed, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(butSetResponsed, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butInvoicePrint, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
@@ -255,19 +277,19 @@ public class QuateInvoice extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saleSearchByInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleSearchByInvoiceActionPerformed
-        
+
     }//GEN-LAST:event_saleSearchByInvoiceActionPerformed
 
     private void saleSearchByInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleSearchByInvoiceKeyReleased
-       
+
     }//GEN-LAST:event_saleSearchByInvoiceKeyReleased
 
     private void saleSearchByCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleSearchByCustomerActionPerformed
-        
+
     }//GEN-LAST:event_saleSearchByCustomerActionPerformed
 
     private void saleSearchByCustomerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saleSearchByCustomerKeyReleased
-        
+
     }//GEN-LAST:event_saleSearchByCustomerKeyReleased
 
     private void quateTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_quateTableMouseClicked
@@ -275,12 +297,12 @@ public class QuateInvoice extends javax.swing.JPanel {
     }//GEN-LAST:event_quateTableMouseClicked
 
     private void quateItemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_quateItemTableMouseClicked
-        
+
     }//GEN-LAST:event_quateItemTableMouseClicked
 
     private void butSetResponsedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSetResponsedActionPerformed
         try {
-            String query = "UPDATE `reqforquate` SET `IsResponses`=1 WHERE `Id`="+quateTable.getValueAt(quateTable.getSelectedRow(), 0);
+            String query = "UPDATE `reqforquate` SET `IsResponses`=1 WHERE `Id`=" + quateTable.getValueAt(quateTable.getSelectedRow(), 0);
             DbConnect.pushToDB(query);
             fillQuateInvoiceTable(null);
         } catch (ClassNotFoundException ex) {
@@ -290,8 +312,23 @@ public class QuateInvoice extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_butSetResponsedActionPerformed
 
+    private void butInvoicePrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInvoicePrintActionPerformed
+        int invoiceId = Integer.parseInt(quateTable.getValueAt(quateTable.getSelectedRow(), 0).toString());
+        try {
+            HashMap<String, Object> para = new HashMap<String, Object>();
+            para.put("reqforquateid", invoiceId);
+            JasperPrint jprint = JasperFillManager.fillReport(Report.RFQReport, para, DbConnect.getDBConnection());
+            JasperViewer.viewReport(jprint, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_butInvoicePrintActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butInvoicePrint;
     private javax.swing.JButton butSetResponsed;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JScrollPane jScrollPane2;

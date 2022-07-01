@@ -1242,7 +1242,12 @@ public class Sale extends javax.swing.JPanel {
         if (Validate.isDoubleNumber(saleQuantity.getText())) {
             calSaleItemTotal();
         } else {
+            saleQuantity.setText("0");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            saleDiscount.requestFocus();
         }
     }//GEN-LAST:event_saleQuantityKeyReleased
 
@@ -1278,6 +1283,7 @@ public class Sale extends javax.swing.JPanel {
                 calSaleItemTotal();
             }
         } else {
+            saleDiscount.setText("0");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
         }
 
@@ -1314,6 +1320,7 @@ public class Sale extends javax.swing.JPanel {
         if (Validate.isDoubleNumber(saleTotDiscount.getText())) {
             fillSaleDetails();
         } else {
+            saleTotDiscount.setText("0");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
         }
     }//GEN-LAST:event_saleTotDiscountKeyReleased
@@ -1322,6 +1329,7 @@ public class Sale extends javax.swing.JPanel {
         if (Validate.isDoubleNumber(saleCustPay.getText())) {
             fillSaleDetails();
         } else {
+            saleCustPay.setText("0");
             JOptionPane.showMessageDialog(null, "Form Validation Failed", "Invalid Number Format", 1);
         }
     }//GEN-LAST:event_saleCustPayKeyReleased

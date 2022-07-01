@@ -351,13 +351,16 @@ public class SaleInvoice extends javax.swing.JPanel {
     }//GEN-LAST:event_saleSearchByCustomerKeyReleased
 
     private void butInvoicePrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInvoicePrintActionPerformed
-        int invoiceId = Integer.parseInt(saleTable.getValueAt(saleTable.getSelectedRow(), 0).toString());
         try {
+            int invoiceId = Integer.parseInt(saleTable.getValueAt(saleTable.getSelectedRow(), 0).toString());
             HashMap<String, Object> para = new HashMap<String, Object>();
             para.put("saleInvoice", invoiceId);
             JasperPrint jprint = JasperFillManager.fillReport(Report.saleReport, para, DbConnect.getDBConnection());
             JasperViewer.viewReport(jprint, false);
         } catch (JRException ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(null, "No Selected Invoice", "Selection Failed", 1);
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);

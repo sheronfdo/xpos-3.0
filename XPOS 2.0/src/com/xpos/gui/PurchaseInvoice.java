@@ -363,13 +363,15 @@ public class PurchaseInvoice extends javax.swing.JPanel {
     }//GEN-LAST:event_purchaseSearchBySupplierKeyReleased
 
     private void butInvoicePrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInvoicePrintActionPerformed
-        int invoiceId = Integer.parseInt(purchaseTable.getValueAt(purchaseTable.getSelectedRow(), 0).toString());
-        try {
+        try {int invoiceId = Integer.parseInt(purchaseTable.getValueAt(purchaseTable.getSelectedRow(), 0).toString());
             HashMap<String, Object> para = new HashMap<String, Object>();
             para.put("purchaseId", invoiceId);
             JasperPrint jprint = JasperFillManager.fillReport(Report.purchaseReport, para, DbConnect.getDBConnection());
             JasperViewer.viewReport(jprint, false);
         } catch (JRException ex) {
+            Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(null, "No Selected Invoice", "Selection Failed", 1);
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);

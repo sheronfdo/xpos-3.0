@@ -97,6 +97,9 @@
 		<property name="com.jaspersoft.studio.field.tree.path" value="solditem"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<variable name="Pay1" class="java.lang.Float" resetType="Column" calculation="System">
+		<variableExpression><![CDATA[$F{Pay}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -361,8 +364,8 @@
 				<textFieldExpression><![CDATA[$F{DiscountForItem}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00#;#,##0.00#-">
-				<reportElement x="454" y="0" width="100" height="30" uuid="ead785e1-3f9c-4c68-ab64-2f330d08d210">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c9f1ca64-bf52-40ee-ac97-664eb9727ef4"/>
+				<reportElement x="454" y="0" width="100" height="30" uuid="fcd7b4a5-c3c6-4647-977b-ac88486240aa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5b917358-7bc5-482c-93c5-c7ee641896fd"/>
 				</reportElement>
 				<box padding="5">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
@@ -372,12 +375,12 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{FinalTotal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Balance}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="98" splitType="Stretch">
+		<band height="126" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="5" width="180" height="31" uuid="ba4e85f4-0006-4b85-a508-940b415723a8">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7b4be314-3fb9-4f82-b0db-ca58bb171fd2"/>
@@ -441,20 +444,6 @@
 				<textFieldExpression><![CDATA[$F{DiscountByItems}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00#;#,##0.00#-">
-				<reportElement x="454" y="5" width="100" height="30" uuid="fcd7b4a5-c3c6-4647-977b-ac88486240aa">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5b917358-7bc5-482c-93c5-c7ee641896fd"/>
-				</reportElement>
-				<box padding="5">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
-					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{Balance}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00#;#,##0.00#-">
 				<reportElement x="290" y="5" width="84" height="30" uuid="83fc6d1f-0758-49d0-87db-ff77ebd36d31">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="51a91611-5c20-4bec-9634-f960b15e8b64"/>
 				</reportElement>
@@ -499,6 +488,48 @@
 			<line>
 				<reportElement x="0" y="1" width="555" height="1" forecolor="#736B6B" uuid="041e39b1-f50d-4a38-b090-00df1ec64372"/>
 			</line>
+			<textField pattern="#,##0.00#;#,##0.00#-">
+				<reportElement x="454" y="5" width="100" height="30" uuid="ead785e1-3f9c-4c68-ab64-2f330d08d210">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c9f1ca64-bf52-40ee-ac97-664eb9727ef4"/>
+				</reportElement>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FinalTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#;#,##0.00#-">
+				<reportElement x="454" y="96" width="100" height="30" uuid="bfae19d3-bdf5-4266-b558-008c0426b268"/>
+				<box padding="5">
+					<pen lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Pay}-$F{FinalTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="96" width="180" height="30" uuid="4f04ca5c-2a3a-46af-b185-d0fb231337b2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="405111a5-0cdc-4132-92d9-9786ccb155fe"/>
+				</reportElement>
+				<box padding="5">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#1A2F6B"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Cambria Math" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Balance]]></text>
+			</staticText>
 		</band>
 	</columnFooter>
 	<pageFooter>

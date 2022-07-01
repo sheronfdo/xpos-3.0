@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  */
 public class SystemUser {
 
-    private static int userId = 1;
-    private static String userName = "jamith";
+    private static int userId;
+    private static String userName;
 
     //privileges
     private static boolean sale;

@@ -126,9 +126,16 @@ public class Sale extends javax.swing.JPanel {
 
     private void printInvoice(int invoiceId) {
         try {
+            String[] list = new String[]{"80mm Paper", "A4 Paper"};
+            String obj = JOptionPane.showInputDialog(null, "Choose Page format", "Print Invoice", JOptionPane.PLAIN_MESSAGE, null, list, list[0]).toString();
             HashMap<String, Object> para = new HashMap<String, Object>();
             para.put("saleInvoice", invoiceId);
-            JasperPrint jprint = JasperFillManager.fillReport(Report.saleReport, para, DbConnect.getDBConnection());
+            JasperPrint jprint = null;
+            if (obj.equals(list[0])) {
+                jprint = JasperFillManager.fillReport(Report.saleReport80mm, para, DbConnect.getDBConnection());
+            } else if (obj.equals(list[1])) {
+                jprint = JasperFillManager.fillReport(Report.saleReport, para, DbConnect.getDBConnection());
+            }
             JasperViewer.viewReport(jprint, false);
         } catch (JRException ex) {
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);

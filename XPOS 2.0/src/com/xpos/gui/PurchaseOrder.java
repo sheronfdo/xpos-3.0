@@ -787,8 +787,7 @@ public class PurchaseOrder extends javax.swing.JPanel {
                             + " `Product_Id`, `ItemPrice`, `Quantity`, `TotalPrice`)"
                             + " VALUES (" + currentPurchaseOrderId + "," + proId + "," + purchPrice + "," + quantity + "," + itemTotal + ")";
 
-                    String updateProduct = "UPDATE product SET TotalQuantity=TotalQuantity+"
-                            + quantity + ", OrderedQuantity=OrderedQuantity+" + quantity + " WHERE Id=" + proId;
+                    String updateProduct = "UPDATE product SET OrderedQuantity=OrderedQuantity+" + quantity + " WHERE Id=" + proId;
 
                     DbConnect.pushToDB(itemQuery);
                     DbConnect.pushToDB(updateProduct);

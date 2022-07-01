@@ -21,6 +21,7 @@ public class Report {
 
     public static JasperDesign design;
     public static JasperReport saleReport;
+    public static JasperReport saleReport80mm;
     public static JasperReport returnReport;
     public static JasperReport RFQReport;
     public static JasperReport POReport;
@@ -30,6 +31,8 @@ public class Report {
         try {
             design = JRXmlLoader.load("src\\com\\xpos\\report\\saleInvoice.jrxml");
             saleReport = JasperCompileManager.compileReport(design);
+            design = JRXmlLoader.load("src\\com\\xpos\\report\\saleInvoice80mm.jrxml");
+            saleReport80mm = JasperCompileManager.compileReport(design);
             design = JRXmlLoader.load("src\\com\\xpos\\report\\returnInvoice.jrxml");
             returnReport = JasperCompileManager.compileReport(design);
             design = JRXmlLoader.load("src\\com\\xpos\\report\\reqForQuate.jrxml");

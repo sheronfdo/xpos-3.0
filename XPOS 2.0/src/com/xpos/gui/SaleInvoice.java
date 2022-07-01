@@ -31,7 +31,7 @@ public class SaleInvoice extends javax.swing.JPanel {
         fillInvoiceTable(null);
     }
 
-    private void fillInvoiceTable(String query) {
+    public void fillInvoiceTable(String query) {
         DefaultTableModel tableModel = (DefaultTableModel) soldItemTable.getModel();
         tableModel.setRowCount(0);
         tableModel = (DefaultTableModel) saleTable.getModel();

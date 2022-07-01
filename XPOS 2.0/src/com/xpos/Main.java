@@ -1236,6 +1236,7 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isInvoice()) {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
+            PurchaseInvoice.fillPurchaseInvoiceTable(null);
             PurchaseInvoice.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
@@ -1247,6 +1248,7 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isInvoice()) {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
+            POInvoice.fillPOInvoiceTable(null);
             POInvoice.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
@@ -1258,6 +1260,7 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isInvoice()) {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
+            ReturnInvoice.fillReturnInvoiceTable(null);
             ReturnInvoice.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
@@ -1269,6 +1272,7 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isInvoice()) {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
+            SaleInvoice.fillInvoiceTable(null);
             SaleInvoice.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);
@@ -1306,6 +1310,7 @@ public class Main extends javax.swing.JFrame {
         if (SystemUser.isInvoice()) {
             setVisibleFalseAllPanels();
             Invoices.setVisible(true);
+            QuateInvoice.fillQuateInvoiceTable(null);
             QuateInvoice.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Access Denied", "No Permission to Invoice Detail.", 1);

@@ -7,6 +7,7 @@ package com.xpos.gui;
 
 import com.xpos.SystemUser;
 import com.xpos.database.DbConnect;
+import com.xpos.report.Report;
 import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -1039,9 +1040,7 @@ public class Purchase extends javax.swing.JPanel {
         try {
             HashMap<String, Object> para = new HashMap<String, Object>();
             para.put("purchaseId", invoiceId);
-            JasperDesign design = JRXmlLoader.load("src\\com\\xpos\\report\\purchaseInvoice.jrxml");
-            JasperReport report = JasperCompileManager.compileReport(design);
-            JasperPrint jprint = JasperFillManager.fillReport(report, para, DbConnect.getDBConnection());
+            JasperPrint jprint = JasperFillManager.fillReport(Report.purchaseReport, para, DbConnect.getDBConnection());
             JasperViewer.viewReport(jprint, false);
         } catch (JRException ex) {
             Logger.getLogger(Sale.class.getName()).log(Level.SEVERE, null, ex);

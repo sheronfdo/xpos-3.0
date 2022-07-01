@@ -35,7 +35,7 @@ public class QuateInvoice extends javax.swing.JPanel {
         fillQuateInvoiceTable(null);
     }
 
-    private void fillQuateInvoiceTable(String query) {
+    public void fillQuateInvoiceTable(String query) {
         DefaultTableModel tableModel = (DefaultTableModel) quateItemTable.getModel();
         tableModel.setRowCount(0);
         tableModel = (DefaultTableModel) quateTable.getModel();

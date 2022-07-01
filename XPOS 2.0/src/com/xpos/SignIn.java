@@ -8,6 +8,7 @@ package com.xpos;
 import com.xpos.commons.SystemLogger;
 import com.xpos.database.DbConnect;
 import com.xpos.encrypt.MD5;
+import com.xpos.report.Report;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -50,6 +51,7 @@ public class SignIn extends javax.swing.JFrame {
                 log.info("User login process completed. User : " + insertedUsername);
                 SystemUser.user(rs.getInt("Id"),  insertedUsername);
                 new Main().setVisible(true);
+                Report.compile();
                 this.dispose();
             } else {
                 log.info("User login process failed. User : " + insertedUsername);

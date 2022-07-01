@@ -31,7 +31,7 @@ public class ReturnInvoice extends javax.swing.JPanel {
         fillReturnInvoiceTable(null);
     }
 
-    private void fillReturnInvoiceTable(String query) {
+    public void fillReturnInvoiceTable(String query) {
         DefaultTableModel tableModel = (DefaultTableModel) returnItemTable.getModel();
         tableModel.setRowCount(0);
         tableModel = (DefaultTableModel) returnTable.getModel();

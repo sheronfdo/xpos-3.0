@@ -37,7 +37,7 @@ public class POInvoice extends javax.swing.JPanel {
         fillPOInvoiceTable(null);
     }
 
-    private void fillPOInvoiceTable(String query) {
+    public void fillPOInvoiceTable(String query) {
         log.info("fill PO invoice table, query : " + query);
         DefaultTableModel tableModel = (DefaultTableModel) POItemTable.getModel();
         tableModel.setRowCount(0);

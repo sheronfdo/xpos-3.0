@@ -542,8 +542,10 @@ public class ReqForQuate extends javax.swing.JPanel {
     }//GEN-LAST:event_RFQProdDescriptionSearchKeyReleased
 
     private void RFQQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RFQQuantityKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && Validate.isNumber(RFQQuantity.getText())) {
-            RFQAddToTable.setFocusable(true);
+        if (Validate.isNumber(RFQQuantity.getText())) {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                RFQAddToTable.setFocusable(true);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Form Validation FAiled", "Invalid Number Format", 1);
         }        // TODO add your handling code here:
